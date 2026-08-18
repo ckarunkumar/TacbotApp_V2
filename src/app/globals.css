@@ -1,26 +1,101 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --font-sans: var(--font-poppins), 'Poppins', sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Native page scrollbar is fully hidden; OverlayScrollbar component draws a
+   custom thumb on top of content instead of reserving its own gutter. */
+html,
+body {
+  scrollbar-width: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f1f4fa;
+  color: #0f172a;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Strict Typography Rules: No Bold / Extra-Bold / Black */
+b, strong {
+  font-weight: 600;
+}
+
+/* Strict Design System Rule: Corner radius for EVERYTHING is 2px */
+.rounded-xl,
+.rounded-lg,
+.rounded-md,
+.rounded-2xl,
+.rounded-3xl,
+.rounded-sm,
+.rounded {
+  border-radius: 2px !important;
+}
+
+/* Smooth custom scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 2px;
+  border: none;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Dark mode scrollbars */
+.dark {
+  scrollbar-color: #1e3056 transparent;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #1e3056;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #2a4378;
+}
+
+/* Overlay scrollbars for internal panels: the native scrollbar is hidden
+   entirely (same technique as the page-level one) rather than compensated
+   for. A negative-margin/padding trick was tried first, but it only offsets
+   the box's *position* — the browser still reserves real scrollbar width
+   inside clientWidth the moment content actually overflows, shrinking
+   usable content width right when it matters. Hiding it outright guarantees
+   the content area never shrinks, scrollable or not. */
+.overlay-scroll {
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.overlay-scroll::-webkit-scrollbar {
+  display: none;
 }
