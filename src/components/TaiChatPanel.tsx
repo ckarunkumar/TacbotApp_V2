@@ -10,15 +10,21 @@ import {
   ChevronDown,
   Maximize2,
   Minimize2,
-  Bot,
-  User,
-  CheckCircle2,
-  AlertTriangle,
-  Clock,
-  ArrowRight,
+  BookOpen,
+  Filter,
   ExternalLink,
+  ShieldCheck,
+  AlertOctagon,
+  Activity,
+  Layers,
 } from "lucide-react";
 import { useDashboard } from "@/context/DashboardContext";
+
+interface ChatActionBtn {
+  label: string;
+  icon?: "caseroom" | "filter" | "sla" | "escalate";
+  onClickPrompt?: string;
+}
 
 interface ChatMessage {
   id: string;
@@ -26,10 +32,10 @@ interface ChatMessage {
   text: string;
   timestamp: string;
   metadata?: {
-    type?: "ticket-summary" | "sla-breach" | "vendors" | "escalations" | "diagnostics";
-    title?: string;
-    details?: Array<{ label: string; value: string; badge?: string; badgeColor?: string }>;
-    bullets?: string[];
+    headerTitle?: string;
+    bullets?: Array<{ title: string; desc: string }>;
+    footerText?: string;
+    actionButtons?: ChatActionBtn[];
   };
 }
 
@@ -83,45 +89,99 @@ export default function TaiChatPanel() {
     if (!textToSend) setInputQuery("");
     setIsTyping(true);
 
-    // Simulate realistic intelligent TAC operational response
+    // Simulate realistic intelligent TAC operational response matching the reference image
     setTimeout(() => {
       let response: ChatMessage;
+      const lower = query.toLowerCase();
 
-      if (query.toLowerCase().includes("cisco") || query.toLowerCase().includes("summary")) {
+      if (lower.includes("cisco") || lower.includes("summarize") || lower.includes("summary")) {
         response = {
           id: `tai-${Date.now()}`,
           sender: "tai",
-          text: "Here is the operational summary for active Cisco tickets across TAC queues:",
+          text: "",
           timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
           metadata: {
-            type: "ticket-summary",
-            title: "Cisco Prime Infrastructure 3.10 High CPU (TAC-17884)",
-            details: [
-              { label: "Status", value: "In Progress", badge: "Critical", badgeColor: "bg-red-500/10 text-red-500 border-red-500/30" },
-              { label: "Time to Breach", value: "2 hrs 14m", badge: "Warning", badgeColor: "bg-amber-500/10 text-amber-500 border-amber-500/30" },
-              { label: "Assigned Engineer", value: "Vikram Mehta (APAC TAC)" },
-              { label: "Root Cause", value: "SNMP polling storm triggered memory leak on core supervisor module." },
-            ],
+            headerTitle: "Vendor Volume Breakdown:",
             bullets: [
-              "Applied temporary ACL rate-limiting on UDP port 161 across core switches.",
-              "Vendor TAC patch v3.10.4 scheduled for maintenance window 22:00 UTC.",
-              "No customer outage detected; control plane CPU stabilized at 42%.",
+              {
+                title: "Cisco: 820 cases (38.2%)",
+                desc: "Dominating connectivity & BGP issues.",
+              },
+              {
+                title: "Juniper: 510 cases (23.8%)",
+                desc: "Optical transceivers & route flap alerts.",
+              },
+              {
+                title: "Arista: 320 cases (14.9%)",
+                desc: "CloudVision WiFi SSO authentications.",
+              },
+            ],
+            footerText: "All automated diagnostic traces are synchronized with the Caseroom workspace.",
+            actionButtons: [
+              { label: "Open Caseroom", icon: "caseroom" },
+              { label: "Filter Cisco Cases", icon: "filter", onClickPrompt: "Show active Cisco P1 tickets" },
             ],
           },
         };
-      } else if (query.toLowerCase().includes("sla") || query.toLowerCase().includes("breach")) {
+      } else if (lower.includes("sla") || lower.includes("breach")) {
         response = {
           id: `tai-${Date.now()}`,
           sender: "tai",
-          text: "Found 4 cases within 60 minutes of contractual SLA thresholds:",
+          text: "",
           timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
           metadata: {
-            type: "sla-breach",
-            title: "Near-Breach Watchlist",
-            details: [
-              { label: "RE: SR 624474 Arista Cloudvision", value: "45m left", badge: "Urgent", badgeColor: "bg-red-500/10 text-red-500 border-red-500/30" },
-              { label: "F5 BIG-IP SSL Handshake Timeout", value: "1 hr left", badge: "Medium", badgeColor: "bg-amber-500/10 text-amber-500 border-amber-500/30" },
-              { label: "Fortinet FortiGate BGP Flapping DC-2", value: "1 hr 15m left", badge: "Low", badgeColor: "bg-blue-500/10 text-blue-500 border-blue-500/30" },
+            headerTitle: "Contractual SLA Risk Assessment:",
+            bullets: [
+              {
+                title: "SR 624474 Arista Cloudvision (WiFi SSO)",
+                desc: "Nearing breach in 45 minutes. Assigned to APAC TAC Tier 2.",
+              },
+              {
+                title: "Cisco Prime Infrastructure 3.10 High CPU",
+                desc: "Breached 2 hours ago. Workaround applied; vendor TAC escalation active.",
+              },
+              {
+                title: "F5 BIG-IP Handshake Timeout",
+                desc: "45 min buffer remaining. Traffic rerouted via standby load balancer.",
+              },
+            ],
+            footerText: "Real-time SLA health index is 98.2% across global production links.",
+            actionButtons: [
+              { label: "View SLA Watchlist", icon: "sla" },
+              { label: "Auto-Escalate Near Breaches", icon: "escalate", onClickPrompt: "Escalate near-breach tickets to on-shift lead" },
+            ],
+          },
+        };
+      } else if (lower.includes("vendor") || lower.includes("top vendors")) {
+        response = {
+          id: `tai-${Date.now()}`,
+          sender: "tai",
+          text: "",
+          timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+          metadata: {
+            headerTitle: "Top Vendor Distribution & Performance:",
+            bullets: [
+              {
+                title: "Cisco Systems (820 cases)",
+                desc: "Mean resolution time: 4.8 hours. MTTR within SLA targets.",
+              },
+              {
+                title: "Juniper Networks (510 cases)",
+                desc: "Mean resolution time: 3.2 hours. Fast optic RMA turnaround.",
+              },
+              {
+                title: "Arista Networks (320 cases)",
+                desc: "Mean resolution time: 2.4 hours. Highest autonomous resolution rate (78%).",
+              },
+              {
+                title: "Fortinet / F5 (292 combined cases)",
+                desc: "Firmware CVE verification in progress on perimeter firewalls.",
+              },
+            ],
+            footerText: "Vendor SLA compliance is currently leading in APAC and EMEA regions.",
+            actionButtons: [
+              { label: "Open Caseroom", icon: "caseroom" },
+              { label: "Filter All Vendors", icon: "filter" },
             ],
           },
         };
@@ -129,14 +189,28 @@ export default function TaiChatPanel() {
         response = {
           id: `tai-${Date.now()}`,
           sender: "tai",
-          text: `Analyzing operational telemetry for: "${query}". All primary vendor endpoints are healthy with 98.2% global SLA compliance index. Would you like me to trigger an automatic diagnostic script or draft an escalation handover report?`,
+          text: "",
           timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
           metadata: {
-            type: "diagnostics",
+            headerTitle: `Telemetry Diagnostics for "${query}":`,
             bullets: [
-              "Autonomous health probes verified across Arista, Cisco, Juniper, and Fortinet nodes.",
-              "Mean Time to Resolution (MTTR) trending 12% faster than last month.",
-              "Ready to auto-assign idle tickets to on-shift EMEA TAC engineers.",
+              {
+                title: "Core Spine/Leaf Uptime",
+                desc: "100% operational across all 14 active datacenter clusters.",
+              },
+              {
+                title: "Autonomous Level-1 Remediation",
+                desc: "42 Level-1 incidents resolved automatically in past 24 hours.",
+              },
+              {
+                title: "Engineer Capacity Load",
+                desc: "Staffing utilization balanced at 81.4% capacity.",
+              },
+            ],
+            footerText: "System ready to run diagnostic script or draft an escalation handover report.",
+            actionButtons: [
+              { label: "Run Network Diagnostics", icon: "caseroom" },
+              { label: "Generate Handover", icon: "filter", onClickPrompt: "Generate TAC shift handover summary" },
             ],
           },
         };
@@ -144,12 +218,27 @@ export default function TaiChatPanel() {
 
       setIsTyping(false);
       setMessages((prev) => [...prev, response]);
-    }, 600);
+    }, 550);
   };
 
   const handleResetChat = () => {
     setMessages([]);
     setIsTyping(false);
+  };
+
+  const getActionIcon = (iconType?: string) => {
+    switch (iconType) {
+      case "caseroom":
+        return <BookOpen className="w-3.5 h-3.5" />;
+      case "filter":
+        return <Filter className="w-3.5 h-3.5" />;
+      case "sla":
+        return <Activity className="w-3.5 h-3.5" />;
+      case "escalate":
+        return <AlertOctagon className="w-3.5 h-3.5 text-amber-500" />;
+      default:
+        return <ExternalLink className="w-3.5 h-3.5" />;
+    }
   };
 
   if (!isTaiChatOpen) return null;
@@ -200,7 +289,7 @@ export default function TaiChatPanel() {
                     }`}
                   >
                     <span>{opt}</span>
-                    {activeContext === opt && <CheckCircle2 className="w-3 h-3" />}
+                    {activeContext === opt && <ShieldCheck className="w-3 h-3 text-[#0047ba]" />}
                   </button>
                 ))}
               </div>
@@ -275,88 +364,112 @@ export default function TaiChatPanel() {
             </div>
           </div>
         ) : (
-          /* Render Active Message History */
-          <div className="flex flex-col gap-3.5">
+          /* Render Active Message History matching the user's reference image */
+          <div className="flex flex-col gap-4">
             {messages.map((msg) => (
-              <div
-                key={msg.id}
-                className={`flex flex-col gap-1.5 ${
-                  msg.sender === "user" ? "items-end" : "items-start"
-                }`}
-              >
-                {/* Message Header */}
-                <div className="flex items-center gap-1.5 text-[10px] text-slate-400 px-1">
-                  {msg.sender === "tai" ? (
-                    <>
-                      <Sparkles className="w-3 h-3 text-purple-500" />
-                      <span className="font-semibold text-purple-600 dark:text-purple-400">
-                        TAI Assistant
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <User className="w-3 h-3 text-slate-400" />
-                      <span className="font-semibold text-slate-700 dark:text-slate-300">You</span>
-                    </>
-                  )}
-                  <span>• {msg.timestamp}</span>
-                </div>
-
-                {/* Bubble Container */}
-                <div
-                  className={`p-3 rounded-[4px] text-xs leading-relaxed max-w-[92%] shadow-xs ${
-                    msg.sender === "user"
-                      ? "bg-[#0047ba] text-white rounded-tr-none font-normal"
-                      : "bg-slate-100/90 dark:bg-[#0c1630] border border-slate-200/80 dark:border-[#162444] text-slate-800 dark:text-slate-100 rounded-tl-none"
-                  }`}
-                >
-                  <p>{msg.text}</p>
-
-                  {/* Optional Rich Metadata Card in Assistant Responses */}
-                  {msg.metadata && (
-                    <div className="mt-2.5 pt-2.5 border-t border-slate-200/60 dark:border-[#1e3056] flex flex-col gap-2">
-                      {msg.metadata.title && (
-                        <div className="font-semibold text-slate-900 dark:text-white flex items-center gap-1.5">
-                          <span>{msg.metadata.title}</span>
-                        </div>
-                      )}
-
-                      {msg.metadata.details && (
-                        <div className="grid grid-cols-1 gap-1 bg-white/70 dark:bg-[#070e1f] p-2 rounded-[2px] border border-slate-200/50 dark:border-[#14223d]">
-                          {msg.metadata.details.map((d, idx) => (
-                            <div key={idx} className="flex items-center justify-between text-[11px] py-0.5">
-                              <span className="text-slate-500 dark:text-slate-400">{d.label}:</span>
-                              <div className="flex items-center gap-1.5">
-                                <span className="font-medium text-slate-800 dark:text-slate-200">{d.value}</span>
-                                {d.badge && (
-                                  <span className={`px-1.5 py-0.2 rounded-[2px] text-[9px] font-bold border ${d.badgeColor}`}>
-                                    {d.badge}
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      {msg.metadata.bullets && (
-                        <ul className="list-disc list-inside space-y-1 text-[11px] text-slate-600 dark:text-slate-300 pt-1">
-                          {msg.metadata.bullets.map((b, idx) => (
-                            <li key={idx}>{b}</li>
-                          ))}
-                        </ul>
-                      )}
+              <div key={msg.id} className="flex flex-col">
+                {msg.sender === "user" ? (
+                  /* User Message Bubble on Right */
+                  <div className="flex flex-col items-end">
+                    <div className="bg-[#0047ba] text-white px-4 py-2.5 rounded-[12px] rounded-tr-none text-xs font-normal shadow-xs max-w-[88%] leading-relaxed">
+                      {msg.text}
                     </div>
-                  )}
-                </div>
+                    <span className="text-[10px] text-slate-400 mt-1 mr-1">
+                      {msg.timestamp}
+                    </span>
+                  </div>
+                ) : (
+                  /* AI Response with Bot Avatar and Styled Telemetry Card */
+                  <div className="flex items-start gap-2.5">
+                    {/* Bot Avatar Icon */}
+                    <div className="w-7 h-7 rounded-full bg-[#0047ba] flex items-center justify-center p-1 shrink-0 mt-0.5 shadow-2xs">
+                      <img
+                        src="/tacbot-logo-white.svg"
+                        alt="TAI"
+                        className="w-4 h-4 object-contain"
+                      />
+                    </div>
+
+                    {/* AI Response Card */}
+                    <div className="flex-1 min-w-0 flex flex-col">
+                      <div className="bg-[#f8fafc] dark:bg-[#0c1630] border border-slate-200/90 dark:border-[#162444] rounded-[12px] rounded-tl-none p-3.5 text-xs text-slate-800 dark:text-slate-100 shadow-xs flex flex-col gap-2.5">
+                        {/* Header Title */}
+                        {msg.metadata?.headerTitle && (
+                          <div className="font-bold text-slate-900 dark:text-white text-xs">
+                            {msg.metadata.headerTitle}
+                          </div>
+                        )}
+
+                        {/* Bullet Items */}
+                        {msg.metadata?.bullets && (
+                          <div className="flex flex-col gap-2">
+                            {msg.metadata.bullets.map((b, idx) => (
+                              <div key={idx} className="flex items-start gap-2 text-xs leading-relaxed">
+                                <span className="text-slate-400 font-bold select-none">•</span>
+                                <div className="flex-1">
+                                  <span className="font-semibold text-slate-900 dark:text-white">
+                                    {b.title}
+                                  </span>{" "}
+                                  <span className="text-slate-600 dark:text-slate-300">
+                                    — {b.desc}
+                                  </span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Plain text if no bullets */}
+                        {msg.text && <p className="leading-relaxed">{msg.text}</p>}
+
+                        {/* Footer Status / Synchronization Note */}
+                        {msg.metadata?.footerText && (
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400 font-normal pt-1 border-t border-slate-200/50 dark:border-[#162444]">
+                            {msg.metadata.footerText}
+                          </p>
+                        )}
+
+                        {/* Action Buttons Row */}
+                        {msg.metadata?.actionButtons && (
+                          <div className="flex flex-wrap items-center gap-2 pt-1">
+                            {msg.metadata.actionButtons.map((btn, bIdx) => (
+                              <button
+                                key={bIdx}
+                                onClick={() => btn.onClickPrompt && handleSendMessage(btn.onClickPrompt)}
+                                className="px-2.5 py-1.5 rounded-[4px] border border-[#0047ba]/30 dark:border-[#38bdf8]/40 bg-white dark:bg-[#07132a] text-[#0047ba] dark:text-[#38bdf8] hover:bg-blue-50 dark:hover:bg-blue-950/40 text-[11px] font-medium transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+                              >
+                                {getActionIcon(btn.icon)}
+                                <span>{btn.label}</span>
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Timestamp under card */}
+                      <span className="text-[10px] text-slate-400 mt-1 ml-1">
+                        {msg.timestamp}
+                      </span>
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
 
             {/* Typing Indicator */}
             {isTyping && (
-              <div className="flex items-center gap-2 p-3 bg-slate-100 dark:bg-[#0c1630] rounded-[4px] w-fit text-xs text-slate-500">
-                <Sparkles className="w-3.5 h-3.5 text-purple-500 animate-spin-slow" />
-                <span className="italic">TAI is analyzing telemetry...</span>
+              <div className="flex items-start gap-2.5">
+                <div className="w-7 h-7 rounded-full bg-[#0047ba] flex items-center justify-center p-1 shrink-0 mt-0.5 shadow-2xs">
+                  <img
+                    src="/tacbot-logo-white.svg"
+                    alt="TAI"
+                    className="w-4 h-4 object-contain animate-pulse"
+                  />
+                </div>
+                <div className="p-3 bg-slate-100 dark:bg-[#0c1630] border border-slate-200/80 dark:border-[#162444] rounded-[12px] rounded-tl-none text-xs text-slate-500 flex items-center gap-2">
+                  <Sparkles className="w-3.5 h-3.5 text-purple-500 animate-spin-slow" />
+                  <span className="italic">TAI is analyzing telemetry...</span>
+                </div>
               </div>
             )}
             <div ref={messagesEndRef} />
