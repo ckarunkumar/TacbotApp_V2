@@ -398,6 +398,9 @@ interface DashboardContextType {
   setIsAddModalOpen: (open: boolean) => void;
   editingWidget: DashboardWidget | null;
   setEditingWidget: (widget: DashboardWidget | null) => void;
+  isTaiChatOpen: boolean;
+  setIsTaiChatOpen: (open: boolean) => void;
+  toggleTaiChat: () => void;
 }
 
 const DashboardContext = createContext<DashboardContextType | undefined>(undefined);
@@ -444,6 +447,11 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
   const [editingWidget, setEditingWidget] = useState<DashboardWidget | null>(null);
   const [draggedWidgetId, setDraggedWidgetId] = useState<string | null>(null);
+  const [isTaiChatOpen, setIsTaiChatOpen] = useState<boolean>(false);
+
+  const toggleTaiChat = () => {
+    setIsTaiChatOpen((prev) => !prev);
+  };
 
   // Load persisted state
   useEffect(() => {
@@ -880,6 +888,9 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
         setIsAddModalOpen,
         editingWidget,
         setEditingWidget,
+        isTaiChatOpen,
+        setIsTaiChatOpen,
+        toggleTaiChat,
       }}
     >
       {children}

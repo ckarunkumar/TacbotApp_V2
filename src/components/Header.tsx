@@ -5,7 +5,7 @@ import { Sparkles, Moon, Sun } from "lucide-react";
 import { useDashboard } from "@/context/DashboardContext";
 
 export default function Header() {
-  const { isDarkMode, toggleDarkMode } = useDashboard();
+  const { isDarkMode, toggleDarkMode, isTaiChatOpen, toggleTaiChat } = useDashboard();
 
   return (
     <header className="w-full flex items-center justify-end px-4 py-2">
@@ -13,13 +13,17 @@ export default function Header() {
       <div className="flex items-center gap-2">
         {/* TAI Chat Button */}
         <button
+          onClick={toggleTaiChat}
           className={`flex items-center gap-2 px-3.5 py-1.5 rounded-[2px] text-xs font-semibold shadow-xs transition-all cursor-pointer ${
-            isDarkMode
+            isTaiChatOpen
+              ? "bg-gradient-to-r from-[#0047ba] via-[#7c3aed] to-[#9333ea] text-white ring-2 ring-purple-400/50 shadow-md scale-[1.02]"
+              : isDarkMode
               ? "bg-[#0047ba] hover:bg-[#003d9e] text-white border border-[#0047ba]/80"
               : "bg-[#0047ba] hover:bg-[#003d9e] text-white"
           }`}
+          title={isTaiChatOpen ? "Close TAI Chat" : "Open TAI Chat"}
         >
-          <Sparkles className="w-3.5 h-3.5 text-blue-200" />
+          <Sparkles className={`w-3.5 h-3.5 ${isTaiChatOpen ? "text-purple-200 animate-spin-slow" : "text-blue-200"}`} />
           <span>TAI Chat</span>
         </button>
 

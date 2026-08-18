@@ -11,6 +11,7 @@ import EditWidgetModal from "@/components/EditWidgetModal";
 import CreateDashboardModal from "@/components/CreateDashboardModal";
 import EmptyDashboardState from "@/components/EmptyDashboardState";
 import WidgetWrapper from "@/components/WidgetWrapper";
+import TaiChatPanel from "@/components/TaiChatPanel";
 import { DashboardProvider, useDashboard } from "@/context/DashboardContext";
 import { Plus } from "lucide-react";
 
@@ -69,7 +70,7 @@ function EmptyGridSlot({
 }
 
 function DashboardContent() {
-  const { widgets, isCustomizing, isDarkMode } = useDashboard();
+  const { widgets, isCustomizing, isDarkMode, isTaiChatOpen } = useDashboard();
 
   // In customize mode, identify open grid slots across 4 cols and 5 rows
   const maxRows = 5;
@@ -95,24 +96,31 @@ function DashboardContent() {
 
   return (
     <div
-      className={`min-h-screen flex flex-col font-sans antialiased transition-colors duration-200 ${
-        isDarkMode ? "dark text-slate-100" : "bg-[#f1f4fa] text-slate-900"
+      className={`min-h-screen flex flex-row font-sans antialiased transition-colors duration-200 overflow-hidden ${
+        isDarkMode ? "dark bg-[#03060f] text-slate-100" : "bg-[#e2e8f0] text-slate-900"
       }`}
-      style={{
-        background: isDarkMode
-          ? "radial-gradient(ellipse 90% 45% at 50% 0%, rgba(0, 84, 148, 0.28) 0%, rgba(5, 8, 20, 0) 75%), #050814"
-          : "#f1f4fa",
-      }}
     >
-      <div className="flex flex-1 min-h-0">
-        {/* Navigation Sidebar — always visible; its own robot button collapses the icon list */}
+      {/* Main framed screen section — becomes a rounded framed canvas with inner shadow when TAI Chat opens */}
+      <div
+        className={`flex flex-row flex-1 min-w-0 transition-all duration-300 ease-in-out ${
+          isTaiChatOpen
+            ? "my-2 ml-2 mr-0 rounded-2xl border border-slate-300/80 dark:border-[#162444] shadow-[inset_0_2px_10px_rgba(0,0,0,0.07),0_10px_30px_-5px_rgba(0,0,0,0.12)] overflow-hidden"
+            : "m-0 rounded-none border-0 shadow-none"
+        } ${isDarkMode ? "bg-[#050814]" : "bg-[#f1f4fa]"}`}
+        style={{
+          background: isDarkMode
+            ? "radial-gradient(ellipse 90% 45% at 50% 0%, rgba(0, 84, 148, 0.28) 0%, rgba(5, 8, 20, 0) 75%), #050814"
+            : "#f1f4fa",
+        }}
+      >
+        {/* Navigation Sidebar */}
         <Sidebar />
 
-        <div className="flex-1 flex flex-col min-w-0">
+        <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
           {/* Top Navigation Bar */}
           <Header />
 
-          {/* Main Container */}
+          {/* Main Content Area */}
           <main className="w-full max-w-[1440px] mx-auto px-4 py-2 flex-1 flex flex-col">
             {/* TAI Assistant Greeting & Search Bar */}
             <SearchAssistant />
@@ -152,6 +160,9 @@ function DashboardContent() {
           </main>
         </div>
       </div>
+
+      {/* TAI Chat Side Panel (Chrome Ask Gemini style) */}
+      <TaiChatPanel />
 
       {/* Create New Dashboard Archetype Modal */}
       <CreateDashboardModal />
