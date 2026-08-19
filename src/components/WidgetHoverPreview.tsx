@@ -33,7 +33,7 @@ export default function WidgetHoverPreview({
   if (variant === "panel" && !item) {
     return (
       <div className="h-full flex flex-col items-center justify-center text-center p-6 gap-2.5">
-        <div className="w-10 h-10 rounded-[2px] bg-white dark:bg-[#091122] border border-slate-200 dark:border-[#162444] flex items-center justify-center text-slate-300 dark:text-slate-600">
+        <div className="w-10 h-10 rounded-[8px] bg-white dark:bg-[#091122] border border-[#EAEEF3] dark:border-[#162444] flex items-center justify-center text-slate-300 dark:text-slate-600">
           <LayoutGrid className="w-5 h-5" />
         </div>
         <p className="text-[11px] text-slate-400 dark:text-slate-500 font-medium leading-relaxed">
@@ -57,8 +57,8 @@ export default function WidgetHoverPreview({
               </span>
             </div>
             {/* 5 mini bars */}
-            <div className="h-16 flex items-end justify-between gap-2 px-1 border-b border-slate-200/60 dark:border-[#162444] pb-1">
-              <div className="w-full bg-slate-200 dark:bg-slate-100 rounded-t-[1px] h-[45%]" />
+            <div className="h-16 flex items-end justify-between gap-2 px-1 border-b border-[#EAEEF3] dark:border-[#162444] pb-1">
+              <div className="w-full bg-slate-200 dark:bg-[#F2F4F6] rounded-t-[1px] h-[45%]" />
               <div className="w-full bg-sky-300 dark:bg-sky-400 rounded-t-[1px] h-[75%]" />
               <div className="w-full bg-sky-400 dark:bg-sky-300 rounded-t-[1px] h-[100%]" />
               <div className="w-full bg-sky-600 dark:bg-sky-500 rounded-t-[1px] h-[60%]" />
@@ -101,12 +101,12 @@ export default function WidgetHoverPreview({
                 <ArrowUp className="w-3 h-3" /> 8%
               </span>
             </div>
-            <div className="h-16 w-full relative border-b border-slate-200/60 dark:border-[#162444]">
+            <div className="h-16 w-full relative border-b border-[#EAEEF3] dark:border-[#162444]">
               <svg className="w-full h-full overflow-visible" viewBox="0 0 200 60" preserveAspectRatio="none">
-                <path d="M 0,45 Q 50,30 100,10 T 200,8" fill="none" stroke={isDarkMode ? "#38bdf8" : "#0047ba"} strokeWidth="2" />
+                <path d="M 0,45 Q 50,30 100,10 T 200,8" fill="none" stroke={isDarkMode ? "#38bdf8" : "#002E5D"} strokeWidth="2" />
                 <path d="M 0,50 Q 50,42 100,25 T 200,20" fill="none" stroke="#60a5fa" strokeWidth="1.5" strokeDasharray="3 3" />
-                <circle cx="100" cy="10" r="3" fill="#ffffff" stroke="#0047ba" strokeWidth="1.5" />
-                <circle cx="200" cy="8" r="3" fill="#ffffff" stroke="#0047ba" strokeWidth="1.5" />
+                <circle cx="100" cy="10" r="3" fill="#ffffff" stroke="#002E5D" strokeWidth="1.5" />
+                <circle cx="200" cy="8" r="3" fill="#ffffff" stroke="#002E5D" strokeWidth="1.5" />
               </svg>
             </div>
             <div className="flex justify-between text-[8px] text-slate-400 font-medium">
@@ -120,19 +120,19 @@ export default function WidgetHoverPreview({
       case "treemap":
         return (
           <div className="grid grid-cols-12 gap-1.5 h-20 w-full pt-1">
-            <div className="col-span-6 bg-[#34d399] rounded-[2px] p-1.5 flex flex-col justify-between">
+            <div className="col-span-6 bg-[#34d399] rounded-[8px] p-1.5 flex flex-col justify-between">
               <span className="text-[9px] font-bold text-slate-950">Cisco</span>
               <span className="text-xs font-bold text-slate-950">820</span>
             </div>
-            <div className="col-span-3 bg-[#10b981] rounded-[2px] p-1.5 flex flex-col justify-between">
+            <div className="col-span-3 bg-[#10b981] rounded-[8px] p-1.5 flex flex-col justify-between">
               <span className="text-[8px] font-bold text-slate-950">Juniper</span>
               <span className="text-[10px] font-bold text-slate-950">510</span>
             </div>
             <div className="col-span-3 flex flex-col gap-1">
-              <div className="bg-[#059669] rounded-[2px] p-1 flex-1 text-white">
+              <div className="bg-[#059669] rounded-[8px] p-1 flex-1 text-white">
                 <div className="text-[8px] font-bold">Arista 320</div>
               </div>
-              <div className="bg-[#047857] rounded-[2px] p-1 flex-1 text-white">
+              <div className="bg-[#047857] rounded-[8px] p-1 flex-1 text-white">
                 <div className="text-[8px] font-bold">Fortinet 210</div>
               </div>
             </div>
@@ -146,7 +146,7 @@ export default function WidgetHoverPreview({
               <span className="text-xs font-bold text-slate-700 dark:text-slate-200">Compliance</span>
               <span className="text-sm font-bold text-slate-900 dark:text-white">98.2%</span>
             </div>
-            <div className="w-full h-2 rounded-full flex overflow-hidden bg-slate-100 dark:bg-slate-800">
+            <div className="w-full h-2 rounded-full flex overflow-hidden bg-[#F2F4F6] dark:bg-slate-800">
               <div className="bg-[#10b981] h-full" style={{ width: "75%" }} />
               <div className="bg-[#f59e0b] h-full" style={{ width: "18%" }} />
               <div className="bg-[#ef4444] h-full" style={{ width: "7%" }} />
@@ -163,15 +163,15 @@ export default function WidgetHoverPreview({
         return (
           <div className="flex flex-col gap-2 w-full py-1">
             <div className="grid grid-cols-3 gap-2">
-              <div className="bg-slate-50 dark:bg-[#121c33] p-1.5 rounded-[2px] border border-slate-100 dark:border-[#1e2e4a]">
+              <div className="bg-[#F9FBFF] dark:bg-[#121c33] p-1.5 rounded-[8px] border border-slate-100 dark:border-[#1e2e4a]">
                 <div className="text-[8px] text-slate-400 font-medium">Today</div>
                 <div className="text-xs font-bold text-slate-900 dark:text-white mt-0.5">4.2h</div>
               </div>
-              <div className="bg-slate-50 dark:bg-[#121c33] p-1.5 rounded-[2px] border border-slate-100 dark:border-[#1e2e4a]">
+              <div className="bg-[#F9FBFF] dark:bg-[#121c33] p-1.5 rounded-[8px] border border-slate-100 dark:border-[#1e2e4a]">
                 <div className="text-[8px] text-slate-400 font-medium">Week</div>
                 <div className="text-xs font-bold text-slate-900 dark:text-white mt-0.5">4.5h</div>
               </div>
-              <div className="bg-slate-50 dark:bg-[#121c33] p-1.5 rounded-[2px] border border-slate-100 dark:border-[#1e2e4a]">
+              <div className="bg-[#F9FBFF] dark:bg-[#121c33] p-1.5 rounded-[8px] border border-slate-100 dark:border-[#1e2e4a]">
                 <div className="text-[8px] text-slate-400 font-medium">Month</div>
                 <div className="text-xs font-bold text-slate-900 dark:text-white mt-0.5">5.1h</div>
               </div>
@@ -187,14 +187,14 @@ export default function WidgetHoverPreview({
       case "critical-escalations":
         return (
           <div className="flex flex-col gap-1.5 w-full py-1">
-            <div className="p-1.5 rounded-[2px] bg-slate-50 dark:bg-[#121c33] border border-slate-200/60 dark:border-[#1e2e4a] flex items-center justify-between text-[9px]">
+            <div className="p-1.5 rounded-[8px] bg-[#F9FBFF] dark:bg-[#121c33] border border-[#EAEEF3] dark:border-[#1e2e4a] flex items-center justify-between text-[9px]">
               <div className="flex items-center gap-1.5 min-w-0">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#ef4444] shrink-0" />
                 <span className="truncate font-semibold text-slate-800 dark:text-slate-100">Arista Cloudvision SSO</span>
               </div>
               <span className="text-[#ef4444] font-bold shrink-0">Breached</span>
             </div>
-            <div className="p-1.5 rounded-[2px] bg-slate-50 dark:bg-[#121c33] border border-slate-200/60 dark:border-[#1e2e4a] flex items-center justify-between text-[9px]">
+            <div className="p-1.5 rounded-[8px] bg-[#F9FBFF] dark:bg-[#121c33] border border-[#EAEEF3] dark:border-[#1e2e4a] flex items-center justify-between text-[9px]">
               <div className="flex items-center gap-1.5 min-w-0">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#f59e0b] shrink-0" />
                 <span className="truncate font-semibold text-slate-800 dark:text-slate-100">Cisco Prime High CPU</span>
@@ -212,7 +212,7 @@ export default function WidgetHoverPreview({
               <span className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">
                 {"metricValue" in item ? item.metricValue : "98.5%"}
               </span>
-              <span className="px-2 py-0.5 bg-blue-50 dark:bg-blue-950/60 text-[#0047ba] dark:text-[#38bdf8] text-[9px] font-bold rounded-[2px] border border-blue-200/60 dark:border-blue-800/60">
+              <span className="px-2 py-0.5 bg-blue-50 dark:bg-blue-950/60 text-[#002E5D] dark:text-[#38bdf8] text-[9px] font-bold rounded-[8px] border border-blue-200/60 dark:border-blue-800/60">
                 {"badge" in item ? item.badge : "Optimal"}
               </span>
             </div>
@@ -231,7 +231,7 @@ export default function WidgetHoverPreview({
   const wrapperClassName =
     variant === "panel"
       ? "p-4 animate-in fade-in duration-150"
-      : "fixed w-[320px] bg-white dark:bg-[#091122] rounded-[2px] border border-slate-300 dark:border-[#1e325c] shadow-2xl z-[9999] p-4 animate-in fade-in slide-in-from-right-3 duration-200 pointer-events-none transition-[top,right] duration-150 ease-out";
+      : "fixed w-[320px] bg-white dark:bg-[#091122] rounded-[8px] border border-slate-300 dark:border-[#1e325c] shadow-2xl z-[9999] p-4 animate-in fade-in slide-in-from-right-3 duration-200 pointer-events-none transition-[top,right] duration-150 ease-out";
 
   return (
     <div
@@ -253,12 +253,12 @@ export default function WidgetHoverPreview({
       {/* Top Preview Badge Header */}
       <div className="flex items-center justify-between mb-2.5 pb-2 border-b border-slate-100 dark:border-[#14223d]">
         <div className="flex items-center gap-1.5">
-          <div className="w-2 h-2 rounded-full bg-[#0047ba] dark:bg-[#38bdf8] animate-ping" />
+          <div className="w-2 h-2 rounded-full bg-[#002E5D] dark:bg-[#38bdf8] animate-ping" />
           <span className="text-[10px] font-bold text-slate-700 dark:text-slate-300 tracking-wider uppercase">
             Live Widget Preview
           </span>
         </div>
-        <div className="px-1.5 py-0.5 bg-slate-100 dark:bg-[#14223d] text-slate-700 dark:text-slate-300 text-[10px] font-semibold rounded-[2px]">
+        <div className="px-1.5 py-0.5 bg-[#F2F4F6] dark:bg-[#14223d] text-slate-700 dark:text-slate-300 text-[10px] font-semibold rounded-[8px]">
           {colSpan} × {rowSpan} Grid
         </div>
       </div>
@@ -274,14 +274,14 @@ export default function WidgetHoverPreview({
       </div>
 
       {/* Rendered Visual Preview */}
-      <div className="bg-slate-50/70 dark:bg-[#060b17] border border-slate-200/80 dark:border-[#162444] rounded-[2px] p-3 shadow-inner">
+      <div className="bg-[#F9FBFF]/70 dark:bg-[#060b17] border border-[#EAEEF3] dark:border-[#162444] rounded-[8px] p-3 shadow-inner">
         {renderMiniChart()}
       </div>
 
       {/* Footer Helper text */}
       <div className="mt-2.5 pt-2 border-t border-slate-100 dark:border-[#14223d] flex items-center justify-between text-[10px] text-slate-400 font-medium">
         <span>Click &ldquo;Add&rdquo; to place on canvas</span>
-        <span className="text-[#0047ba] dark:text-[#38bdf8] font-semibold">+ Instant Add</span>
+        <span className="text-[#002E5D] dark:text-[#38bdf8] font-semibold">+ Instant Add</span>
       </div>
     </div>
   );

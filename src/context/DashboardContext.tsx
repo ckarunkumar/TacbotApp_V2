@@ -381,7 +381,8 @@ interface DashboardContextType {
   isCustomizing: boolean;
   setIsCustomizing: (val: boolean) => void;
   toggleCustomizing: () => void;
-  resizeWidget: (id: string, colSpan: 1 | 2 | 3 | 4, rowSpan: 1 | 2 | 3 | 4) => void;
+  resizeWidget: (id: string, colSpan: 1 | 2 | 3 | 4, rowSpan: 1 | 2 | 3 | 4 | 5 | 6) => void;
+  autoPackLayout: () => void;
   moveWidget: (id: string, direction: "left" | "right" | "up" | "down") => void;
   reorderWidgetById: (sourceId: string, targetId: string) => void;
   placeWidgetAtPosition: (widgetId: string, colStart: number, rowStart: number) => void;
@@ -401,12 +402,20 @@ interface DashboardContextType {
   isTaiChatOpen: boolean;
   setIsTaiChatOpen: (open: boolean) => void;
   toggleTaiChat: () => void;
+  isSidebarCollapsed: boolean;
+  setIsSidebarCollapsed: (collapsed: boolean) => void;
+  toggleSidebarCollapse: () => void;
 }
 
 const DashboardContext = createContext<DashboardContextType | undefined>(undefined);
 
 export function DashboardProvider({ children }: { children: React.ReactNode }) {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+  const [isTaiChatOpen, setIsTaiChatOpen] = useState<boolean>(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
+
+  const toggleTaiChat = () => setIsTaiChatOpen((prev) => !prev);
+  const toggleSidebarCollapse = () => setIsSidebarCollapsed((prev) => !prev);
   const [dashboards, setDashboards] = useState<DashboardInstance[]>([
     {
       id: "dashboard-1",
@@ -447,11 +456,7 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
   const [editingWidget, setEditingWidget] = useState<DashboardWidget | null>(null);
   const [draggedWidgetId, setDraggedWidgetId] = useState<string | null>(null);
-  const [isTaiChatOpen, setIsTaiChatOpen] = useState<boolean>(false);
 
-  const toggleTaiChat = () => {
-    setIsTaiChatOpen((prev) => !prev);
-  };
 
   // Load persisted state
   useEffect(() => {
@@ -625,7 +630,7 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
     setIsCustomizing((prev) => !prev);
   };
 
-  // Helper to resolve overlapping grid cells and push colliding widgets downward
+  // Helper to resolve overlapping grid cells and push colliding widgets downward while preserving custom gaps
   const resolveGridCollisions = (
     currentWidgets: DashboardWidget[],
     anchorId: string
@@ -678,15 +683,87 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
     return result;
   };
 
+  // Auto-Packing compaction algorithm: fills all empty slots top-to-bottom, left-to-right when "Compact Grid" is clicked
+  const autoPackWidgets = (currentWidgets: DashboardWidget[]): DashboardWidget[] => {
+    if (!currentWidgets || currentWidgets.length === 0) return [];
+
+    const occupied: { [key: string]: boolean } = {};
+
+    const isSlotAvailable = (
+      startRow: number,
+      startCol: number,
+      cSpan: number,
+      rSpan: number
+    ): boolean => {
+      if (startCol + cSpan - 1 > 4) return false;
+      for (let r = startRow; r < startRow + rSpan; r++) {
+        for (let c = startCol; c < startCol + cSpan; c++) {
+          if (occupied[`${r}-${c}`]) return false;
+        }
+      }
+      return true;
+    };
+
+    const markSlotOccupied = (
+      startRow: number,
+      startCol: number,
+      cSpan: number,
+      rSpan: number
+    ) => {
+      for (let r = startRow; r < startRow + rSpan; r++) {
+        for (let c = startCol; c < startCol + cSpan; c++) {
+          occupied[`${r}-${c}`] = true;
+        }
+      }
+    };
+
+    return currentWidgets.map((w) => {
+      let targetRow = 1;
+      let targetCol = 1;
+      let found = false;
+
+      for (let r = 1; r <= 100 && !found; r++) {
+        for (let c = 1; c <= 4 - w.colSpan + 1; c++) {
+          if (isSlotAvailable(r, c, w.colSpan, w.rowSpan)) {
+            targetRow = r;
+            targetCol = c;
+            found = true;
+            break;
+          }
+        }
+      }
+
+      markSlotOccupied(targetRow, targetCol, w.colSpan, w.rowSpan);
+
+      return {
+        ...w,
+        colStart: targetCol,
+        rowStart: targetRow,
+      };
+    });
+  };
+
+  // User-triggered Grid Compaction (Runs when clicking "Compact Grid")
+  const autoPackLayout = () => {
+    updateActiveWidgets((prev) => autoPackWidgets(prev));
+  };
+
   const resizeWidget = (
     id: string,
     colSpan: 1 | 2 | 3 | 4,
-    rowSpan: 1 | 2 | 3 | 4
+    rowSpan: 1 | 2 | 3 | 4 | 5 | 6
   ) => {
     updateActiveWidgets((prev) => {
-      const updated = prev.map((w) =>
-        w.id === id ? { ...w, colSpan, rowSpan } : w
-      );
+      const updated = prev.map((w) => {
+        if (w.id === id) {
+          let adjustedColStart = w.colStart;
+          if (adjustedColStart && adjustedColStart + colSpan - 1 > 4) {
+            adjustedColStart = Math.max(1, 4 - colSpan + 1);
+          }
+          return { ...w, colSpan, rowSpan, colStart: adjustedColStart };
+        }
+        return w;
+      });
       return resolveGridCollisions(updated, id);
     });
   };
@@ -731,6 +808,8 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
       const updated = [...prev];
       const [movedItem] = updated.splice(sourceIndex, 1);
       const targetItem = prev[targetIndex];
+
+      // Swap positions for manual free-form placement
       if (targetItem.colStart && targetItem.rowStart && movedItem.colStart && movedItem.rowStart) {
         const tempCol = movedItem.colStart;
         const tempRow = movedItem.rowStart;
@@ -739,13 +818,14 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
         targetItem.colStart = tempCol;
         targetItem.rowStart = tempRow;
       }
+
       updated.splice(targetIndex, 0, movedItem);
-      return updated;
+      return resolveGridCollisions(updated, sourceId);
     });
   };
 
   const removeWidget = (id: string) => {
-    updateActiveWidgets((prev) => prev.filter((w) => w.id !== id));
+    updateActiveWidgets((prev) => autoPackWidgets(prev.filter((w) => w.id !== id)));
   };
 
   const addWidget = (
@@ -764,7 +844,7 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
       category: item.category,
     };
 
-    updateActiveWidgets((prev) => [...prev, newWidget]);
+    updateActiveWidgets((prev) => autoPackWidgets([...prev, newWidget]));
     setIsAddModalOpen(false);
   };
 
@@ -803,7 +883,7 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
       },
     };
 
-    updateActiveWidgets((prev) => [...prev, newDashboardWidget]);
+    updateActiveWidgets((prev) => autoPackWidgets([...prev, newDashboardWidget]));
     setIsAddModalOpen(false);
   };
 
@@ -828,7 +908,7 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
       },
     };
 
-    updateActiveWidgets((prev) => [...prev, newDashboardWidget]);
+    updateActiveWidgets((prev) => autoPackWidgets([...prev, newDashboardWidget]));
     setIsAddModalOpen(false);
   };
 
@@ -872,6 +952,7 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
         setIsCustomizing,
         toggleCustomizing,
         resizeWidget,
+        autoPackLayout,
         moveWidget,
         reorderWidgetById,
         placeWidgetAtPosition,
@@ -891,6 +972,9 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
         isTaiChatOpen,
         setIsTaiChatOpen,
         toggleTaiChat,
+        isSidebarCollapsed,
+        setIsSidebarCollapsed,
+        toggleSidebarCollapse,
       }}
     >
       {children}

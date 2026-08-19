@@ -23,7 +23,7 @@ export default function AlertsSidebar() {
   const { isDarkMode } = useDashboard();
   const [activeTab, setActiveTab] = useState<"Cases" | "Vendor">("Cases");
 
-  const alerts: AlertItem[] = [
+  const caseAlerts: AlertItem[] = [
     {
       id: "1",
       dotColor: "bg-[#38bdf8]",
@@ -75,7 +75,7 @@ export default function AlertsSidebar() {
     {
       id: "5",
       dotColor: "bg-[#f59e0b]",
-      title: "juniper Network Issue",
+      title: "Juniper MX960 Linecard Memory Leak",
       days: "3 days",
       tacCode: "TAC1357INT",
       priority: "Medium",
@@ -84,7 +84,120 @@ export default function AlertsSidebar() {
       timeInfo: "1 hour left",
       isOverdue: false,
     },
+    {
+      id: "6",
+      dotColor: "bg-[#ef4444]",
+      title: "Palo Alto PA-5220 HA Sync Failure",
+      days: "5 hrs",
+      tacCode: "TAC7720INT",
+      priority: "High",
+      statusText: "Breached",
+      statusColor: "text-[#ef4444] font-semibold",
+      timeInfo: "45 mins ago",
+      isOverdue: true,
+    },
+    {
+      id: "7",
+      dotColor: "bg-[#38bdf8]",
+      title: "Arista 7280R3 OS OSPF Neighbor Drop",
+      days: "4 hrs",
+      tacCode: "TAC3311INT",
+      priority: "Medium",
+      statusText: "New Case",
+      statusColor: "text-slate-800 dark:text-slate-200 font-medium",
+      timeInfo: "5 hrs left",
+      isOverdue: false,
+    },
+    {
+      id: "8",
+      dotColor: "bg-[#f59e0b]",
+      title: "Cisco Nexus 9300 VxLAN Tunnel Flap",
+      days: "1 day",
+      tacCode: "TAC5092INT",
+      priority: "High",
+      statusText: "Nearing Breach",
+      statusColor: "text-slate-800 dark:text-slate-200 font-medium",
+      timeInfo: "1.5 hrs left",
+      isOverdue: false,
+    },
+    {
+      id: "9",
+      dotColor: "bg-[#10b981]",
+      title: "Infoblox BloxOne DNS Latency Spike",
+      days: "2 days",
+      tacCode: "TAC2104INT",
+      priority: "Low",
+      statusText: "Investigating",
+      statusColor: "text-slate-800 dark:text-slate-200 font-medium",
+      timeInfo: "8 hrs left",
+      isOverdue: false,
+    },
+    {
+      id: "10",
+      dotColor: "bg-[#ef4444]",
+      title: "CheckPoint Quantum Security Gateway Crash",
+      days: "8 hrs",
+      tacCode: "TAC8841INT",
+      priority: "High",
+      statusText: "Breached",
+      statusColor: "text-[#ef4444] font-semibold",
+      timeInfo: "3 hrs ago",
+      isOverdue: true,
+    },
   ];
+
+  const vendorAlerts: AlertItem[] = [
+    {
+      id: "v1",
+      dotColor: "bg-[#ef4444]",
+      title: "Cisco TAC P1 Escalation SLA Exceeded",
+      days: "6 hrs",
+      tacCode: "VND-CS-091",
+      priority: "High",
+      statusText: "Breached",
+      statusColor: "text-[#ef4444] font-semibold",
+      timeInfo: "Vendor Delay",
+      isOverdue: true,
+    },
+    {
+      id: "v2",
+      dotColor: "bg-[#f59e0b]",
+      title: "Juniper RMA Hardware Dispatch Pending",
+      days: "1 day",
+      tacCode: "VND-JN-442",
+      priority: "Medium",
+      statusText: "Nearing Breach",
+      statusColor: "text-slate-800 dark:text-slate-200 font-medium",
+      timeInfo: "2 hrs left",
+      isOverdue: false,
+    },
+    {
+      id: "v3",
+      dotColor: "bg-[#38bdf8]",
+      title: "Arista CloudVision Patch 4.29 Verification",
+      days: "2 days",
+      tacCode: "VND-AR-881",
+      priority: "Low",
+      statusText: "Pending Review",
+      statusColor: "text-slate-800 dark:text-slate-200 font-medium",
+      timeInfo: "On Target",
+      isOverdue: false,
+    },
+    {
+      id: "v4",
+      dotColor: "bg-[#ef4444]",
+      title: "F5 Firmware Vulnerability Patch SLA",
+      days: "4 hrs",
+      tacCode: "VND-F5-110",
+      priority: "High",
+      statusText: "Breached",
+      statusColor: "text-[#ef4444] font-semibold",
+      timeInfo: "1 hr ago",
+      isOverdue: true,
+    },
+  ];
+
+  const displayAlerts = activeTab === "Cases" ? caseAlerts : vendorAlerts;
 
   const getPriorityBadge = (priority: string) => {
     switch (priority) {
@@ -100,7 +213,7 @@ export default function AlertsSidebar() {
   };
 
   return (
-    <div className="bg-white dark:bg-[#091122] rounded-[2px] border border-slate-200/85 dark:border-[#162444] p-4 shadow-xs flex flex-col h-full justify-between">
+    <div className="bg-white dark:bg-[#091122] rounded-[8px] border border-[#EAEEF3] dark:border-[#162444] p-4 shadow-xs flex flex-col h-full justify-between">
       {/* Top Header */}
       <div>
         <div className="flex items-center justify-between mb-2">
@@ -119,10 +232,10 @@ export default function AlertsSidebar() {
           </div>
 
           {/* Right: Cases / Vendor Toggle */}
-          <div className="flex items-center bg-slate-100/90 dark:bg-[#060b17] p-0.5 rounded-[2px] border border-slate-200/70 dark:border-[#162444] text-[11px] gap-1">
+          <div className="flex items-center bg-[#F2F4F6]/90 dark:bg-[#060b17] p-0.5 rounded-[8px] border border-[#EAEEF3] dark:border-[#162444] text-[11px] gap-1">
             <button
               onClick={() => setActiveTab("Cases")}
-              className={`px-2.5 py-0.5 rounded-[2px] font-semibold transition-all cursor-pointer ${
+              className={`px-2.5 py-0.5 rounded-[8px] font-semibold transition-all cursor-pointer ${
                 activeTab === "Cases"
                   ? "bg-white dark:bg-[#16274a] text-slate-900 dark:text-white shadow-2xs"
                   : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 font-medium"
@@ -132,7 +245,7 @@ export default function AlertsSidebar() {
             </button>
             <button
               onClick={() => setActiveTab("Vendor")}
-              className={`px-2.5 py-0.5 rounded-[2px] font-semibold transition-all cursor-pointer ${
+              className={`px-2.5 py-0.5 rounded-[8px] font-semibold transition-all cursor-pointer ${
                 activeTab === "Vendor"
                   ? "bg-white dark:bg-[#16274a] text-slate-900 dark:text-white shadow-2xs"
                   : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 font-medium"
@@ -171,10 +284,10 @@ export default function AlertsSidebar() {
 
       {/* Alert List */}
       <div className="flex-1 flex flex-col divide-y divide-slate-100 dark:divide-[#14223d] overlay-scroll pt-1 min-h-0">
-        {alerts.map((item) => (
+        {displayAlerts.map((item) => (
           <div
             key={item.id}
-            className="py-2 flex items-start justify-between gap-2 hover:bg-slate-50/70 dark:hover:bg-[#0c162e] transition-colors rounded-[2px] px-1 cursor-pointer"
+            className="py-2 flex items-start justify-between gap-2 hover:bg-[#F9FBFF]/70 dark:hover:bg-[#0c162e] transition-colors rounded-[8px] px-1 cursor-pointer"
           >
             {/* Left Info */}
             <div className="flex items-start gap-2 min-w-0 flex-1">

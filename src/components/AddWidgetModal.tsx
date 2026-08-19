@@ -2,6 +2,7 @@
 
 import React, { useMemo, useState } from "react";
 import { useDashboard } from "@/context/DashboardContext";
+import AiIcon from "@/components/icons/AiIcon";
 import {
   Plus,
   Search,
@@ -306,79 +307,79 @@ export default function AddWidgetModal() {
     switch (iconName) {
       case "Sparkles":
         return (
-          <div className="w-7 h-7 rounded-[2px] bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
+          <div className="w-7 h-7 rounded-[8px] bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
             <Sparkles className="w-3.5 h-3.5" />
           </div>
         );
       case "Users":
         return (
-          <div className="w-7 h-7 rounded-[2px] bg-blue-50 text-[#0047ba] flex items-center justify-center shrink-0">
+          <div className="w-7 h-7 rounded-[8px] bg-blue-50 text-[#002E5D] flex items-center justify-center shrink-0">
             <Users className="w-3.5 h-3.5" />
           </div>
         );
       case "CheckCircle2":
         return (
-          <div className="w-7 h-7 rounded-[2px] bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+          <div className="w-7 h-7 rounded-[8px] bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
             <CheckCircle2 className="w-3.5 h-3.5" />
           </div>
         );
       case "Bot":
         return (
-          <div className="w-7 h-7 rounded-[2px] bg-sky-50 text-sky-600 flex items-center justify-center shrink-0">
+          <div className="w-7 h-7 rounded-[8px] bg-sky-50 text-sky-600 flex items-center justify-center shrink-0">
             <Bot className="w-3.5 h-3.5" />
           </div>
         );
       case "Server":
         return (
-          <div className="w-7 h-7 rounded-[2px] bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
+          <div className="w-7 h-7 rounded-[8px] bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
             <Server className="w-3.5 h-3.5" />
           </div>
         );
       case "BarChart3":
         return (
-          <div className="w-7 h-7 rounded-[2px] bg-blue-50 text-[#0047ba] flex items-center justify-center shrink-0">
+          <div className="w-7 h-7 rounded-[8px] bg-blue-50 text-[#002E5D] flex items-center justify-center shrink-0">
             <BarChart3 className="w-3.5 h-3.5" />
           </div>
         );
       case "PieChart":
         return (
-          <div className="w-7 h-7 rounded-[2px] bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+          <div className="w-7 h-7 rounded-[8px] bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
             <PieChart className="w-3.5 h-3.5" />
           </div>
         );
       case "TrendingUp":
         return (
-          <div className="w-7 h-7 rounded-[2px] bg-sky-50 text-sky-600 flex items-center justify-center shrink-0">
+          <div className="w-7 h-7 rounded-[8px] bg-sky-50 text-sky-600 flex items-center justify-center shrink-0">
             <TrendingUp className="w-3.5 h-3.5" />
           </div>
         );
       case "Activity":
         return (
-          <div className="w-7 h-7 rounded-[2px] bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+          <div className="w-7 h-7 rounded-[8px] bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
             <Activity className="w-3.5 h-3.5" />
           </div>
         );
       case "Clock":
         return (
-          <div className="w-7 h-7 rounded-[2px] bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+          <div className="w-7 h-7 rounded-[8px] bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
             <Clock className="w-3.5 h-3.5" />
           </div>
         );
       case "Timer":
         return (
-          <div className="w-7 h-7 rounded-[2px] bg-sky-50 text-sky-600 flex items-center justify-center shrink-0">
+          <div className="w-7 h-7 rounded-[8px] bg-sky-50 text-sky-600 flex items-center justify-center shrink-0">
             <Timer className="w-3.5 h-3.5" />
           </div>
         );
       case "AlertTriangle":
         return (
-          <div className="w-7 h-7 rounded-[2px] bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
+          <div className="w-7 h-7 rounded-[8px] bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
             <AlertTriangle className="w-3.5 h-3.5" />
           </div>
         );
       default:
         return (
-          <div className="w-7 h-7 rounded-[2px] bg-blue-50 text-[#0047ba] flex items-center justify-center shrink-0">
+          <div className="w-7 h-7 rounded-[8px] bg-blue-50 text-[#002E5D] flex items-center justify-center shrink-0">
             <LayoutGrid className="w-3.5 h-3.5" />
           </div>
         );
@@ -434,7 +435,7 @@ export default function AddWidgetModal() {
   // column (under the "Create Custom Widget" trigger); TAI-generated widgets
   // render it in the right-side panel, directly below the live preview.
   const renderCustomizeForm = (
-    formClassName = "p-4 border-t border-slate-200 dark:border-[#162444] flex flex-col gap-3",
+    formClassName = "p-4 border-t border-[#EAEEF3] dark:border-[#162444] flex flex-col gap-3",
     showHeading = true
   ) => (
     <form onSubmit={handleCreateSubmit} className={formClassName}>
@@ -455,7 +456,7 @@ export default function AddWidgetModal() {
           value={customName}
           onChange={(e) => setCustomName(e.target.value)}
           placeholder="e.g. Core Switch Uptime Rate"
-          className="text-xs border border-slate-200 dark:border-[#162444] rounded-[2px] px-2.5 py-1.5 focus:outline-none focus:border-[#0047ba] bg-white dark:bg-[#091122] text-slate-800 dark:text-slate-100 font-normal"
+          className="text-xs border border-[#EAEEF3] dark:border-[#162444] rounded-[8px] px-2.5 py-1.5 focus:outline-none focus:border-[#002E5D] bg-white dark:bg-[#091122] text-slate-800 dark:text-slate-100 font-normal"
         />
       </div>
 
@@ -467,7 +468,7 @@ export default function AddWidgetModal() {
           <select
             value={customCategory}
             onChange={(e) => setCustomCategory(e.target.value)}
-            className="text-xs border border-slate-200 dark:border-[#162444] rounded-[2px] px-2 py-1.5 focus:outline-none focus:border-[#0047ba] bg-white dark:bg-[#091122] text-slate-800 dark:text-slate-100 font-normal"
+            className="text-xs border border-[#EAEEF3] dark:border-[#162444] rounded-[8px] px-2 py-1.5 focus:outline-none focus:border-[#002E5D] bg-white dark:bg-[#091122] text-slate-800 dark:text-slate-100 font-normal"
           >
             <option value="AI & Automations">AI & Automations</option>
             <option value="SLA & Performance">SLA & Performance</option>
@@ -483,7 +484,7 @@ export default function AddWidgetModal() {
           <select
             value={customType}
             onChange={(e) => setCustomType(e.target.value as WidgetType)}
-            className="text-xs border border-slate-200 dark:border-[#162444] rounded-[2px] px-2 py-1.5 focus:outline-none focus:border-[#0047ba] bg-white dark:bg-[#091122] text-slate-800 dark:text-slate-100 font-normal"
+            className="text-xs border border-[#EAEEF3] dark:border-[#162444] rounded-[8px] px-2 py-1.5 focus:outline-none focus:border-[#002E5D] bg-white dark:bg-[#091122] text-slate-800 dark:text-slate-100 font-normal"
           >
             <option value="custom-kpi">KPI Metric Card</option>
             <option value="case-summary">Bar Chart</option>
@@ -505,10 +506,10 @@ export default function AddWidgetModal() {
                 key={cols}
                 type="button"
                 onClick={() => setCustomCols(cols)}
-                className={`py-1 text-xs rounded-[2px] cursor-pointer ${
+                className={`py-1 text-xs rounded-[8px] cursor-pointer ${
                   customCols === cols
-                    ? "bg-[#0047ba] text-white font-semibold"
-                    : "bg-white dark:bg-[#091122] border border-slate-200 dark:border-[#162444] text-slate-600 dark:text-slate-300 hover:bg-slate-50"
+                    ? "bg-[#002E5D] text-white font-semibold"
+                    : "bg-white dark:bg-[#091122] border border-[#EAEEF3] dark:border-[#162444] text-slate-600 dark:text-slate-300 hover:bg-[#F9FBFF]"
                 }`}
               >
                 {cols}W
@@ -527,10 +528,10 @@ export default function AddWidgetModal() {
                 key={rows}
                 type="button"
                 onClick={() => setCustomRows(rows)}
-                className={`py-1 text-xs rounded-[2px] cursor-pointer ${
+                className={`py-1 text-xs rounded-[8px] cursor-pointer ${
                   customRows === rows
-                    ? "bg-[#0047ba] text-white font-semibold"
-                    : "bg-white dark:bg-[#091122] border border-slate-200 dark:border-[#162444] text-slate-600 dark:text-slate-300 hover:bg-slate-50"
+                    ? "bg-[#002E5D] text-white font-semibold"
+                    : "bg-white dark:bg-[#091122] border border-[#EAEEF3] dark:border-[#162444] text-slate-600 dark:text-slate-300 hover:bg-[#F9FBFF]"
                 }`}
               >
                 {rows}H
@@ -551,7 +552,7 @@ export default function AddWidgetModal() {
               value={customMetric}
               onChange={(e) => setCustomMetric(e.target.value)}
               placeholder="e.g. 99.8%"
-              className="text-xs border border-slate-200 dark:border-[#162444] rounded-[2px] px-2 py-1 bg-white dark:bg-[#091122] text-slate-800 dark:text-slate-100"
+              className="text-xs border border-[#EAEEF3] dark:border-[#162444] rounded-[8px] px-2 py-1 bg-white dark:bg-[#091122] text-slate-800 dark:text-slate-100"
             />
           </div>
           <div className="flex flex-col gap-1">
@@ -563,7 +564,7 @@ export default function AddWidgetModal() {
               value={customSubtitle}
               onChange={(e) => setCustomSubtitle(e.target.value)}
               placeholder="e.g. SLA Compliant"
-              className="text-xs border border-slate-200 dark:border-[#162444] rounded-[2px] px-2 py-1 bg-white dark:bg-[#091122] text-slate-800 dark:text-slate-100"
+              className="text-xs border border-[#EAEEF3] dark:border-[#162444] rounded-[8px] px-2 py-1 bg-white dark:bg-[#091122] text-slate-800 dark:text-slate-100"
             />
           </div>
           <div className="flex flex-col gap-1">
@@ -575,7 +576,7 @@ export default function AddWidgetModal() {
               value={customBadge}
               onChange={(e) => setCustomBadge(e.target.value)}
               placeholder="e.g. Optimal"
-              className="text-xs border border-slate-200 dark:border-[#162444] rounded-[2px] px-2 py-1 bg-white dark:bg-[#091122] text-slate-800 dark:text-slate-100"
+              className="text-xs border border-[#EAEEF3] dark:border-[#162444] rounded-[8px] px-2 py-1 bg-white dark:bg-[#091122] text-slate-800 dark:text-slate-100"
             />
           </div>
         </div>
@@ -592,7 +593,7 @@ export default function AddWidgetModal() {
                 required
                 value={customVendor}
                 onChange={(e) => setCustomVendor(e.target.value)}
-                className="text-xs border border-slate-200 dark:border-[#162444] rounded-[2px] px-2 py-1.5 focus:outline-none focus:border-[#0047ba] bg-white dark:bg-[#091122] text-slate-800 dark:text-slate-100 font-normal"
+                className="text-xs border border-[#EAEEF3] dark:border-[#162444] rounded-[8px] px-2 py-1.5 focus:outline-none focus:border-[#002E5D] bg-white dark:bg-[#091122] text-slate-800 dark:text-slate-100 font-normal"
               >
                 {VENDOR_OPTIONS.map((v) => (
                   <option key={v} value={v}>
@@ -610,7 +611,7 @@ export default function AddWidgetModal() {
                 required
                 value={customGroupBy}
                 onChange={(e) => setCustomGroupBy(e.target.value)}
-                className="text-xs border border-slate-200 dark:border-[#162444] rounded-[2px] px-2 py-1.5 focus:outline-none focus:border-[#0047ba] bg-white dark:bg-[#091122] text-slate-800 dark:text-slate-100 font-normal"
+                className="text-xs border border-[#EAEEF3] dark:border-[#162444] rounded-[8px] px-2 py-1.5 focus:outline-none focus:border-[#002E5D] bg-white dark:bg-[#091122] text-slate-800 dark:text-slate-100 font-normal"
               >
                 {GROUP_BY_OPTIONS.map((g) => (
                   <option key={g} value={g}>
@@ -631,10 +632,10 @@ export default function AddWidgetModal() {
                   key={filter}
                   type="button"
                   onClick={() => toggleCustomFilter(filter)}
-                  className={`px-2.5 py-1 rounded-[2px] text-[11px] whitespace-nowrap transition-all cursor-pointer ${
+                  className={`px-2.5 py-1 rounded-[8px] text-[11px] whitespace-nowrap transition-all cursor-pointer ${
                     customFilters.includes(filter)
-                      ? "bg-[#0047ba] text-white font-semibold shadow-xs"
-                      : "bg-white dark:bg-[#091122] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-[#162444] hover:bg-slate-50 dark:hover:bg-[#0e1d38] font-normal"
+                      ? "bg-[#002E5D] text-white font-semibold shadow-xs"
+                      : "bg-white dark:bg-[#091122] text-slate-600 dark:text-slate-400 border border-[#EAEEF3] dark:border-[#162444] hover:bg-[#F9FBFF] dark:hover:bg-[#0e1d38] font-normal"
                   }`}
                 >
                   {filter}
@@ -653,14 +654,14 @@ export default function AddWidgetModal() {
                 required
                 value={customTimeStart}
                 onChange={(e) => setCustomTimeStart(e.target.value)}
-                className="text-xs border border-slate-200 dark:border-[#162444] rounded-[2px] px-2 py-1.5 focus:outline-none focus:border-[#0047ba] bg-white dark:bg-[#091122] text-slate-800 dark:text-slate-100 font-normal"
+                className="text-xs border border-[#EAEEF3] dark:border-[#162444] rounded-[8px] px-2 py-1.5 focus:outline-none focus:border-[#002E5D] bg-white dark:bg-[#091122] text-slate-800 dark:text-slate-100 font-normal"
               />
               <input
                 type="date"
                 required
                 value={customTimeEnd}
                 onChange={(e) => setCustomTimeEnd(e.target.value)}
-                className="text-xs border border-slate-200 dark:border-[#162444] rounded-[2px] px-2 py-1.5 focus:outline-none focus:border-[#0047ba] bg-white dark:bg-[#091122] text-slate-800 dark:text-slate-100 font-normal"
+                className="text-xs border border-[#EAEEF3] dark:border-[#162444] rounded-[8px] px-2 py-1.5 focus:outline-none focus:border-[#002E5D] bg-white dark:bg-[#091122] text-slate-800 dark:text-slate-100 font-normal"
               />
             </div>
           </div>
@@ -669,7 +670,7 @@ export default function AddWidgetModal() {
 
       <button
         type="submit"
-        className="mt-1 w-full py-2 bg-[#0047ba] hover:bg-[#003d9e] text-white rounded-[2px] text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+        className="mt-1 w-full py-2 bg-[#002E5D] hover:bg-[#0A3492] text-white rounded-[8px] text-xs font-semibold shadow-xs transition-colors cursor-pointer"
       >
         + Save & Add Custom Widget
       </button>
@@ -706,9 +707,9 @@ export default function AddWidgetModal() {
         }}
       >
         {/* Search & Filter Bar */}
-        <div className="p-4 border-b border-slate-200/80 dark:border-[#162444] flex flex-col gap-2 bg-white dark:bg-[#091122]">
+        <div className="p-4 border-b border-[#EAEEF3] dark:border-[#162444] flex flex-col gap-2 bg-white dark:bg-[#091122]">
           {/* Search Input */}
-          <div className="relative flex items-center bg-white dark:bg-[#07132a] rounded-[2px] border border-slate-200 dark:border-[#162444] px-4 py-2 shadow-2xs">
+          <div className="relative flex items-center bg-white dark:bg-[#07132a] rounded-[8px] border border-[#EAEEF3] dark:border-[#162444] px-4 py-2 shadow-2xs">
             <Search className="w-3.5 h-3.5 text-slate-400 mr-2 shrink-0" />
             <input
               type="text"
@@ -725,10 +726,10 @@ export default function AddWidgetModal() {
               <button
                 key={tab}
                 onClick={() => setSelectedFilter(tab)}
-                className={`px-3 py-1 rounded-[2px] text-[11px] whitespace-nowrap transition-all cursor-pointer ${
+                className={`px-3 py-1 rounded-[8px] text-[11px] whitespace-nowrap transition-all cursor-pointer ${
                   selectedFilter === tab
-                    ? "bg-[#0047ba] text-white font-semibold shadow-xs"
-                    : "bg-white dark:bg-[#07132a] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-[#162444] hover:bg-slate-50 dark:hover:bg-[#0e1d38] font-normal"
+                    ? "bg-[#002E5D] text-white font-semibold shadow-xs"
+                    : "bg-white dark:bg-[#07132a] text-slate-600 dark:text-slate-400 border border-[#EAEEF3] dark:border-[#162444] hover:bg-[#F9FBFF] dark:hover:bg-[#0e1d38] font-normal"
                 }`}
               >
                 {tab}
@@ -744,10 +745,10 @@ export default function AddWidgetModal() {
         <div className="p-4 flex flex-col gap-4">
           {/* SECTION 0: TAI WIDGET (AI-ASSISTED CREATION) — merged into "My widgets" tab */}
           {selectedFilter === "My widgets" && (
-            <div className="rounded-[2px] border border-purple-200/80 dark:border-purple-800/60 bg-gradient-to-br from-purple-50/70 via-white to-blue-50/40 dark:from-purple-950/30 dark:via-[#07132a] dark:to-blue-950/20 p-4 flex flex-col gap-3">
+            <div className="rounded-[8px] border border-purple-200/80 dark:border-purple-800/60 bg-gradient-to-br from-purple-50/70 via-white to-blue-50/40 dark:from-purple-950/30 dark:via-[#07132a] dark:to-blue-950/20 p-4 flex flex-col gap-3">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-[2px] bg-gradient-to-r from-[#9333ea] to-[#d946ef] text-white flex items-center justify-center shrink-0 shadow-2xs">
-                  <Wand2 className="w-4 h-4" />
+                <div className="w-8 h-8 rounded-[4px] bg-[linear-gradient(135deg,#005899_0%,#006eb0_50%,#0181c4_100%)] text-white flex items-center justify-center shrink-0 shadow-2xs">
+                  <AiIcon size={16} color="#ffffff" variant="Bold" />
                 </div>
                 <div>
                   <h3 className="text-xs font-semibold text-slate-900 dark:text-white">
@@ -764,20 +765,20 @@ export default function AddWidgetModal() {
                 onChange={(e) => setTaiPrompt(e.target.value)}
                 placeholder="e.g. Show me a bar chart of case volume trends for Cisco over the last quarter"
                 rows={3}
-                className="text-xs border border-purple-200/80 dark:border-purple-800/60 rounded-[2px] px-2.5 py-2 focus:outline-none focus:border-[#9333ea] bg-white dark:bg-[#091122] text-slate-800 dark:text-slate-100 font-normal resize-none"
+                className="text-xs border border-blue-200/80 dark:border-blue-800/60 rounded-[4px] px-2.5 py-2 focus:outline-none focus:border-[#002E5D] bg-white dark:bg-[#091122] text-slate-800 dark:text-slate-100 font-normal resize-none"
               />
 
               <button
                 type="button"
                 onClick={handleTaiGenerate}
                 disabled={!taiPrompt.trim()}
-                className={`w-full py-2 rounded-[2px] text-xs font-semibold shadow-xs transition-colors flex items-center justify-center gap-1.5 ${
+                className={`w-full py-2 rounded-[4px] text-xs font-semibold shadow-xs transition-all flex items-center justify-center gap-1.5 ${
                   taiPrompt.trim()
-                    ? "bg-gradient-to-r from-[#9333ea] to-[#d946ef] hover:from-[#7e22ce] hover:to-[#c026d3] text-white cursor-pointer"
-                    : "bg-purple-100 dark:bg-purple-950/40 text-purple-300 dark:text-purple-700 cursor-not-allowed"
+                    ? "bg-[linear-gradient(135deg,#005899_0%,#006eb0_50%,#0181c4_100%)] hover:opacity-95 text-white cursor-pointer"
+                    : "bg-blue-100 dark:bg-blue-950/40 text-blue-300 dark:text-blue-700 cursor-not-allowed"
                 }`}
               >
-                <Sparkles className="w-3.5 h-3.5" />
+                <AiIcon size={14} color="#ffffff" variant="Bold" />
                 Generate Widget
               </button>
             </div>
@@ -785,7 +786,7 @@ export default function AddWidgetModal() {
 
           {/* SECTION 1: CREATE CUSTOM WIDGET (ACCORDION / BOX) — sits directly below "Create with TAI" */}
           {selectedFilter === "My widgets" && (
-            <div className="border border-dashed border-[#0047ba]/40 bg-blue-50/20 dark:bg-blue-950/20 rounded-[2px] transition-all">
+            <div className="border border-dashed border-[#002E5D]/40 bg-blue-50/20 dark:bg-blue-950/20 rounded-[8px] transition-all">
               <div
                 onClick={() => {
                   setIsCreateAccordionOpen((prev) => {
@@ -797,7 +798,7 @@ export default function AddWidgetModal() {
                 className="p-3 flex items-center justify-between cursor-pointer hover:bg-blue-50/40 dark:hover:bg-blue-950/40 transition-colors"
               >
                 <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-[2px] bg-[#0047ba] text-white flex items-center justify-center shrink-0 shadow-2xs">
+                  <div className="w-8 h-8 rounded-[8px] bg-[#002E5D] text-white flex items-center justify-center shrink-0 shadow-2xs">
                     <PlusCircle className="w-4 h-4" />
                   </div>
                   <div>
@@ -837,7 +838,7 @@ export default function AddWidgetModal() {
               </div>
 
               {userCustomWidgets.length === 0 ? (
-                <div className="p-4 bg-white dark:bg-[#091122] rounded-[2px] border border-slate-200/80 dark:border-[#162444] text-center text-xs text-slate-400">
+                <div className="p-4 bg-white dark:bg-[#091122] rounded-[8px] border border-[#EAEEF3] dark:border-[#162444] text-center text-xs text-slate-400">
                   No custom widgets created yet. Use the builder above to craft your first custom widget!
                 </div>
               ) : (
@@ -846,10 +847,10 @@ export default function AddWidgetModal() {
                     <div
                       key={custom.id}
                       onMouseEnter={() => handleCardMouseEnter(custom)}
-                      className="bg-white dark:bg-[#091122] rounded-[2px] border border-slate-200/90 dark:border-[#162444] p-3 shadow-2xs hover:border-[#0047ba]/60 hover:shadow-md transition-all flex items-start justify-between gap-3 group"
+                      className="bg-white dark:bg-[#091122] rounded-[8px] border border-[#EAEEF3] dark:border-[#162444] p-3 shadow-2xs hover:border-[#002E5D]/60 hover:shadow-md transition-all flex items-start justify-between gap-3 group"
                     >
                       <div className="flex items-start gap-2.5 flex-1 min-w-0">
-                        <div className="w-7 h-7 rounded-[2px] bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
+                        <div className="w-7 h-7 rounded-[8px] bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
                           <Sparkles className="w-3.5 h-3.5" />
                         </div>
                         <div className="flex-1 min-w-0">
@@ -871,19 +872,19 @@ export default function AddWidgetModal() {
                         <ShareWidgetButton
                           widgetTitle={custom.name}
                           widgetId={custom.id}
-                          className="p-1.5 text-slate-400 hover:text-[#0047ba] rounded-[2px] transition-colors cursor-pointer"
+                          className="p-1.5 text-slate-400 hover:text-[#002E5D] rounded-[8px] transition-colors cursor-pointer"
                         />
                         <button
                           type="button"
                           onClick={() => deleteCustomWidget(custom.id)}
-                          className="p-1.5 text-slate-400 hover:text-red-600 rounded-[2px] transition-colors"
+                          className="p-1.5 text-slate-400 hover:text-red-600 rounded-[8px] transition-colors"
                           title="Delete Custom Widget"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
                         <button
                           onClick={() => addCustomWidgetToDashboard(custom)}
-                          className="flex items-center gap-1 px-2.5 py-1.5 bg-[#0047ba] hover:bg-[#003d9e] text-white rounded-[2px] text-xs font-semibold shadow-xs transition-all cursor-pointer"
+                          className="flex items-center gap-1 px-2.5 py-1.5 bg-[#002E5D] hover:bg-[#0A3492] text-white rounded-[8px] text-xs font-semibold shadow-xs transition-all cursor-pointer"
                         >
                           <Plus className="w-3 h-3" />
                           <span>Add</span>
@@ -910,7 +911,7 @@ export default function AddWidgetModal() {
                   <div
                     key={item.name}
                     onMouseEnter={() => handleCardMouseEnter(item)}
-                    className="bg-white dark:bg-[#091122] rounded-[2px] border border-slate-200/90 dark:border-[#162444] p-3 shadow-2xs hover:border-[#0047ba]/60 hover:shadow-md transition-all flex items-start justify-between gap-3 group cursor-pointer"
+                    className="bg-white dark:bg-[#091122] rounded-[8px] border border-[#EAEEF3] dark:border-[#162444] p-3 shadow-2xs hover:border-[#002E5D]/60 hover:shadow-md transition-all flex items-start justify-between gap-3 group cursor-pointer"
                   >
                     <div className="flex items-start gap-2.5 flex-1 min-w-0">
                       {getIcon(item.iconName)}
@@ -931,7 +932,7 @@ export default function AddWidgetModal() {
 
                     <button
                       onClick={() => addWidget(item)}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity duration-150 flex items-center gap-1 px-3 py-1.5 bg-[#0047ba] hover:bg-[#003d9e] text-white rounded-[2px] text-xs font-semibold shadow-xs transition-all cursor-pointer shrink-0 mt-0.5"
+                      className="opacity-0 group-hover:opacity-100 transition-opacity duration-150 flex items-center gap-1 px-3 py-1.5 bg-[#002E5D] hover:bg-[#0A3492] text-white rounded-[8px] text-xs font-semibold shadow-xs transition-all cursor-pointer shrink-0 mt-0.5"
                     >
                       <Plus className="w-3 h-3" />
                       <span>Add</span>

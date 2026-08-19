@@ -6,7 +6,7 @@ import Tooltip from "@/components/Tooltip";
 
 export default function AvgResolutionCard() {
   return (
-    <div className="bg-white dark:bg-[#091122] rounded-[2px] border border-slate-200/85 dark:border-[#162444] p-4 shadow-xs flex flex-col justify-between h-full">
+    <div className="bg-white dark:bg-[#091122] rounded-[8px] border border-[#EAEEF3] dark:border-[#162444] p-4 shadow-xs flex flex-col justify-between h-full">
       {/* Header */}
       <div className="flex items-center justify-between mb-2">
         <h3 className="text-xs font-semibold text-slate-800 dark:text-white tracking-tight">

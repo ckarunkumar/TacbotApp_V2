@@ -46,34 +46,34 @@ export default function CreateDashboardModal() {
   const getTemplateIcon = (iconName: string, id: string) => {
     if (id === "blank") {
       return (
-        <div className="w-8 h-8 rounded-[2px] bg-slate-100 flex items-center justify-center text-slate-500">
+        <div className="w-8 h-8 rounded-[8px] bg-[#F2F4F6] flex items-center justify-center text-slate-500">
           <LayoutGrid className="w-4 h-4" />
         </div>
       );
     }
     if (iconName === "TrendingUp") {
       return (
-        <div className="w-8 h-8 rounded-[2px] bg-emerald-50 text-emerald-600 flex items-center justify-center">
+        <div className="w-8 h-8 rounded-[8px] bg-emerald-50 text-emerald-600 flex items-center justify-center">
           <TrendingUp className="w-4 h-4" />
         </div>
       );
     }
     if (iconName === "Bot") {
       return (
-        <div className="w-8 h-8 rounded-[2px] bg-purple-50 text-purple-600 flex items-center justify-center">
+        <div className="w-8 h-8 rounded-[8px] bg-purple-50 text-purple-600 flex items-center justify-center">
           <Bot className="w-4 h-4" />
         </div>
       );
     }
     if (iconName === "Server") {
       return (
-        <div className="w-8 h-8 rounded-[2px] bg-sky-50 text-sky-600 flex items-center justify-center">
+        <div className="w-8 h-8 rounded-[8px] bg-sky-50 text-sky-600 flex items-center justify-center">
           <Server className="w-4 h-4" />
         </div>
       );
     }
     return (
-      <div className="w-8 h-8 rounded-[2px] bg-blue-50 text-[#0047ba] flex items-center justify-center">
+      <div className="w-8 h-8 rounded-[8px] bg-blue-50 text-[#002E5D] flex items-center justify-center">
         <Bookmark className="w-4 h-4" />
       </div>
     );
@@ -101,7 +101,7 @@ export default function CreateDashboardModal() {
             value={dashboardName}
             onChange={(e) => setDashboardName(e.target.value)}
             placeholder="e.g., APAC NOC Operations or Executive SLA Review"
-            className="w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-[2px] px-3.5 py-2.5 focus:outline-none focus:border-[#0047ba] shadow-2xs font-normal"
+            className="w-full text-xs text-slate-800 bg-white border border-[#EAEEF3] rounded-[8px] px-3.5 py-2.5 focus:outline-none focus:border-[#002E5D] shadow-2xs font-normal"
           />
         </div>
 
@@ -112,7 +112,7 @@ export default function CreateDashboardModal() {
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-[2px] px-3 py-2 focus:outline-none focus:border-[#0047ba] shadow-2xs cursor-pointer"
+              className="w-full text-xs text-slate-800 bg-white border border-[#EAEEF3] rounded-[8px] px-3 py-2 focus:outline-none focus:border-[#002E5D] shadow-2xs cursor-pointer"
             >
               <option value="Operations & Frontline">Operations & Frontline</option>
               <option value="Executive & SLA">Executive & SLA</option>
@@ -126,7 +126,7 @@ export default function CreateDashboardModal() {
             <select
               value={sharingPrivacy}
               onChange={(e) => setSharingPrivacy(e.target.value)}
-              className="w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-[2px] px-3 py-2 focus:outline-none focus:border-[#0047ba] shadow-2xs cursor-pointer"
+              className="w-full text-xs text-slate-800 bg-white border border-[#EAEEF3] rounded-[8px] px-3 py-2 focus:outline-none focus:border-[#002E5D] shadow-2xs cursor-pointer"
             >
               <option value="Shared with TAC Team">Shared with TAC Team</option>
               <option value="Private to Me">Private to Me</option>
@@ -152,9 +152,9 @@ export default function CreateDashboardModal() {
               <button
                 type="button"
                 onClick={() => setActiveArchetypeTab("predefined")}
-                className={`text-[11px] px-2.5 py-1 rounded-[2px] transition-colors cursor-pointer ${
+                className={`text-[11px] px-2.5 py-1 rounded-[8px] transition-colors cursor-pointer ${
                   activeArchetypeTab === "predefined"
-                    ? "bg-blue-50 text-[#0047ba] font-semibold border border-blue-200"
+                    ? "bg-blue-50 text-[#002E5D] font-semibold border border-blue-200"
                     : "text-slate-500 hover:text-slate-800 border border-transparent"
                 }`}
               >
@@ -163,9 +163,9 @@ export default function CreateDashboardModal() {
               <button
                 type="button"
                 onClick={() => setActiveArchetypeTab("saved")}
-                className={`text-[11px] px-2.5 py-1 rounded-[2px] transition-colors cursor-pointer ${
+                className={`text-[11px] px-2.5 py-1 rounded-[8px] transition-colors cursor-pointer ${
                   activeArchetypeTab === "saved"
-                    ? "bg-blue-50 text-[#0047ba] font-semibold border border-blue-200"
+                    ? "bg-blue-50 text-[#002E5D] font-semibold border border-blue-200"
                     : "text-slate-500 hover:text-slate-800 border border-transparent"
                 }`}
               >
@@ -186,17 +186,17 @@ export default function CreateDashboardModal() {
                 <div
                   key={tmpl.id}
                   onClick={() => setSelectedTemplateId(tmpl.id)}
-                  className={`relative rounded-[2px] p-3.5 border transition-all cursor-pointer flex flex-col justify-between text-left ${
+                  className={`relative rounded-[8px] p-3.5 border transition-all cursor-pointer flex flex-col justify-between text-left ${
                     isSelected
-                      ? "border-[#0047ba] bg-blue-50/20 shadow-xs ring-1 ring-[#0047ba]"
-                      : "border-slate-200/90 bg-white hover:border-slate-300 shadow-2xs hover:bg-slate-50/50"
+                      ? "border-[#002E5D] bg-blue-50/20 shadow-xs ring-1 ring-[#002E5D]"
+                      : "border-[#EAEEF3] bg-white hover:border-slate-300 shadow-2xs hover:bg-[#F9FBFF]/50"
                   }`}
                 >
                   <div>
                     <div className="flex items-center justify-between mb-2.5">
                       {getTemplateIcon(tmpl.iconName, tmpl.id)}
                       {isSelected && (
-                        <CheckCircle2 className="w-4 h-4 text-[#0047ba]" />
+                        <CheckCircle2 className="w-4 h-4 text-[#002E5D]" />
                       )}
                       {tmpl.isUserSaved && !isSelected && (
                         <button

@@ -89,14 +89,14 @@ export default function Tooltip({
   const getArrowClasses = () => {
     switch (position) {
       case "bottom":
-        return "-top-1.5 border-b-[6px] border-b-[#182235] border-x-[6px] border-x-transparent border-t-0";
+        return "-top-1.5 border-b-[6px] border-b-[#001F42] border-x-[6px] border-x-transparent border-t-0";
       case "left":
-        return "-right-1.5 top-1/2 -translate-y-1/2 border-l-[6px] border-l-[#182235] border-y-[6px] border-y-transparent border-r-0";
+        return "-right-1.5 top-1/2 -translate-y-1/2 border-l-[6px] border-l-[#001F42] border-y-[6px] border-y-transparent border-r-0";
       case "right":
-        return "-left-1.5 top-1/2 -translate-y-1/2 border-r-[6px] border-r-[#182235] border-y-[6px] border-y-transparent border-l-0";
+        return "-left-1.5 top-1/2 -translate-y-1/2 border-r-[6px] border-r-[#001F42] border-y-[6px] border-y-transparent border-l-0";
       case "top":
       default:
-        return "-bottom-1.5 border-t-[6px] border-t-[#182235] border-x-[6px] border-x-transparent border-b-0";
+        return "-bottom-1.5 border-t-[6px] border-t-[#001F42] border-x-[6px] border-x-transparent border-b-0";
     }
   };
 
@@ -122,7 +122,7 @@ export default function Tooltip({
             className="fixed z-[9999] pointer-events-none transition-all duration-150 animate-in fade-in zoom-in-95"
             style={{ top: coords.top, left: coords.left, transform: getTransform() }}
           >
-            <div className="relative bg-[#182235] text-white text-xs leading-relaxed font-normal px-4 py-3 rounded-[2px] shadow-xl w-60 whitespace-normal text-left select-none">
+            <div className="relative bg-[#001F42] text-white text-xs leading-relaxed font-normal px-4 py-3 rounded-[4px] shadow-xl w-60 whitespace-normal text-left select-none">
               {content}
               {/* Triangular Arrow Pointer */}
               <div

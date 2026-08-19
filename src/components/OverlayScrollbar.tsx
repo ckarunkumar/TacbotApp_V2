@@ -132,9 +132,9 @@ export default function OverlayScrollbar() {
         onMouseDown={handleThumbMouseDown}
         onMouseEnter={() => setVisible(true)}
         onMouseLeave={() => !draggingRef.current && revealAndScheduleHide()}
-        className={`absolute right-0.5 w-1.5 rounded-[2px] cursor-pointer pointer-events-auto transition-opacity duration-200 ease-out ${
+        className={`absolute right-0.5 w-1.5 rounded-[8px] cursor-pointer pointer-events-auto transition-opacity duration-200 ease-out ${
           visible ? "opacity-100" : "opacity-0"
-        } bg-slate-400/70 hover:bg-slate-500/80 dark:bg-slate-500/60 dark:hover:bg-slate-400/70`}
+        } bg-slate-400/70 hover:bg-[#F9FBFF]0/80 dark:bg-[#F9FBFF]0/60 dark:hover:bg-slate-400/70`}
         style={{ top: thumbTop, height: thumbHeight }}
       />
     </div>

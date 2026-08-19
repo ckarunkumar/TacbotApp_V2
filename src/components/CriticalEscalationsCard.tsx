@@ -22,7 +22,7 @@ export default function CriticalEscalationsCard() {
   ];
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200/85 p-4 shadow-xs flex flex-col justify-between h-full">
+    <div className="bg-white rounded-[8px] border border-[#EAEEF3] p-4 shadow-xs flex flex-col justify-between h-full">
       {/* Header */}
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">

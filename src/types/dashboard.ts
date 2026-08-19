@@ -17,7 +17,7 @@ export interface DashboardWidget {
   type: WidgetType;
   title: string;
   colSpan: 1 | 2 | 3 | 4; // 1 to 4 columns wide
-  rowSpan: 1 | 2 | 3 | 4; // 1 to 4 units high (1 unit = ~112px)
+  rowSpan: 1 | 2 | 3 | 4 | 5 | 6; // 1 to 6 units high
   colStart?: number;
   rowStart?: number;
   customTitle?: string;
@@ -33,7 +33,7 @@ export interface CustomUserWidget {
   name: string;
   type: WidgetType;
   colSpan: 1 | 2 | 3 | 4;
-  rowSpan: 1 | 2 | 3 | 4;
+  rowSpan: 1 | 2 | 3 | 4 | 5 | 6;
   metricValue: string;
   subtitle: string;
   badge: string;
@@ -52,7 +52,7 @@ export interface WidgetCatalogItem {
   category: string;
   description: string;
   defaultColSpan: 1 | 2 | 3 | 4;
-  defaultRowSpan: 1 | 2 | 3 | 4;
+  defaultRowSpan: 1 | 2 | 3 | 4 | 5 | 6;
   iconName: string;
 }
 

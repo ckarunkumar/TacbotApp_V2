@@ -32,7 +32,7 @@ export default function CaseSummaryCard() {
   const maxVal = 140;
 
   return (
-    <div className="bg-white dark:bg-[#091122] rounded-[2px] border border-slate-200/85 dark:border-[#162444] p-4 shadow-xs flex flex-col justify-between h-full w-full">
+    <div className="bg-white dark:bg-[#091122] rounded-[8px] border border-[#EAEEF3] dark:border-[#162444] p-4 shadow-xs flex flex-col justify-between h-full w-full">
       {/* Header */}
       <div className="flex items-center justify-between mb-2 shrink-0">
         <h3 className="text-xs font-semibold text-slate-800 dark:text-white tracking-tight">Case Summary</h3>
@@ -90,7 +90,7 @@ export default function CaseSummaryCard() {
                 >
                   {/* Tooltip */}
                   {isHovered && (
-                    <div className="absolute -top-7 bg-[#182235] dark:bg-[#060b17] text-white text-[10px] py-1 px-2 rounded-[2px] shadow-xl whitespace-nowrap z-30 pointer-events-none font-medium animate-in fade-in zoom-in-95">
+                    <div className="absolute -top-7 bg-[#182235] dark:bg-[#060b17] text-white text-[10px] py-1 px-2 rounded-[8px] shadow-xl whitespace-nowrap z-30 pointer-events-none font-medium animate-in fade-in zoom-in-95">
                       {bar.count}
                       <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0 border-t-[4px] border-t-[#182235] dark:border-t-[#060b17] border-x-[4px] border-x-transparent" />
                     </div>
@@ -98,7 +98,7 @@ export default function CaseSummaryCard() {
 
                   {/* Bar graphic */}
                   <div
-                    className="w-full max-w-[36px] rounded-t-[2px] transition-all duration-200 cursor-pointer"
+                    className="w-full max-w-[36px] rounded-t-[8px] transition-all duration-200 cursor-pointer"
                     style={{
                       height: `${heightPercent}%`,
                       backgroundColor: isHovered ? bar.hoverColor : bar.color,
@@ -110,7 +110,7 @@ export default function CaseSummaryCard() {
           </div>
 
           {/* X Axis Labels */}
-          <div className="flex items-center justify-between px-2 pt-1 text-[10px] font-medium text-slate-500 dark:text-slate-400 border-t border-slate-200/60 dark:border-[#162444] shrink-0">
+          <div className="flex items-center justify-between px-2 pt-1 text-[10px] font-medium text-slate-500 dark:text-slate-400 border-t border-[#EAEEF3] dark:border-[#162444] shrink-0">
             {bars.map((bar) => (
               <div key={bar.label} className="flex-1 text-center text-[10px]">
                 {bar.label}

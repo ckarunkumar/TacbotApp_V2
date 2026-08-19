@@ -2,23 +2,21 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import {
-  Sparkles,
-  Plus,
-  RotateCcw,
-  X,
-  Send,
-  ChevronDown,
-  Maximize2,
-  Minimize2,
-  BookOpen,
-  Filter,
-  ExternalLink,
-  ShieldCheck,
-  AlertOctagon,
+  Add,
+  Refresh,
+  CloseSquare,
+  Send2,
+  ArrowDown2,
+  Maximize4,
+  Book,
+  FilterSearch,
+  ExportCurve,
+  ShieldSecurity,
+  Danger,
   Activity,
-  Layers,
-} from "lucide-react";
+} from "iconsax-react";
 import { useDashboard } from "@/context/DashboardContext";
+import AiIcon from "@/components/icons/AiIcon";
 
 interface ChatActionBtn {
   label: string;
@@ -229,36 +227,58 @@ export default function TaiChatPanel() {
   const getActionIcon = (iconType?: string) => {
     switch (iconType) {
       case "caseroom":
-        return <BookOpen className="w-3.5 h-3.5" />;
+        return <Book size={14} color="currentColor" variant="Linear" />;
       case "filter":
-        return <Filter className="w-3.5 h-3.5" />;
+        return <FilterSearch size={14} color="currentColor" variant="Linear" />;
       case "sla":
-        return <Activity className="w-3.5 h-3.5" />;
+        return <Activity size={14} color="currentColor" variant="Linear" />;
       case "escalate":
-        return <AlertOctagon className="w-3.5 h-3.5 text-amber-500" />;
+        return <Danger size={14} color="#f59e0b" variant="Bold" />;
       default:
-        return <ExternalLink className="w-3.5 h-3.5" />;
+        return <ExportCurve size={14} color="currentColor" variant="Linear" />;
     }
   };
 
-  if (!isTaiChatOpen) return null;
-
   return (
-    <aside
-      className={`h-[calc(100vh-16px)] my-2 mr-2 flex flex-col rounded-2xl transition-all duration-300 ease-in-out shrink-0 border z-30 overflow-hidden shadow-2xl ${
-        isExpandedWidth ? "w-[480px]" : "w-[390px]"
-      } ${
-        isDarkMode
-          ? "bg-[#070d1e] border-[#162444] text-slate-100"
-          : "bg-white border-slate-200/90 text-slate-800"
-      }`}
-    >
-      {/* ── Top Header ── */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100 dark:border-[#14223d] shrink-0 bg-slate-50/50 dark:bg-[#091226]/60 backdrop-blur-xs">
+    <>
+      {/* Spacer div in flex flow to reserve width when TAI Chat is open */}
+      <div
+        className={`shrink-0 h-screen transition-[width] duration-300 ease-[cubic-bezier(0.2,0,0,1)] pointer-events-none ${
+          isTaiChatOpen ? (isExpandedWidth ? "w-[480px]" : "w-[390px]") : "w-0"
+        }`}
+      />
+
+      {/* Expanded TAI Chat Panel (Fixed to right screen viewport, zero outer scrolling) */}
+      <aside
+        aria-label="TAI Chat Assistant"
+        aria-hidden={!isTaiChatOpen}
+        className={`h-screen fixed top-0 right-0 flex flex-col shrink-0 z-30 overflow-hidden overscroll-none select-none will-change-[width] transition-[width] duration-300 ease-[cubic-bezier(0.2,0,0,1)] ${
+          isTaiChatOpen
+            ? isExpandedWidth
+              ? "w-[480px] border-l border-[#EAEEF3] dark:border-[#162444]"
+              : "w-[390px] border-l border-[#EAEEF3] dark:border-[#162444]"
+            : "w-0 border-l-0 pointer-events-none"
+        } ${
+          isDarkMode
+            ? "bg-[#060b19] text-slate-100"
+            : "bg-white text-slate-800"
+        }`}
+      >
+      <div
+        className={`h-full flex flex-col will-change-transform transform-gpu transition-all duration-300 ease-[cubic-bezier(0.2,0,0,1)] ${
+          isExpandedWidth ? "w-[480px] min-w-[480px]" : "w-[390px] min-w-[390px]"
+        } ${
+          isTaiChatOpen
+            ? "translate-x-0 opacity-100"
+            : "translate-x-4 opacity-0 pointer-events-none"
+        }`}
+      >
+        {/* ── Top Header ── */}
+        <div className="flex items-center justify-between px-4 py-2.5 border-b border-[#EAEEF3] dark:border-[#14223d] shrink-0 bg-[#F9FBFF]/70 dark:bg-[#081024]/80 backdrop-blur-xs min-h-[49px]">
         {/* Title & Dropdown */}
         <div className="flex items-center gap-2 min-w-0">
-          <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-[#9333ea] to-[#ec4899] flex items-center justify-center text-white shrink-0 shadow-2xs">
-            <Sparkles className="w-3.5 h-3.5" />
+          <div className="w-6 h-6 rounded-full bg-[#002E5D] flex items-center justify-center text-white shrink-0 shadow-2xs">
+            <AiIcon size={14} color="#ffffff" variant="Bold" />
           </div>
           <div className="flex flex-col min-w-0 relative">
             <span className="text-xs font-semibold text-slate-900 dark:text-white leading-tight">
@@ -269,12 +289,12 @@ export default function TaiChatPanel() {
               className="flex items-center gap-1 text-[11px] text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors cursor-pointer text-left truncate"
             >
               <span className="truncate">{activeContext}</span>
-              <ChevronDown className="w-3 h-3 shrink-0" />
+              <ArrowDown2 size={12} color="currentColor" variant="Linear" className="shrink-0" />
             </button>
 
             {/* Context Dropdown Menu */}
             {isContextDropdownOpen && (
-              <div className="absolute top-8 left-0 w-52 bg-white dark:bg-[#0d172e] border border-slate-200 dark:border-[#1e3056] rounded-[2px] shadow-xl py-1 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
+              <div className="absolute top-8 left-0 w-52 bg-white dark:bg-[#0d172e] border border-[#EAEEF3] dark:border-[#1e3056] rounded-[8px] shadow-xl py-1 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
                 {contextOptions.map((opt) => (
                   <button
                     key={opt}
@@ -284,12 +304,12 @@ export default function TaiChatPanel() {
                     }}
                     className={`w-full px-3 py-1.5 text-left text-xs transition-colors flex items-center justify-between ${
                       activeContext === opt
-                        ? "bg-blue-50 dark:bg-blue-950/60 text-[#0047ba] dark:text-[#38bdf8] font-semibold"
-                        : "text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
+                        ? "bg-blue-50 dark:bg-blue-950/60 text-[#002E5D] dark:text-[#38bdf8] font-semibold"
+                        : "text-slate-600 dark:text-slate-300 hover:bg-[#F9FBFF] dark:hover:bg-slate-800"
                     }`}
                   >
                     <span>{opt}</span>
-                    {activeContext === opt && <ShieldCheck className="w-3 h-3 text-[#0047ba]" />}
+                    {activeContext === opt && <ShieldSecurity size={12} color="#002E5D" variant="Bold" />}
                   </button>
                 ))}
               </div>
@@ -301,44 +321,44 @@ export default function TaiChatPanel() {
         <div className="flex items-center gap-1 shrink-0 text-slate-400">
           <button
             onClick={handleResetChat}
-            className="w-7 h-7 rounded-[2px] hover:bg-slate-200/60 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 flex items-center justify-center transition-colors cursor-pointer"
+            className="w-7 h-7 rounded-[4px] hover:bg-slate-200/60 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 flex items-center justify-center transition-colors cursor-pointer"
             title="New Chat Session"
           >
-            <Plus className="w-4 h-4" />
+            <Add size={16} color="currentColor" variant="Linear" />
           </button>
           <button
             onClick={() => setIsExpandedWidth((prev) => !prev)}
-            className="w-7 h-7 rounded-[2px] hover:bg-slate-200/60 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 flex items-center justify-center transition-colors cursor-pointer"
+            className="w-7 h-7 rounded-[4px] hover:bg-slate-200/60 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 flex items-center justify-center transition-colors cursor-pointer"
             title={isExpandedWidth ? "Collapse Width" : "Expand Width"}
           >
-            {isExpandedWidth ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
+            <Maximize4 size={14} color="currentColor" variant="Linear" className={isExpandedWidth ? "transform rotate-180" : ""} />
           </button>
           <button
             onClick={handleResetChat}
-            className="w-7 h-7 rounded-[2px] hover:bg-slate-200/60 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 flex items-center justify-center transition-colors cursor-pointer"
+            className="w-7 h-7 rounded-[4px] hover:bg-slate-200/60 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 flex items-center justify-center transition-colors cursor-pointer"
             title="Clear Messages"
           >
-            <RotateCcw className="w-3.5 h-3.5" />
+            <Refresh size={14} color="currentColor" variant="Linear" />
           </button>
           <button
             onClick={() => setIsTaiChatOpen(false)}
-            className="w-7 h-7 rounded-[2px] hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-500 flex items-center justify-center transition-colors cursor-pointer ml-1"
+            className="w-7 h-7 rounded-[4px] hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-500 flex items-center justify-center transition-colors cursor-pointer ml-1"
             title="Close TAI Chat"
           >
-            <X className="w-4 h-4" />
+            <CloseSquare size={16} color="currentColor" variant="Linear" />
           </button>
         </div>
       </div>
 
-      {/* ── Main Chat / Greeting Area ── */}
-      <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
+      {/* ── Main Chat / Greeting Area (overscroll-contain isolates wheel scroll) ── */}
+      <div className="flex-1 overflow-y-auto overscroll-contain p-4 flex flex-col gap-4">
         {messages.length === 0 ? (
           <div className="flex flex-col justify-center my-auto py-6 animate-in fade-in duration-300">
             {/* Big Greeting */}
             <div className="mb-6">
               <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
                 Good Morning,{" "}
-                <span className="text-[#0047ba] dark:text-[#38bdf8]">Murali</span>
+                <span className="text-[#002E5D] dark:text-[#38bdf8]">Murali</span>
               </h2>
               <p className="text-sm text-slate-600 dark:text-slate-400 mt-1 font-normal">
                 How can I help you today ?
@@ -355,7 +375,7 @@ export default function TaiChatPanel() {
                   <button
                     key={action}
                     onClick={() => handleSendMessage(action)}
-                    className="px-3 py-1.5 rounded-full text-xs font-normal transition-all cursor-pointer border shadow-2xs hover:scale-[1.02] active:scale-[0.98] text-left bg-white dark:bg-[#0d172e] border-slate-200/80 dark:border-[#1a2d52] text-[#0047ba] dark:text-[#38bdf8] hover:border-[#0047ba] dark:hover:border-[#38bdf8] hover:shadow-xs"
+                    className="px-3 py-1.5 rounded-full text-xs font-normal transition-all cursor-pointer border shadow-2xs hover:scale-[1.02] active:scale-[0.98] text-left bg-white dark:bg-[#0d172e] border-[#EAEEF3] dark:border-[#1a2d52] text-[#002E5D] dark:text-[#38bdf8] hover:border-[#002E5D] dark:hover:border-[#38bdf8] hover:shadow-xs"
                   >
                     {action}
                   </button>
@@ -369,9 +389,9 @@ export default function TaiChatPanel() {
             {messages.map((msg) => (
               <div key={msg.id} className="flex flex-col">
                 {msg.sender === "user" ? (
-                  /* User Message Bubble on Right */
+                  /* User Message Bubble on Right with Signature Blue Gradient & 8px Corner Radius */
                   <div className="flex flex-col items-end">
-                    <div className="bg-[#0047ba] text-white px-4 py-2.5 rounded-[12px] rounded-tr-none text-xs font-normal shadow-xs max-w-[88%] leading-relaxed">
+                    <div className="bg-[linear-gradient(135deg,#005899_0%,#006eb0_50%,#0181c4_100%)] text-white px-4 py-2.5 rounded-[8px] rounded-tr-none text-xs md:text-[13px] font-normal shadow-[0_4px_14px_rgba(0,88,153,0.22)] max-w-[88%] leading-relaxed">
                       {msg.text}
                     </div>
                     <span className="text-[10px] text-slate-400 mt-1 mr-1">
@@ -381,8 +401,8 @@ export default function TaiChatPanel() {
                 ) : (
                   /* AI Response with Bot Avatar and Styled Telemetry Card */
                   <div className="flex items-start gap-2.5">
-                    {/* Bot Avatar Icon */}
-                    <div className="w-7 h-7 rounded-full bg-[#0047ba] flex items-center justify-center p-1 shrink-0 mt-0.5 shadow-2xs">
+                    {/* Bot Avatar Icon with Signature Gradient */}
+                    <div className="w-7 h-7 rounded-full bg-[linear-gradient(135deg,#005899_0%,#006eb0_50%,#0181c4_100%)] flex items-center justify-center p-1 shrink-0 mt-0.5 shadow-xs">
                       <img
                         src="/tacbot-logo-white.svg"
                         alt="TAI"
@@ -392,7 +412,7 @@ export default function TaiChatPanel() {
 
                     {/* AI Response Card */}
                     <div className="flex-1 min-w-0 flex flex-col">
-                      <div className="bg-[#f8fafc] dark:bg-[#0c1630] border border-slate-200/90 dark:border-[#162444] rounded-[12px] rounded-tl-none p-3.5 text-xs text-slate-800 dark:text-slate-100 shadow-xs flex flex-col gap-2.5">
+                      <div className="bg-[#f8fafc] dark:bg-[#0c1630] border border-[#EAEEF3] dark:border-[#162444] rounded-[12px] rounded-tl-none p-3.5 text-xs text-slate-800 dark:text-slate-100 shadow-xs flex flex-col gap-2.5">
                         {/* Header Title */}
                         {msg.metadata?.headerTitle && (
                           <div className="font-bold text-slate-900 dark:text-white text-xs">
@@ -424,7 +444,7 @@ export default function TaiChatPanel() {
 
                         {/* Footer Status / Synchronization Note */}
                         {msg.metadata?.footerText && (
-                          <p className="text-[11px] text-slate-500 dark:text-slate-400 font-normal pt-1 border-t border-slate-200/50 dark:border-[#162444]">
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400 font-normal pt-1 border-t border-[#EAEEF3]/50 dark:border-[#162444]">
                             {msg.metadata.footerText}
                           </p>
                         )}
@@ -436,7 +456,7 @@ export default function TaiChatPanel() {
                               <button
                                 key={bIdx}
                                 onClick={() => btn.onClickPrompt && handleSendMessage(btn.onClickPrompt)}
-                                className="px-2.5 py-1.5 rounded-[4px] border border-[#0047ba]/30 dark:border-[#38bdf8]/40 bg-white dark:bg-[#07132a] text-[#0047ba] dark:text-[#38bdf8] hover:bg-blue-50 dark:hover:bg-blue-950/40 text-[11px] font-medium transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+                                className="px-2.5 py-1.5 rounded-[8px] border border-[#002E5D]/30 dark:border-[#38bdf8]/40 bg-white dark:bg-[#07132a] text-[#002E5D] dark:text-[#38bdf8] hover:bg-blue-50 dark:hover:bg-blue-950/40 text-[11px] font-medium transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
                               >
                                 {getActionIcon(btn.icon)}
                                 <span>{btn.label}</span>
@@ -459,15 +479,15 @@ export default function TaiChatPanel() {
             {/* Typing Indicator */}
             {isTyping && (
               <div className="flex items-start gap-2.5">
-                <div className="w-7 h-7 rounded-full bg-[#0047ba] flex items-center justify-center p-1 shrink-0 mt-0.5 shadow-2xs">
+                <div className="w-7 h-7 rounded-full bg-[linear-gradient(135deg,#005899_0%,#006eb0_50%,#0181c4_100%)] flex items-center justify-center p-1 shrink-0 mt-0.5 shadow-xs">
                   <img
                     src="/tacbot-logo-white.svg"
                     alt="TAI"
                     className="w-4 h-4 object-contain animate-pulse"
                   />
                 </div>
-                <div className="p-3 bg-slate-100 dark:bg-[#0c1630] border border-slate-200/80 dark:border-[#162444] rounded-[12px] rounded-tl-none text-xs text-slate-500 flex items-center gap-2">
-                  <Sparkles className="w-3.5 h-3.5 text-purple-500 animate-spin-slow" />
+                <div className="p-3 bg-[#F2F4F6] dark:bg-[#0c1630] border border-[#EAEEF3] dark:border-[#162444] rounded-[12px] rounded-tl-none text-xs text-slate-500 flex items-center gap-2">
+                  <AiIcon size={14} color="#9333ea" variant="Bold" className="animate-spin-slow" />
                   <span className="italic">TAI is analyzing telemetry...</span>
                 </div>
               </div>
@@ -478,14 +498,14 @@ export default function TaiChatPanel() {
       </div>
 
       {/* ── Bottom Section: Context Pills & Input ── */}
-      <div className="p-3 border-t border-slate-100 dark:border-[#14223d] bg-slate-50/70 dark:bg-[#091226]/80 flex flex-col gap-2 shrink-0">
+      <div className="p-3 border-t border-[#EAEEF3] dark:border-[#14223d] bg-[#F9FBFF]/70 dark:bg-[#081024]/80 flex flex-col gap-2 shrink-0">
         {/* Quick Context Pills */}
         <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
           {bottomContextPills.map((pill) => (
             <button
               key={pill}
               onClick={() => handleSendMessage(pill)}
-              className="px-2.5 py-1 rounded-full text-[11px] font-medium whitespace-nowrap transition-all cursor-pointer bg-white dark:bg-[#0e1b38] border border-slate-200/80 dark:border-[#1e3056] text-slate-600 dark:text-slate-300 hover:border-[#0047ba] hover:text-[#0047ba] dark:hover:text-[#38bdf8] shadow-2xs"
+              className="px-2.5 py-1 rounded-full text-[11px] font-medium whitespace-nowrap transition-all cursor-pointer bg-white dark:bg-[#0e1b38] border border-[#EAEEF3] dark:border-[#1e3056] text-slate-600 dark:text-slate-300 hover:border-[#002E5D] hover:text-[#002E5D] dark:hover:text-[#38bdf8] shadow-2xs"
             >
               {pill}
             </button>
@@ -498,11 +518,11 @@ export default function TaiChatPanel() {
             e.preventDefault();
             handleSendMessage();
           }}
-          className="relative flex items-center bg-white dark:bg-[#081024] rounded-full border border-slate-200 dark:border-[#1e3056] pl-3.5 pr-1.5 py-1.5 shadow-sm focus-within:border-purple-400 focus-within:ring-2 focus-within:ring-purple-400/20 transition-all"
+          className="relative flex items-center bg-white dark:bg-[#081024] rounded-full border border-[#EAEEF3] dark:border-[#1e3056] pl-3.5 pr-1.5 py-1.5 shadow-sm focus-within:border-[#005899] focus-within:ring-2 focus-within:ring-[#005899]/20 transition-all"
         >
-          {/* Sparkles icon */}
-          <div className="mr-2 text-purple-500 shrink-0">
-            <Sparkles className="w-3.5 h-3.5" />
+          {/* Sparkles icon in signature blue */}
+          <div className="mr-2 text-[#005899] dark:text-[#38bdf8] shrink-0">
+            <AiIcon size={14} color="currentColor" variant="Bold" />
           </div>
 
           <input
@@ -518,15 +538,17 @@ export default function TaiChatPanel() {
             disabled={!inputQuery.trim()}
             className={`w-7 h-7 rounded-full flex items-center justify-center text-white transition-all shrink-0 cursor-pointer shadow-xs ${
               inputQuery.trim()
-                ? "bg-gradient-to-r from-[#0047ba] to-[#9333ea] hover:scale-105"
+                ? "bg-[linear-gradient(135deg,#005899_0%,#006eb0_50%,#0181c4_100%)] hover:opacity-95 hover:scale-105"
                 : "bg-slate-300 dark:bg-slate-700 opacity-50 cursor-not-allowed"
             }`}
             title="Send query"
           >
-            <Send className="w-3 h-3 transform rotate-12 -ml-0.5" strokeWidth={2.2} />
+            <Send2 size={14} color="#ffffff" variant="Bold" className="transform rotate-12 -ml-0.5" />
           </button>
         </form>
       </div>
+      </div>
     </aside>
+    </>
   );
 }

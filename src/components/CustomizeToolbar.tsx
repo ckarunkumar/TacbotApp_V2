@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useDashboard } from "@/context/DashboardContext";
-import { Plus, RotateCcw, Check, SlidersHorizontal, Bookmark, CheckCircle2 } from "lucide-react";
+import { Setting4, Add, Refresh, TickCircle, Bookmark, TickSquare } from "iconsax-react";
 
 export default function CustomizeToolbar() {
   const {
@@ -11,6 +11,7 @@ export default function CustomizeToolbar() {
     setIsAddModalOpen,
     resetToDefault,
     saveCurrentAsTemplate,
+    autoPackLayout,
     widgets,
   } = useDashboard();
 
@@ -31,17 +32,17 @@ export default function CustomizeToolbar() {
   };
 
   return (
-    <div className="w-full bg-white text-slate-900 rounded-[2px] p-2.5 mb-2 flex flex-wrap items-center justify-between gap-2 shadow-xs border border-slate-200/90 animate-in fade-in slide-in-from-top-1 duration-150">
+    <div className="w-full bg-white text-slate-900 rounded-[8px] p-2.5 mb-2 flex flex-wrap items-center justify-between gap-2 shadow-xs border border-[#EAEEF3] animate-in fade-in slide-in-from-top-1 duration-150">
       {/* Left Info */}
       <div className="flex items-center gap-2.5">
-        <div className="w-8 h-8 rounded-[2px] bg-blue-50 text-[#0047ba] border border-blue-100 flex items-center justify-center">
-          <SlidersHorizontal className="w-4 h-4" />
+        <div className="w-8 h-8 rounded-[4px] bg-[#ECF3FF] text-[#002E5D] border border-[#D4E4FE] flex items-center justify-center">
+          <Setting4 size={18} color="currentColor" variant="Linear" />
         </div>
         <div>
-          <h3 className="text-xs font-semibold tracking-tight text-slate-900 leading-tight">
+          <h3 className="text-xs font-semibold tracking-tight text-[#2C3746] leading-tight">
             Customize Dashboard Layout
           </h3>
-          <p className="text-[10px] text-slate-500 font-normal mt-0.5">
+          <p className="text-[10px] text-[#7790A9] font-normal mt-0.5">
             Drag cards to rearrange, drag edges to resize, or drop anywhere on the grid.
           </p>
         </div>
@@ -57,19 +58,19 @@ export default function CustomizeToolbar() {
               value={templateName}
               onChange={(e) => setTemplateName(e.target.value)}
               placeholder="Template name..."
-              className="text-xs text-slate-800 bg-white border border-slate-300 rounded-[2px] px-2.5 py-1.5 focus:outline-none focus:border-[#0047ba] w-36"
+              className="text-xs text-[#2C3746] bg-white border border-[#EAEEF3] rounded-[4px] px-2.5 py-1.5 focus:outline-none focus:border-[#002E5D] w-36"
               autoFocus
             />
             <button
               type="submit"
-              className="px-2.5 py-1.5 bg-[#0047ba] hover:bg-[#003d9e] text-white rounded-[2px] text-xs font-semibold shadow-xs cursor-pointer"
+              className="px-2.5 py-1.5 bg-[#002E5D] hover:bg-[#0A3492] text-white rounded-[4px] text-xs font-semibold shadow-xs cursor-pointer"
             >
               Save
             </button>
             <button
               type="button"
               onClick={() => setIsSavingTemplate(false)}
-              className="px-2 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-[2px] text-xs cursor-pointer"
+              className="px-2 py-1.5 bg-[#F2F4F6] hover:bg-[#EAEEF3] text-[#7790A9] rounded-[4px] text-xs cursor-pointer"
             >
               ✕
             </button>
@@ -80,17 +81,17 @@ export default function CustomizeToolbar() {
               setTemplateName(`My Custom ${widgets.length}-Card Layout`);
               setIsSavingTemplate(true);
             }}
-            className="flex items-center gap-1.5 bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 text-xs font-medium px-3 py-1.5 rounded-[2px] transition-all cursor-pointer border border-slate-200"
+            className="flex items-center gap-1.5 bg-white hover:bg-[#F9FBFF] text-[#2C3746] hover:text-[#002E5D] text-xs font-medium px-3 py-1.5 rounded-[4px] transition-all cursor-pointer border border-[#EAEEF3]"
             title="Save current layout as a reusable template"
           >
             {savedSuccess ? (
               <>
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                <TickSquare size={14} color="#059669" variant="Bold" />
                 <span className="text-emerald-600 font-semibold">Saved!</span>
               </>
             ) : (
               <>
-                <Bookmark className="w-3.5 h-3.5 text-[#0047ba]" />
+                <Bookmark size={14} color="#002E5D" variant="Linear" />
                 <span>Save as Template</span>
               </>
             )}
@@ -100,27 +101,37 @@ export default function CustomizeToolbar() {
         {/* Add Widget Button (Arista Blue) */}
         <button
           onClick={() => setIsAddModalOpen(true)}
-          className="flex items-center gap-1.5 bg-[#0047ba] hover:bg-[#003d9e] text-white text-xs font-semibold px-3.5 py-1.5 rounded-[2px] transition-all shadow-xs cursor-pointer"
+          className="flex items-center gap-1.5 bg-[#002E5D] hover:bg-[#0A3492] text-white text-xs font-semibold px-3.5 py-1.5 rounded-[4px] transition-all shadow-xs cursor-pointer"
         >
-          <Plus className="w-3.5 h-3.5" />
+          <Add size={16} color="currentColor" variant="Linear" />
           <span>Add Widget</span>
+        </button>
+
+        {/* Compact Grid / Auto-Pack Button */}
+        <button
+          onClick={autoPackLayout}
+          className="flex items-center gap-1.5 bg-white hover:bg-[#F9FBFF] text-[#2C3746] hover:text-[#002E5D] text-xs font-medium px-3 py-1.5 rounded-[4px] transition-all cursor-pointer border border-[#EAEEF3]"
+          title="Auto-pack layout to eliminate empty grid gaps"
+        >
+          <Refresh size={14} color="#002E5D" variant="Linear" />
+          <span>Compact Grid</span>
         </button>
 
         {/* Reset Defaults */}
         <button
           onClick={resetToDefault}
-          className="flex items-center gap-1.5 bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 text-xs font-medium px-3 py-1.5 rounded-[2px] transition-all cursor-pointer border border-slate-200"
+          className="flex items-center gap-1.5 bg-white hover:bg-[#F9FBFF] text-[#2C3746] hover:text-[#002E5D] text-xs font-medium px-3 py-1.5 rounded-[4px] transition-all cursor-pointer border border-[#EAEEF3]"
         >
-          <RotateCcw className="w-3.5 h-3.5" />
+          <Refresh size={14} color="currentColor" variant="Linear" />
           <span>Reset Defaults</span>
         </button>
 
         {/* Done Button */}
         <button
           onClick={() => setIsCustomizing(false)}
-          className="flex items-center gap-1.5 bg-[#059669] hover:bg-[#047857] text-white text-xs font-semibold px-3.5 py-1.5 rounded-[2px] transition-all shadow-xs cursor-pointer"
+          className="flex items-center gap-1.5 bg-[#16A34A] hover:bg-[#15803D] text-white text-xs font-semibold px-3.5 py-1.5 rounded-[4px] transition-all shadow-xs cursor-pointer"
         >
-          <Check className="w-3.5 h-3.5" />
+          <TickCircle size={15} color="#ffffff" variant="Bold" />
           <span>Done</span>
         </button>
       </div>

@@ -77,7 +77,7 @@ export default function ShareWidgetButton({
         }}
         className={
           className ||
-          "w-6 h-6 rounded-[2px] bg-white/95 hover:bg-blue-50 text-slate-500 hover:text-[#0047ba] flex items-center justify-center transition-colors cursor-pointer border border-slate-200/90 shadow-2xs"
+          "w-6 h-6 rounded-[8px] bg-white/95 hover:bg-blue-50 text-slate-500 hover:text-[#002E5D] flex items-center justify-center transition-colors cursor-pointer border border-[#EAEEF3] shadow-2xs"
         }
         title={resourceType === "dashboard" ? "Share Dashboard" : "Share Widget"}
         aria-label={resourceType === "dashboard" ? "Share Dashboard" : "Share Widget"}
@@ -90,11 +90,11 @@ export default function ShareWidgetButton({
         typeof document !== "undefined" &&
         createPortal(
           <div
-            className="fixed z-[9999] w-[280px] bg-white dark:bg-[#091122] rounded-[2px] border border-slate-200 dark:border-[#162444] shadow-xl p-3 animate-in fade-in zoom-in-95 duration-150"
+            className="fixed z-[9999] w-[280px] bg-white dark:bg-[#091122] rounded-[8px] border border-[#EAEEF3] dark:border-[#162444] shadow-xl p-3 animate-in fade-in zoom-in-95 duration-150"
             style={{ top: coords.top, left: coords.left }}
           >
             <div className="flex items-center gap-1.5 mb-2">
-              <Share2 className="w-3.5 h-3.5 text-[#0047ba] shrink-0" />
+              <Share2 className="w-3.5 h-3.5 text-[#002E5D] shrink-0" />
               <span className="text-xs font-semibold text-slate-900 dark:text-white truncate">
                 Share &ldquo;{widgetTitle}&rdquo;
               </span>
@@ -109,15 +109,15 @@ export default function ShareWidgetButton({
                 readOnly
                 value={shareUrl}
                 onFocus={(e) => e.target.select()}
-                className="flex-1 min-w-0 text-[11px] text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-[#07132a] border border-slate-200 dark:border-[#162444] rounded-[2px] px-2 py-1.5 truncate focus:outline-none"
+                className="flex-1 min-w-0 text-[11px] text-slate-600 dark:text-slate-300 bg-[#F9FBFF] dark:bg-[#07132a] border border-[#EAEEF3] dark:border-[#162444] rounded-[8px] px-2 py-1.5 truncate focus:outline-none"
               />
               <button
                 type="button"
                 onClick={handleCopy}
-                className={`shrink-0 flex items-center gap-1 px-2.5 py-1.5 rounded-[2px] text-[11px] font-semibold transition-colors cursor-pointer ${
+                className={`shrink-0 flex items-center gap-1 px-2.5 py-1.5 rounded-[8px] text-[11px] font-semibold transition-colors cursor-pointer ${
                   copied
                     ? "bg-emerald-500 text-white"
-                    : "bg-[#0047ba] hover:bg-[#003d9e] text-white"
+                    : "bg-[#002E5D] hover:bg-[#0A3492] text-white"
                 }`}
               >
                 {copied ? <Check className="w-3 h-3" /> : <LinkIcon className="w-3 h-3" />}

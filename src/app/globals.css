@@ -1,12 +1,57 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
-:root {
-  --font-sans: var(--font-poppins), 'Poppins', sans-serif;
+@theme {
+  /* Arista Primary Blue Scale (50–950) */
+  --color-arista-50: #F9FBFF;
+  --color-arista-100: #ECF3FF;
+  --color-arista-200: #D4E4FE;
+  --color-arista-300: #A1C4FC;
+  --color-arista-400: #5E94EE;
+  --color-arista-500: #2F6ADB;
+  --color-arista-600: #1B4EB8;
+  --color-arista-700: #003D7A;
+  --color-arista-800: #002E5D;
+  --color-arista-900: #001F42;
+  --color-arista-950: #00122B;
+
+  /* Arista Neutral Slate Scale (50–950) */
+  --color-arista-neutral-50: #F2F4F6;
+  --color-arista-neutral-100: #EAEEF3;
+  --color-arista-neutral-200: #D5DEE7;
+  --color-arista-neutral-300: #B3C1D0;
+  --color-arista-neutral-400: #7790A9;
+  --color-arista-neutral-500: #576B81;
+  --color-arista-neutral-600: #3F4E60;
+  --color-arista-neutral-700: #2C3746;
+  --color-arista-neutral-800: #1A222D;
+  --color-arista-neutral-900: #0F151D;
+  --color-arista-neutral-950: #070A0F;
+
+  /* Semantic Token Aliases */
+  --color-arista-navy: #002E5D;
+  --color-arista-indigo: #003D7A;
+  --color-arista-slate: #7790A9;
+  --color-arista-border: #EAEEF3;
+  --color-arista-canvas: #F2F4F6;
+  --color-arista-tint: #ECF3FF;
+  --color-arista-surface: #F9FBFF;
 }
 
-/* Native page scrollbar is fully hidden; OverlayScrollbar component draws a
-   custom thumb on top of content instead of reserving its own gutter. */
+:root {
+  --font-sans: var(--font-poppins), 'Poppins', sans-serif;
+
+  /* CSS Variables for Inline/Raw References */
+  --arista-navy: #002E5D;
+  --arista-indigo: #003D7A;
+  --arista-slate: #7790A9;
+  --arista-border: #EAEEF3;
+  --arista-canvas: #F2F4F6;
+  --arista-tint: #ECF3FF;
+  --arista-surface: #F9FBFF;
+}
+
+/* Native page scrollbar is fully hidden */
 html,
 body {
   scrollbar-width: none;
@@ -18,8 +63,8 @@ body::-webkit-scrollbar {
 }
 
 body {
-  background-color: #f1f4fa;
-  color: #0f172a;
+  background-color: #F2F4F6;
+  color: #2C3746;
   font-family: var(--font-sans);
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
@@ -31,21 +76,29 @@ b, strong {
   font-weight: 600;
 }
 
-/* Strict Design System Rule: Corner radius for EVERYTHING is 2px */
+/* Strict Design System Rule: 8px for containers/cards, 4px for buttons & inputs */
+button,
+input,
+select,
+textarea,
+.btn,
+[role="button"] {
+  border-radius: 4px !important;
+}
+
 .rounded-xl,
 .rounded-lg,
 .rounded-md,
 .rounded-2xl,
 .rounded-3xl,
-.rounded-sm,
 .rounded {
-  border-radius: 2px !important;
+  border-radius: 8px !important;
 }
 
 /* Smooth custom scrollbars */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #cbd5e1 transparent;
+  scrollbar-color: #7790A9 transparent;
 }
 
 ::-webkit-scrollbar {
@@ -58,13 +111,13 @@ b, strong {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 2px;
+  background: #7790A9;
+  border-radius: 8px;
   border: none;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #576B81;
 }
 
 ::-webkit-scrollbar-corner {
@@ -73,24 +126,17 @@ b, strong {
 
 /* Dark mode scrollbars */
 .dark {
-  scrollbar-color: #1e3056 transparent;
+  scrollbar-color: #293283 transparent;
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: #1e3056;
+  background: #293283;
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: #2a4378;
+  background: #002E5D;
 }
 
-/* Overlay scrollbars for internal panels: the native scrollbar is hidden
-   entirely (same technique as the page-level one) rather than compensated
-   for. A negative-margin/padding trick was tried first, but it only offsets
-   the box's *position* — the browser still reserves real scrollbar width
-   inside clientWidth the moment content actually overflows, shrinking
-   usable content width right when it matters. Hiding it outright guarantees
-   the content area never shrinks, scrollable or not. */
 .overlay-scroll {
   overflow-y: auto;
   scrollbar-width: none;

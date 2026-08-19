@@ -94,7 +94,6 @@ const SEVERITY_STYLES: Record<SeverityBand["label"], string> = {
 type FilterTab = "Connectivity" | "Low Severity" | "All Cases";
 
 export default function TreemapCard() {
-  const { isDarkMode } = useDashboard();
   const [activeFilter, setActiveFilter] = useState<FilterTab>("Connectivity");
   const filters: FilterTab[] = ["Connectivity", "Low Severity", "All Cases"];
   const [zoomedVendor, setZoomedVendor] = useState<string | null>(null);
@@ -122,7 +121,7 @@ export default function TreemapCard() {
   const showAggregateSeverity = activeFilter === "All Cases" && !zoomedVendor;
 
   return (
-    <div className="bg-white dark:bg-[#091122] rounded-[2px] border border-slate-200/85 dark:border-[#162444] p-4 shadow-xs flex flex-col justify-between h-full">
+    <div className="bg-white dark:bg-[#091122] rounded-[8px] border border-[#EAEEF3] dark:border-[#162444] p-4 shadow-xs flex flex-col justify-between h-full">
       {/* Header with Title and Filter Tabs + Info Icon */}
       <div className="flex items-center justify-between mb-2">
         <h3 className="text-xs font-semibold text-slate-800 dark:text-white tracking-tight">
@@ -139,7 +138,7 @@ export default function TreemapCard() {
                   onClick={() => selectFilter(f)}
                   className={`px-1.5 py-0.5 transition-colors cursor-pointer text-[11px] ${
                     activeFilter === f
-                      ? "text-[#0047ba] dark:text-[#38bdf8] font-semibold border-b border-[#0047ba] dark:border-[#38bdf8]"
+                      ? "text-[#002E5D] dark:text-[#38bdf8] font-semibold border-b border-[#002E5D] dark:border-[#38bdf8]"
                       : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 font-medium"
                   }`}
                 >
@@ -152,7 +151,7 @@ export default function TreemapCard() {
           {zoomedVendor && (
             <button
               onClick={() => setZoomedVendor(null)}
-              className="flex items-center gap-1 text-[11px] font-semibold text-[#0047ba] dark:text-[#38bdf8] hover:underline cursor-pointer"
+              className="flex items-center gap-1 text-[11px] font-semibold text-[#002E5D] dark:text-[#38bdf8] hover:underline cursor-pointer"
             >
               <ChevronLeft className="w-3 h-3" />
               All Vendors
@@ -186,7 +185,7 @@ export default function TreemapCard() {
           {/* Cisco (Leftmost Large Block - 5 cols) */}
           <button
             onClick={() => setZoomedVendor("Cisco")}
-            className="col-span-5 bg-[#94d47c] dark:bg-[#34d399] hover:opacity-95 transition-all rounded-[2px] p-3 flex flex-col justify-start items-start border border-[#83c66a] dark:border-[#22c55e] cursor-pointer text-left"
+            className="col-span-5 bg-[#94d47c] dark:bg-[#34d399] hover:opacity-95 transition-all rounded-[8px] p-3 flex flex-col justify-start items-start border border-[#83c66a] dark:border-[#22c55e] cursor-pointer text-left"
           >
             <span className="text-xs font-semibold text-slate-900 dark:text-slate-950 mb-1">Cisco</span>
             <div className="text-2xl font-bold text-slate-900 dark:text-slate-950 leading-none mb-1">
@@ -200,7 +199,7 @@ export default function TreemapCard() {
           {/* Juniper (Middle Block - 3 cols) */}
           <button
             onClick={() => setZoomedVendor("Juniper")}
-            className="col-span-3 bg-[#b6e6a1] dark:bg-[#10b981] hover:opacity-95 transition-all rounded-[2px] p-3 flex flex-col justify-start items-start border border-[#a3da8b] dark:border-[#059669] cursor-pointer text-left"
+            className="col-span-3 bg-[#b6e6a1] dark:bg-[#10b981] hover:opacity-95 transition-all rounded-[8px] p-3 flex flex-col justify-start items-start border border-[#a3da8b] dark:border-[#059669] cursor-pointer text-left"
           >
             <span className="text-xs font-semibold text-slate-900 dark:text-slate-950 mb-1">Juniper</span>
             <div className="text-2xl font-bold text-slate-900 dark:text-slate-950 leading-none mb-1">
@@ -218,7 +217,7 @@ export default function TreemapCard() {
               {/* Arista */}
               <button
                 onClick={() => setZoomedVendor("Arista")}
-                className="bg-[#daf2cb] dark:bg-[#059669] hover:opacity-95 transition-all rounded-[2px] p-2 flex flex-col justify-start items-start border border-[#cbe6bb] dark:border-[#047857] cursor-pointer text-slate-900 dark:text-white text-left"
+                className="bg-[#daf2cb] dark:bg-[#059669] hover:opacity-95 transition-all rounded-[8px] p-2 flex flex-col justify-start items-start border border-[#cbe6bb] dark:border-[#047857] cursor-pointer text-slate-900 dark:text-white text-left"
               >
                 <span className="text-[11px] font-semibold mb-0.5">Arista</span>
                 <div className="text-sm font-bold leading-none mb-0.5">{getVendorMetric("Arista").value}</div>
@@ -228,7 +227,7 @@ export default function TreemapCard() {
               {/* Fortinet */}
               <button
                 onClick={() => setZoomedVendor("Fortinet")}
-                className="bg-[#e6f7db] dark:bg-[#047857] hover:opacity-95 transition-all rounded-[2px] p-2 flex flex-col justify-start items-start border border-[#d6ebd0] dark:border-[#065f46] cursor-pointer text-slate-900 dark:text-white text-left"
+                className="bg-[#e6f7db] dark:bg-[#047857] hover:opacity-95 transition-all rounded-[8px] p-2 flex flex-col justify-start items-start border border-[#d6ebd0] dark:border-[#065f46] cursor-pointer text-slate-900 dark:text-white text-left"
               >
                 <span className="text-[11px] font-semibold mb-0.5">Fortinet</span>
                 <div className="text-sm font-bold leading-none mb-0.5">{getVendorMetric("Fortinet").value}</div>
@@ -241,7 +240,7 @@ export default function TreemapCard() {
               {/* Palo Alto */}
               <button
                 onClick={() => setZoomedVendor("Palo Alto")}
-                className="bg-[#f0fae8] dark:bg-[#065f46] hover:opacity-95 transition-all rounded-[2px] p-1.5 flex flex-col justify-start items-start border border-[#e1f0d8] dark:border-[#0f766e] cursor-pointer text-slate-900 dark:text-white text-left"
+                className="bg-[#f0fae8] dark:bg-[#065f46] hover:opacity-95 transition-all rounded-[8px] p-1.5 flex flex-col justify-start items-start border border-[#e1f0d8] dark:border-[#0f766e] cursor-pointer text-slate-900 dark:text-white text-left"
               >
                 <span className="text-[9px] font-semibold truncate mb-0.5">Palo Alto</span>
                 <div className="text-xs font-bold leading-none mb-0.5">{getVendorMetric("Palo Alto").value}</div>
@@ -251,7 +250,7 @@ export default function TreemapCard() {
               {/* F5 */}
               <button
                 onClick={() => setZoomedVendor("F5")}
-                className="bg-[#f6fcf0] dark:bg-[#0f766e] hover:opacity-95 transition-all rounded-[2px] p-1.5 flex flex-col justify-start items-start border border-[#e8f5e1] dark:border-[#115e59] cursor-pointer text-slate-900 dark:text-white text-left"
+                className="bg-[#f6fcf0] dark:bg-[#0f766e] hover:opacity-95 transition-all rounded-[8px] p-1.5 flex flex-col justify-start items-start border border-[#e8f5e1] dark:border-[#115e59] cursor-pointer text-slate-900 dark:text-white text-left"
               >
                 <span className="text-[9px] font-semibold truncate mb-0.5">F5</span>
                 <div className="text-xs font-bold leading-none mb-0.5">{getVendorMetric("F5").value}</div>
@@ -261,7 +260,7 @@ export default function TreemapCard() {
               {/* Others */}
               <button
                 onClick={() => setZoomedVendor("Others")}
-                className="bg-[#fafefa] dark:bg-[#134e4a] hover:opacity-95 transition-all rounded-[2px] p-1.5 flex flex-col justify-start items-start border border-[#eef8eb] dark:border-[#115e59] cursor-pointer text-slate-900 dark:text-white text-left"
+                className="bg-[#fafefa] dark:bg-[#134e4a] hover:opacity-95 transition-all rounded-[8px] p-1.5 flex flex-col justify-start items-start border border-[#eef8eb] dark:border-[#115e59] cursor-pointer text-slate-900 dark:text-white text-left"
               >
                 <span className="text-[9px] font-semibold truncate mb-0.5">Others</span>
                 <div className="text-xs font-bold leading-none mb-0.5">{getVendorMetric("Others").value}</div>
@@ -275,7 +274,7 @@ export default function TreemapCard() {
       )}
 
       {(showAggregateSeverity || zoomedVendor) && (
-        /* Severity mosaic — same visual language (rounded-[2px] blocks, big/medium/small
+        /* Severity mosaic — same visual language (rounded-[8px] blocks, big/medium/small
            proportions). Shows either one vendor's severity mix (drilled in) or the
            aggregate mix across all vendors ("All Cases" tab). */
         <div className="grid grid-cols-12 gap-2 flex-1 min-h-[180px] w-full select-none animate-in fade-in duration-200">
@@ -283,7 +282,7 @@ export default function TreemapCard() {
             .sort((a, b) => b.value - a.value)
             .map((band, idx) => {
               const spanClass = idx === 0 ? "col-span-6" : idx === 1 ? "col-span-4" : "col-span-2";
-              const sharedClass = `${spanClass} ${SEVERITY_STYLES[band.label]} hover:opacity-95 transition-all rounded-[2px] p-3 flex flex-col justify-start items-start border text-slate-900 dark:text-slate-950`;
+              const sharedClass = `${spanClass} ${SEVERITY_STYLES[band.label]} hover:opacity-95 transition-all rounded-[8px] p-3 flex flex-col justify-start items-start border text-slate-900 dark:text-slate-950`;
               const content = (
                 <>
                   <span className="text-xs font-semibold mb-1">{band.label}</span>

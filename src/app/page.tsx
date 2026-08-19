@@ -48,10 +48,10 @@ function EmptyGridSlot({
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
-      className={`rounded-[2px] border border-dashed transition-all flex flex-col items-center justify-center p-2 min-h-[112px] h-full ${
+      className={`rounded-[8px] border border-dashed transition-all flex flex-col items-center justify-center p-2 min-h-[112px] h-full ${
         isOver
-          ? "border-[#0047ba] bg-[#0047ba]/10 scale-[1.01]"
-          : "border-slate-200/80 bg-slate-50/40 hover:bg-slate-50 hover:border-slate-300"
+          ? "border-[#002E5D] bg-[#002E5D]/10 scale-[1.01]"
+          : "border-[#EAEEF3] bg-[#F9FBFF] hover:bg-[#F2F4F6] hover:border-[#7790A9]"
       }`}
       style={{
         gridColumn: `${col} / span 1`,
@@ -60,7 +60,7 @@ function EmptyGridSlot({
     >
       <button
         onClick={() => setIsAddModalOpen(true)}
-        className="flex items-center gap-1.5 text-[10px] text-slate-400 hover:text-[#0047ba] font-medium transition-colors cursor-pointer"
+        className="flex items-center gap-1.5 text-[10px] text-slate-400 hover:text-[#002E5D] font-medium transition-colors cursor-pointer"
       >
         <Plus className="w-3.5 h-3.5" />
         <span>Drop or Add</span>
@@ -72,8 +72,8 @@ function EmptyGridSlot({
 function DashboardContent() {
   const { widgets, isCustomizing, isDarkMode, isTaiChatOpen } = useDashboard();
 
-  // In customize mode, identify open grid slots across 4 cols and 5 rows
-  const maxRows = 5;
+  // In customize mode, identify open grid slots across 4 cols and dynamic max rows
+  const maxRows = Math.max(6, ...widgets.map((w) => (w.rowStart || 1) + w.rowSpan - 1));
   const gridSlots = [];
   if (isCustomizing && widgets.length > 0) {
     for (let r = 1; r <= maxRows; r++) {
@@ -96,72 +96,64 @@ function DashboardContent() {
 
   return (
     <div
-      className={`min-h-screen flex flex-row font-sans antialiased transition-colors duration-200 overflow-hidden ${
-        isDarkMode ? "dark bg-[#03060f] text-slate-100" : "bg-[#e2e8f0] text-slate-900"
+      className={`min-h-screen flex flex-row font-sans antialiased transition-colors duration-200 overflow-x-hidden ${
+        isDarkMode ? "dark bg-[#050814] text-slate-100" : "bg-[#F2F4F6] text-slate-900"
       }`}
+      style={{
+        background: isDarkMode
+          ? "radial-gradient(ellipse 90% 45% at 50% 0%, rgba(0, 46, 93, 0.28) 0%, rgba(5, 8, 20, 0) 75%), #050814"
+          : "#F2F4F6",
+      }}
     >
-      {/* Main framed screen section — becomes a rounded framed canvas with inner shadow when TAI Chat opens */}
-      <div
-        className={`flex flex-row flex-1 min-w-0 transition-all duration-300 ease-in-out ${
-          isTaiChatOpen
-            ? "my-2 ml-2 mr-0 rounded-2xl border border-slate-300/80 dark:border-[#162444] shadow-[inset_0_2px_10px_rgba(0,0,0,0.07),0_10px_30px_-5px_rgba(0,0,0,0.12)] overflow-hidden"
-            : "m-0 rounded-none border-0 shadow-none"
-        } ${isDarkMode ? "bg-[#050814]" : "bg-[#f1f4fa]"}`}
-        style={{
-          background: isDarkMode
-            ? "radial-gradient(ellipse 90% 45% at 50% 0%, rgba(0, 84, 148, 0.28) 0%, rgba(5, 8, 20, 0) 75%), #050814"
-            : "#f1f4fa",
-        }}
-      >
-        {/* Navigation Sidebar */}
-        <Sidebar />
+      {/* Navigation Sidebar */}
+      <Sidebar />
 
-        <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
-          {/* Top Navigation Bar */}
-          <Header />
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col min-w-0 min-h-screen">
+        {/* Top Navigation Bar */}
+        <Header />
 
-          {/* Main Content Area */}
-          <main className="w-full max-w-[1440px] mx-auto px-4 py-2 flex-1 flex flex-col">
-            {/* TAI Assistant Greeting & Search Bar */}
-            <SearchAssistant />
+        {/* Main Content Area */}
+        <main className="w-full max-w-[1440px] mx-auto px-4 py-2 flex-1 flex flex-col">
+          {/* TAI Assistant Greeting & Search Bar */}
+          <SearchAssistant />
 
-            {/* Dashboard Navigation Tabs & Settings */}
-            <DashboardTabs />
+          {/* Dashboard Navigation Tabs & Settings */}
+          <DashboardTabs />
 
-            {/* Customization Toolbar (active in customize mode) */}
-            <CustomizeToolbar />
+          {/* Customization Toolbar (active in customize mode) */}
+          <CustomizeToolbar />
 
-            {/* Render Empty State if 0 widgets exist on this dashboard */}
-            {widgets.length === 0 ? (
-              <EmptyDashboardState />
-            ) : (
-              /* Dynamic 4-Column Grid with Taller Reference Height (144px base row) */
-              <div
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 items-stretch flex-1"
-                style={{
-                  gridAutoRows: "144px",
-                }}
-              >
-                {widgets.map((widget, index) => (
-                  <WidgetWrapper key={widget.id} widget={widget} index={index} />
+          {/* Render Empty State if 0 widgets exist on this dashboard */}
+          {widgets.length === 0 ? (
+            <EmptyDashboardState />
+          ) : (
+            /* Dynamic 4-Column Grid with Taller Reference Height (144px base row) */
+            <div
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 items-stretch flex-1"
+              style={{
+                gridAutoRows: "144px",
+              }}
+            >
+              {widgets.map((widget, index) => (
+                <WidgetWrapper key={widget.id} widget={widget} index={index} />
+              ))}
+
+              {/* Empty Drop Slots visible only in Customize Mode */}
+              {isCustomizing &&
+                gridSlots.map((slot) => (
+                  <EmptyGridSlot
+                    key={`slot-${slot.col}-${slot.row}`}
+                    col={slot.col}
+                    row={slot.row}
+                  />
                 ))}
-
-                {/* Empty Drop Slots visible only in Customize Mode */}
-                {isCustomizing &&
-                  gridSlots.map((slot) => (
-                    <EmptyGridSlot
-                      key={`slot-${slot.col}-${slot.row}`}
-                      col={slot.col}
-                      row={slot.row}
-                    />
-                  ))}
-              </div>
-            )}
-          </main>
-        </div>
+            </div>
+          )}
+        </main>
       </div>
 
-      {/* TAI Chat Side Panel (Chrome Ask Gemini style) */}
+      {/* TAI Chat Side Panel (seamless right column of the screen) */}
       <TaiChatPanel />
 
       {/* Create New Dashboard Archetype Modal */}

@@ -12,7 +12,7 @@ export default function VendorResponseCard() {
   ];
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200/85 p-4 shadow-xs flex flex-col justify-between h-full">
+    <div className="bg-white rounded-[8px] border border-[#EAEEF3] p-4 shadow-xs flex flex-col justify-between h-full">
       {/* Header */}
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
@@ -40,7 +40,7 @@ export default function VendorResponseCard() {
               <span className="font-semibold text-slate-800">{v.name}</span>
               <span className="text-slate-500 font-medium">{v.time} ({v.status})</span>
             </div>
-            <div className="w-full h-1.5 rounded-full bg-slate-100 overflow-hidden">
+            <div className="w-full h-1.5 rounded-full bg-[#F2F4F6] overflow-hidden">
               <div className={`h-full rounded-full ${v.color}`} style={{ width: v.width }} />
             </div>
           </div>

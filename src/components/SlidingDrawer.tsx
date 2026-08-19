@@ -64,12 +64,12 @@ export default function SlidingDrawer({
 
       {/* Right Sliding Window Drawer with Uniform Exact 480px Width */}
       <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
-        <div className={`w-screen ${widthClass} bg-white shadow-2xl border-l border-slate-200 flex flex-col animate-in slide-in-from-right duration-300 ease-out rounded-l-[2px]`}>
+        <div className={`w-screen ${widthClass} bg-white shadow-2xl border-l border-[#EAEEF3] flex flex-col animate-in slide-in-from-right duration-300 ease-out rounded-l-[8px]`}>
           {/* Drawer Top Header (Strict standard: No description, clean title + icon + close) */}
-          <div className="px-4 py-3.5 border-b border-slate-200/80 flex items-center justify-between bg-white shrink-0">
+          <div className="px-4 py-3.5 border-b border-[#EAEEF3] flex items-center justify-between bg-white shrink-0">
             <div className="flex items-center gap-3">
               {icon && (
-                <div className="w-8 h-8 rounded-[2px] bg-blue-50 text-[#0047ba] border border-blue-100 flex items-center justify-center shrink-0">
+                <div className="w-8 h-8 rounded-[8px] bg-blue-50 text-[#002E5D] border border-blue-100 flex items-center justify-center shrink-0">
                   {icon}
                 </div>
               )}
@@ -81,7 +81,7 @@ export default function SlidingDrawer({
             {/* Clean Close Button */}
             <button
               onClick={onClose}
-              className="w-8 h-8 rounded-[2px] flex items-center justify-center text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition-colors cursor-pointer border border-slate-200/80 shadow-2xs shrink-0"
+              className="w-8 h-8 rounded-[8px] flex items-center justify-center text-slate-400 hover:text-slate-700 hover:bg-[#F9FBFF] transition-colors cursor-pointer border border-[#EAEEF3] shadow-2xs shrink-0"
               aria-label="Close drawer"
             >
               <X className="w-4 h-4" />
@@ -97,7 +97,7 @@ export default function SlidingDrawer({
                   forces overflow-x to compute as auto), which clips the inner
                   container's negative-margin bleed instead of letting it overlap. */}
               <div className="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden">{children}</div>
-              <div className={`${sidePanelWidthClass} shrink-0 border-l border-slate-200/80 dark:border-[#162444] overlay-scroll bg-slate-50/60 dark:bg-[#050814]`}>
+              <div className={`${sidePanelWidthClass} shrink-0 border-l border-[#EAEEF3] dark:border-[#162444] overlay-scroll bg-[#F9FBFF]/60 dark:bg-[#050814]`}>
                 {sidePanel}
               </div>
             </div>
@@ -107,7 +107,7 @@ export default function SlidingDrawer({
 
           {/* Drawer Bottom Footer with One Primary Button */}
           {(primaryButtonText || secondaryButtonText || footerLeftContent) && (
-            <div className="p-4 border-t border-slate-200/80 bg-white flex items-center justify-between shrink-0">
+            <div className="p-4 border-t border-[#EAEEF3] bg-white flex items-center justify-between shrink-0">
               <div>{footerLeftContent}</div>
 
               <div className="flex items-center gap-2">
@@ -115,7 +115,7 @@ export default function SlidingDrawer({
                   <button
                     type="button"
                     onClick={onSecondaryClick || onClose}
-                    className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-[2px] text-xs font-semibold transition-colors cursor-pointer border border-slate-200/60"
+                    className="px-4 py-2 bg-[#F2F4F6] hover:bg-slate-200 text-slate-700 rounded-[8px] text-xs font-semibold transition-colors cursor-pointer border border-[#EAEEF3]"
                   >
                     {secondaryButtonText}
                   </button>
@@ -126,7 +126,7 @@ export default function SlidingDrawer({
                     type="button"
                     onClick={onPrimaryClick}
                     disabled={isPrimaryDisabled || isPrimaryLoading}
-                    className={`px-5 py-2 bg-[#0047ba] hover:bg-[#003d9e] text-white rounded-[2px] text-xs font-semibold shadow-xs transition-all cursor-pointer flex items-center gap-1.5 ${
+                    className={`px-5 py-2 bg-[#002E5D] hover:bg-[#0A3492] text-white rounded-[8px] text-xs font-semibold shadow-xs transition-all cursor-pointer flex items-center gap-1.5 ${
                       isPrimaryDisabled ? "opacity-50 cursor-not-allowed" : ""
                     }`}
                   >

@@ -34,7 +34,7 @@ export default function SlaSummaryCard() {
   };
 
   return (
-    <div className="bg-white dark:bg-[#091122] rounded-[2px] border border-slate-200/85 dark:border-[#162444] p-4 shadow-xs flex flex-col justify-between h-full w-full overflow-hidden">
+    <div className="bg-white dark:bg-[#091122] rounded-[8px] border border-[#EAEEF3] dark:border-[#162444] p-4 shadow-xs flex flex-col justify-between h-full w-full overflow-hidden">
       {/* Header */}
       <div className="flex items-center justify-between mb-2 shrink-0">
         <h3 className="text-xs font-semibold text-slate-800 dark:text-white tracking-tight">SLA Summary</h3>
@@ -65,7 +65,7 @@ export default function SlaSummaryCard() {
                 transform: "translate(-50%, -50%)",
               }}
             >
-              <div className="bg-[#182235] dark:bg-[#060b17] text-white text-[10px] font-semibold py-1 px-2.5 rounded-[2px] shadow-2xl whitespace-nowrap flex items-center gap-1.5 backdrop-blur-sm">
+              <div className="bg-[#182235] dark:bg-[#060b17] text-white text-[10px] font-semibold py-1 px-2.5 rounded-[8px] shadow-2xl whitespace-nowrap flex items-center gap-1.5 backdrop-blur-sm">
                 <span
                   className="w-2 h-2 rounded-full shrink-0"
                   style={{

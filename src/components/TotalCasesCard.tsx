@@ -17,7 +17,7 @@ export default function TotalCasesCard() {
   const seriesSolid = [16, 19, 23, 20, 33, 53, 44, 48, 50, 52, 55, 56];
   const seriesDashed = [13, 16, 18, 17, 26, 42, 35, 38, 41, 43, 45, 46];
 
-  const accentColor = isDarkMode ? "#38bdf8" : "#0047ba";
+  const accentColor = isDarkMode ? "#38bdf8" : "#002E5D";
   const mutedColor = isDarkMode ? "#64748b" : "#94a3b8";
 
   const svgWidth = 320;
@@ -70,7 +70,7 @@ export default function TotalCasesCard() {
   const lastSolid = solidPoints[solidPoints.length - 1];
 
   return (
-    <div className="bg-white dark:bg-[#091122] rounded-[2px] border border-slate-200/85 dark:border-[#162444] p-4 shadow-xs flex flex-col justify-between h-full w-full">
+    <div className="bg-white dark:bg-[#091122] rounded-[8px] border border-[#EAEEF3] dark:border-[#162444] p-4 shadow-xs flex flex-col justify-between h-full w-full">
       {/* Header */}
       <div className="flex items-center justify-between mb-2 shrink-0">
         <h3 className="text-xs font-semibold text-slate-800 dark:text-white tracking-tight">Total Cases</h3>
@@ -246,7 +246,7 @@ export default function TotalCasesCard() {
             {/* Hover Tooltip for Spline points */}
             {hoveredMonth !== null && (
               <div
-                className="absolute z-20 bg-[#182235] dark:bg-[#060b17] text-white text-[10px] py-1 px-2 rounded-[2px] shadow-xl pointer-events-none transform -translate-x-1/2 -translate-y-full -mt-2 animate-in fade-in zoom-in-95"
+                className="absolute z-20 bg-[#182235] dark:bg-[#060b17] text-white text-[10px] py-1 px-2 rounded-[8px] shadow-xl pointer-events-none transform -translate-x-1/2 -translate-y-full -mt-2 animate-in fade-in zoom-in-95"
                 style={{
                   left: `${(hoveredMonth / 11) * 100}%`,
                   top: `${solidPoints[hoveredMonth].y}px`,
@@ -267,12 +267,12 @@ export default function TotalCasesCard() {
           </div>
 
           {/* X Axis Labels */}
-          <div className="flex items-center justify-between pt-1 border-t border-slate-200/60 dark:border-[#162444] text-[9px] font-medium text-slate-500 dark:text-slate-400 select-none shrink-0">
+          <div className="flex items-center justify-between pt-1 border-t border-[#EAEEF3] dark:border-[#162444] text-[9px] font-medium text-slate-500 dark:text-slate-400 select-none shrink-0">
             {months.map((m, idx) => (
               <span
                 key={m}
                 className={`transition-colors text-center flex-1 ${
-                  hoveredMonth === idx ? "text-[#0047ba] dark:text-[#38bdf8] font-bold" : ""
+                  hoveredMonth === idx ? "text-[#002E5D] dark:text-[#38bdf8] font-bold" : ""
                 }`}
               >
                 {m}

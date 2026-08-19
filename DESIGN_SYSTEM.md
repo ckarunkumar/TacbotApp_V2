@@ -19,6 +19,10 @@ This document outlines the **mandatory design system standards and UI rules** fo
   - `p-4` / `px-4` / `py-4` (16px)
   - `px-4 py-2` (16px horizontal, 8px vertical)
 
+### 1.3 Corner Radius Standard (8px for Containers, 4px for Buttons & Inputs)
+- **Cards, Containers & Modals**: Must be strictly 8px (`rounded-[8px]`).
+- **Buttons, Inputs, Selects, Badges & Interactive Controls**: Must be strictly 4px (`rounded-[4px]`).
+
 ---
 
 ## 2. Modal vs Sliding Window Rule (Mandatory Standard)
@@ -40,22 +44,39 @@ This document outlines the **mandatory design system standards and UI rules** fo
 
 ---
 
-### 3.1 Backgrounds & Surfaces
-| Token Name | Hex Code | Tailwind Equivalent / Usage |
-| :--- | :--- | :--- |
-| **Canvas Background** | `#f1f4fa` | `bg-[#f1f4fa]` — Main page body background |
-| **Card Surface** | `#ffffff` | `bg-white` — Dashboard cards, modals, popovers |
-| **Subtle Neutral Surface** | `#f8fafc` | `bg-slate-50` — Hover rows, table headers, inactive pill backgrounds |
-| **Border Neutral** | `#e2e8f0` | `border-slate-200/85` — Standard card and container borders |
-| **Divider Line** | `#f1f5f9` | `border-slate-100` — Separator between list items |
+## 3. Arista Blue Color System
 
-### 3.2 Brand & AI Accents
-| Purpose | Colors / Gradient | Class / Usage |
-| :--- | :--- | :--- |
-| **Primary Accent (Blue)** | `#1d4ed8` / `#2563eb` | `text-[#1d4ed8]`, active tab underline, highlighted keywords |
-| **AI Glow & Buttons (Purple/Pink)** | `linear-gradient(to right, #9333ea, #d946ef)` | `bg-gradient-to-r from-[#9333ea] to-[#d946ef]` — Send button, AI highlights |
-| **Assistant Glow Layer** | Multi-color subtle aura | `from-blue-300/40 via-purple-300/40 to-pink-300/40 blur-md` |
-| **Dark Navy Brand** | `#0e3b6f` / `#1e2e68` | `bg-[#0e3b6f]` — Logo container, primary "TAI Chat" button |
+### 3.1 Primary Arista Brand Blue Scale (`arista-*`)
+
+| Scale | Hex Code | Token Name / Usage | Tailwind Utility Class |
+| :--- | :--- | :--- | :--- |
+| **50** | `#F9FBFF` | **Arista Surface** — Lightest surface tint & card hover | `bg-arista-50` / `bg-arista-surface` |
+| **100** | `#ECF3FF` | **Arista Tint** — Primary soft active background / tab highlight | `bg-arista-100` / `bg-arista-tint` |
+| **200** | `#D4E4FE` | Soft hover tint & light badge background | `bg-arista-200` |
+| **300** | `#A1C4FC` | Active focus rings & subtle interactive highlights | `border-arista-300` |
+| **400** | `#5E94EE` | Secondary interactive accents & active indicators | `text-arista-400` |
+| **500** | `#2F6ADB` | Bright interactive blue (primary links & CTA buttons) | `bg-arista-500` |
+| **600** | `#1B4EB8` | Deep interactive hover state | `bg-arista-600` |
+| **700** | `#293283` | **Arista Indigo** — Secondary brand navy / sidebar background | `bg-arista-700` / `bg-arista-indigo` |
+| **800** | `#002E5D` | **Arista Navy** — Primary brand header / dark blue anchor | `bg-arista-800` / `bg-arista-navy` |
+| **900** | `#001F42` | Deep navy container surface & dark mode header | `bg-arista-900` |
+| **950** | `#00122B` | Ultra deep navy surface (dark mode background) | `bg-arista-950` |
+
+### 3.2 Neutral Slate Scale (`arista-neutral-*`)
+
+| Scale | Hex Code | Token Name / Usage | Tailwind Utility Class |
+| :--- | :--- | :--- | :--- |
+| **50** | `#F2F4F6` | **Arista Canvas** — Main application background canvas | `bg-arista-neutral-50` / `bg-arista-canvas` |
+| **100** | `#EAEEF3` | **Arista Border** — Standard card, table & container border | `border-arista-neutral-100` / `border-arista-border` |
+| **200** | `#D5DEE7` | Container divider & hover border | `border-arista-neutral-200` |
+| **300** | `#B3C1D0` | Subtle disabled text & secondary border | `text-arista-neutral-300` |
+| **400** | `#7790A9` | **Arista Slate** — Muted text, secondary icons, subtitle text | `text-arista-neutral-400` / `text-arista-slate` |
+| **500** | `#576B81` | Secondary body text & form labels | `text-arista-neutral-500` |
+| **600** | `#3F4E60` | Primary body text | `text-arista-neutral-600` |
+| **700** | `#2C3746` | Heading & sub-header dark text | `text-arista-neutral-700` |
+| **800** | `#1A222D` | Dark surface container background | `bg-arista-neutral-800` |
+| **900** | `#0F151D` | Dark mode surface background | `bg-arista-neutral-900` |
+| **950** | `#070A0F` | Dark mode deep background | `bg-arista-neutral-950` |
 
 ### 3.3 Status, Severity & SLA Colors
 All status indicators and badges use the 3-layer system: **Light Tinted Background + Soft Border + High-Contrast Saturated Text**.
@@ -65,27 +86,22 @@ All status indicators and badges use the 3-layer system: **Light Tinted Backgrou
 | **High / Breached / Critical** | `#dc2626` | `#fef2f2` | `#fecaca` | Breached SLA, High severity badge, Overdue countdowns |
 | **Medium / Nearing Breach** | `#d97706` | `#fffbeb` | `#fde68a` | Medium severity badge, Near-breach warning dots |
 | **Low / SLA Met / Target** | `#16a34a` | `#f0fdf4` | `#bbf7d0` | Low severity badge, SLA OK segments, positive trends |
-| **New Case / Info** | `#2563eb` | `#eff6ff` | `#bfdbfe` | New case dot, active filters, info notices |
+| **New Case / Info** | `#002E5D` | `#ECF3FF` | `#D4E4FE` | New case dot, active filters, info notices |
 
-### 3.4 Treemap Progressive Green Hierarchy
-1. **Dominant Tier (e.g. Cisco ~35-40%)**: `#94d47c` (`border-[#83c66a]`)
-2. **Second Tier (e.g. Juniper ~20-25%)**: `#b6e6a1` (`border-[#a3da8b]`)
-3. **Third Tier (e.g. Arista ~15%)**: `#daf2cb` (`border-[#cbe6bb]`)
-4. **Fourth Tier (e.g. Fortinet ~10%)**: `#e6f7db` (`border-[#d6ebd0]`)
-5. **Fifth Tier (e.g. Palo Alto ~6%)**: `#f0fae8` (`border-[#e1f0d8]`)
-6. **Sixth Tier (e.g. F5 ~3%)**: `#f6fcf0` (`border-[#e8f5e1]`)
-7. **Long Tail / Others**: `#fafefa` (`border-[#eef8eb]`)
+### 3.4 Button Gradient Standard
+- **AI Buttons (Containing `AiIcon`)**: Must feature the signature **TAI AI Gradient** (`bg-[linear-gradient(135deg,#005899_0%,#006eb0_50%,#0181c4_100%)] text-white hover:opacity-95`).
+- **Standard Action Buttons**: Must use flat solid colors (`#002E5D` Arista Navy with `#0A3492` hover, `#16A34A` Green, `#ECF3FF` Canvas). **No gradients permitted on non-AI buttons**.
 
 ---
 
 ## 4. Component Construction Standard
 
 ```tsx
-<div className="bg-white rounded-xl border border-slate-200/85 p-4 shadow-xs flex flex-col justify-between h-full">
+<div className="bg-white rounded-[8px] border border-arista-border p-4 shadow-xs flex flex-col justify-between h-full hover:bg-arista-surface transition-colors">
   {/* Card Header (8px margin bottom) */}
   <div className="flex items-center justify-between mb-2">
-    <h3 className="text-xs font-semibold text-slate-800 tracking-tight">Card Title</h3>
-    <button className="text-slate-400 hover:text-slate-600 transition-colors cursor-pointer" title="Info">
+    <h3 className="text-xs font-semibold text-arista-neutral-700 tracking-tight">Card Title</h3>
+    <button className="text-arista-slate hover:text-arista-neutral-700 transition-colors cursor-pointer" title="Info">
       <Info className="w-3.5 h-3.5" />
     </button>
   </div>
@@ -103,6 +119,7 @@ All status indicators and badges use the 3-layer system: **Light Tinted Backgrou
 
 - [x] **Margins & Gaps**: Only `8px` (`gap-2`, `m-2`, `mb-2`, `mt-2`, `mx-2`, `my-2`).
 - [x] **Paddings**: Only `8px` (`p-2`, `px-2`, `py-2`) or `16px` (`p-4`, `px-4`, `py-4`, `px-4 py-2`).
-- [x] **Corner Radius**: Only `2px` (`rounded-[2px]`).
+- [x] **Corner Radius**: Only `8px` (`rounded-[8px]`).
 - [x] **Font Family**: Poppins only.
 - [x] **Font Weights**: Regular (400), Medium (500), and Semibold (600) only. No Bold, Extra Bold, or Black.
+- [x] **Color Tokens**: Primary Arista Blue scale (`arista-*`) and Slate scale (`arista-neutral-*`).
