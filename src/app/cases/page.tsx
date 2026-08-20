@@ -38,7 +38,7 @@ function CasesPageBody() {
       }}
       showDatePicker={true}
       dateRangeText="2020-11-08 → 2020-11-08"
-      contentClassName="flex flex-col flex-1 min-h-0 gap-1.5 max-w-[1600px] mx-auto w-full pt-2 px-2 pb-2 h-full"
+      contentClassName="flex flex-col flex-1 min-h-0 gap-1.5 w-full pt-2 px-2 pb-2 h-full"
     >
       {/* ── Category & Sub-category Filter Tabs ── */}
       <CasesCategoryTabs
@@ -59,6 +59,10 @@ function CasesPageBody() {
           <CasesDistributionCard
             isMinimized={isOverviewMinimized}
             onToggleMinimize={toggleOverviewMinimized}
+            onSelectVendorFilter={(vendorName) => {
+              setActiveMainCategory("Vendor");
+              setActiveSubCategory(vendorName);
+            }}
           />
         </div>
 

@@ -287,6 +287,11 @@ export default function Table({
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   React.useEffect(() => {
+    setRows(data);
+    setCurrentPage(1);
+  }, [data]);
+
+  React.useEffect(() => {
     setCurrentPage(1);
   }, [isOverviewMinimized]);
 

@@ -66,7 +66,7 @@ export default function PageHeader({
         </button>
       )}
 
-      <div className="flex-1 min-w-0 flex items-center justify-between px-4 md:px-6">
+      <div className="flex-1 min-w-0 flex items-center justify-between px-2">
         {/* Left Section: Breadcrumbs + Ask TAI Pill Input */}
         <div className="flex items-center gap-3 md:gap-4">
           {/* Breadcrumb Navigation */}
@@ -83,19 +83,26 @@ export default function PageHeader({
             </span>
           </nav>
 
-          {/* Ask TAI Pill Search Input */}
+          {/* Ask TAI Search Input — soft gradient glow (no border, box-shadow only) */}
           <div className="relative flex items-center">
-            <div className="absolute left-2.5 flex items-center pointer-events-none text-purple-600">
-              <AiIcon size={14} color="#9333ea" variant="Bold" />
+            {/* Sparkle icon */}
+            <div className="absolute left-3 flex items-center pointer-events-none z-10">
+              <AiIcon size={15} color="#7c3aed" variant="Bold" />
             </div>
             <input
               type="text"
               value={askQuery}
               onChange={(e) => setAskQuery(e.target.value)}
               placeholder="Ask TAI"
-              className="h-7 w-48 sm:w-56 md:w-64 rounded-full border border-purple-200 dark:border-purple-900/60 bg-white dark:bg-[#081024] pl-8 pr-3 text-xs text-[#2C3746] dark:text-slate-100 placeholder-purple-400/80 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200/50 transition-all font-normal shadow-2xs"
+              className="h-8 w-52 sm:w-64 md:w-72 bg-white dark:bg-[#0d1424] border border-gray-100 dark:border-[#1e2d4a] pl-8 pr-4 text-sm text-[#2C3746] dark:text-slate-100 placeholder-gray-400 focus:outline-none font-normal transition-shadow"
+              style={{
+                borderRadius: "10px",
+                boxShadow:
+                  "-4px 4px 12px rgba(167, 139, 250, 0.35), 4px -4px 12px rgba(147, 197, 253, 0.35), 0 0 8px rgba(249, 168, 212, 0.2)",
+              }}
             />
           </div>
+
         </div>
 
         {/* Right Section: Date Range + Primary Action + TAI Chat Button */}

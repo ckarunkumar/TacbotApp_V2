@@ -114,7 +114,7 @@ function DashboardContent() {
         <Header />
 
         {/* Main Content Area */}
-        <main className="w-full px-4 md:px-6 py-2 flex-1 flex flex-col transition-all duration-300">
+        <main className="w-full px-2 py-2 flex-1 flex flex-col transition-all duration-300">
           {/* TAI Assistant Greeting & Search Bar */}
           <SearchAssistant />
 

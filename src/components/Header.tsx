@@ -15,7 +15,7 @@ export default function Header() {
   } = useDashboard();
 
   return (
-    <header className="w-full flex items-center justify-between px-4 py-2 select-none">
+    <header className="w-full flex items-center justify-between px-2 py-2 select-none">
       {/* Left Section: Relocated Logo Button (Appears ONLY when Sidebar is Collapsed) */}
       <div className="flex items-center gap-2">
         {isSidebarCollapsed && (
