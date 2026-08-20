@@ -57,7 +57,7 @@ export default function Button({
     primary:
       "bg-[#002E5D] text-white hover:bg-[#0A3492] shadow-xs active:scale-[0.98]",
     ai:
-      "bg-[linear-gradient(135deg,#005899_0%,#006eb0_50%,#0181c4_100%)] text-white hover:opacity-95 shadow-xs active:scale-[0.98]",
+      "bg-[linear-gradient(135deg,#7c3aed_0%,#4f46e5_50%,#2563eb_100%)] text-white hover:opacity-95 shadow-xs active:scale-[0.98]",
     secondary:
       "bg-[#ECF3FF] text-[#002E5D] hover:bg-[#D4E4FE] shadow-xs active:scale-[0.98]",
     outline:

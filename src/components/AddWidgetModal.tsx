@@ -747,7 +747,7 @@ export default function AddWidgetModal() {
           {selectedFilter === "My widgets" && (
             <div className="rounded-[8px] border border-purple-200/80 dark:border-purple-800/60 bg-gradient-to-br from-purple-50/70 via-white to-blue-50/40 dark:from-purple-950/30 dark:via-[#07132a] dark:to-blue-950/20 p-4 flex flex-col gap-3">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-[4px] bg-[linear-gradient(135deg,#005899_0%,#006eb0_50%,#0181c4_100%)] text-white flex items-center justify-center shrink-0 shadow-2xs">
+                <div className="w-8 h-8 rounded-[4px] bg-[linear-gradient(135deg,#7c3aed_0%,#4f46e5_50%,#2563eb_100%)] text-white flex items-center justify-center shrink-0 shadow-2xs">
                   <AiIcon size={16} color="#ffffff" variant="Bold" />
                 </div>
                 <div>
@@ -774,7 +774,7 @@ export default function AddWidgetModal() {
                 disabled={!taiPrompt.trim()}
                 className={`w-full py-2 rounded-[4px] text-xs font-semibold shadow-xs transition-all flex items-center justify-center gap-1.5 ${
                   taiPrompt.trim()
-                    ? "bg-[linear-gradient(135deg,#005899_0%,#006eb0_50%,#0181c4_100%)] hover:opacity-95 text-white cursor-pointer"
+                    ? "bg-[linear-gradient(135deg,#7c3aed_0%,#4f46e5_50%,#2563eb_100%)] hover:opacity-95 text-white cursor-pointer"
                     : "bg-blue-100 dark:bg-blue-950/40 text-blue-300 dark:text-blue-700 cursor-not-allowed"
                 }`}
               >

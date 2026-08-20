@@ -586,7 +586,7 @@ function AiPageContent() {
               <div className="h-full flex flex-col justify-center max-w-3xl mx-auto py-8 px-4 animate-in fade-in zoom-in-95 duration-300">
                 {/* Tacbot Logo Avatar & Hero Greeting */}
                 <div className="flex flex-col items-center text-center gap-2 mb-6">
-                  <div className="w-12 h-12 rounded-full bg-[linear-gradient(135deg,#005899_0%,#006eb0_50%,#0181c4_100%)] flex items-center justify-center p-2.5 shadow-md">
+                  <div className="w-12 h-12 rounded-full bg-[linear-gradient(135deg,#7c3aed_0%,#4f46e5_50%,#2563eb_100%)] flex items-center justify-center p-2.5 shadow-md">
                     <img
                       src="/tacbot-logo-white.svg"
                       alt="TAI"
@@ -689,7 +689,7 @@ function AiPageContent() {
                     {msg.sender === "user" ? (
                       /* User Message Bubble on Right with Signature Blue Gradient */
                       <div className="flex flex-col items-end">
-                        <div className="bg-[linear-gradient(135deg,#005899_0%,#006eb0_50%,#0181c4_100%)] text-white px-4 py-2.5 rounded-[8px] rounded-tr-none text-xs md:text-[13px] font-normal shadow-[0_4px_14px_rgba(0,88,153,0.22)] max-w-[88%] leading-relaxed">
+                        <div className="bg-[linear-gradient(135deg,#7c3aed_0%,#4f46e5_50%,#2563eb_100%)] text-white px-4 py-2.5 rounded-[8px] rounded-tr-none text-xs md:text-[13px] font-normal shadow-[0_4px_14px_rgba(124,58,237,0.22)] max-w-[88%] leading-relaxed">
                           {msg.text}
                         </div>
                         <span className="text-[10px] text-slate-400 mt-1 mr-1">
@@ -699,7 +699,7 @@ function AiPageContent() {
                     ) : (
                       /* AI Response with Bot Avatar and Styled Telemetry Card */
                       <div className="flex items-start gap-2.5">
-                        <div className="w-7 h-7 rounded-full bg-[linear-gradient(135deg,#005899_0%,#006eb0_50%,#0181c4_100%)] flex items-center justify-center p-1 shrink-0 mt-0.5 shadow-xs">
+                        <div className="w-7 h-7 rounded-full bg-[linear-gradient(135deg,#7c3aed_0%,#4f46e5_50%,#2563eb_100%)] flex items-center justify-center p-1 shrink-0 mt-0.5 shadow-xs">
                           <img
                             src="/tacbot-logo-white.svg"
                             alt="TAI"
@@ -771,7 +771,7 @@ function AiPageContent() {
                 {/* Typing Indicator */}
                 {isTyping && (
                   <div className="flex items-start gap-2.5">
-                    <div className="w-7 h-7 rounded-full bg-[linear-gradient(135deg,#005899_0%,#006eb0_50%,#0181c4_100%)] flex items-center justify-center p-1 shrink-0 mt-0.5 shadow-xs">
+                    <div className="w-7 h-7 rounded-full bg-[linear-gradient(135deg,#7c3aed_0%,#4f46e5_50%,#2563eb_100%)] flex items-center justify-center p-1 shrink-0 mt-0.5 shadow-xs">
                       <img
                         src="/tacbot-logo-white.svg"
                         alt="TAI"
@@ -831,7 +831,7 @@ function AiPageContent() {
                 disabled={!inputQuery.trim()}
                 className={`h-10 px-4 rounded-[8px] text-white text-xs font-medium flex items-center gap-1.5 transition-all shadow-xs shrink-0 cursor-pointer ${
                   inputQuery.trim()
-                    ? "bg-[linear-gradient(135deg,#005899_0%,#006eb0_50%,#0181c4_100%)] hover:opacity-95 active:scale-[0.98]"
+                    ? "bg-[linear-gradient(135deg,#7c3aed_0%,#4f46e5_50%,#2563eb_100%)] hover:opacity-95 active:scale-[0.98]"
                     : "bg-slate-300 dark:bg-slate-700 opacity-60 cursor-not-allowed"
                 }`}
               >
@@ -898,10 +898,8 @@ function AiPageContent() {
 
 export default function AiPage() {
   return (
-    <DashboardProvider>
-      <Suspense fallback={<div className="p-4 text-xs text-slate-500">Loading AI Assistant...</div>}>
-        <AiPageContent />
-      </Suspense>
-    </DashboardProvider>
+    <Suspense fallback={<div className="p-4 text-xs text-slate-500">Loading AI Assistant...</div>}>
+      <AiPageContent />
+    </Suspense>
   );
 }

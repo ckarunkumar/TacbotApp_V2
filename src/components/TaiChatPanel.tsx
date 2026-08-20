@@ -363,7 +363,7 @@ export default function TaiChatPanel() {
                 {msg.sender === "user" ? (
                   /* User Message Bubble on Right with Signature Blue Gradient & 8px Corner Radius */
                   <div className="flex flex-col items-end">
-                    <div className="bg-[linear-gradient(135deg,#005899_0%,#006eb0_50%,#0181c4_100%)] text-white px-4 py-2.5 rounded-[8px] rounded-tr-none text-xs md:text-[13px] font-normal shadow-[0_4px_14px_rgba(0,88,153,0.22)] max-w-[88%] leading-relaxed">
+                    <div className="bg-[linear-gradient(135deg,#7c3aed_0%,#4f46e5_50%,#2563eb_100%)] text-white px-4 py-2.5 rounded-[8px] rounded-tr-none text-xs md:text-[13px] font-normal shadow-[0_4px_14px_rgba(124,58,237,0.22)] max-w-[88%] leading-relaxed">
                       {msg.text}
                     </div>
                     <span className="text-[10px] text-slate-400 mt-1 mr-1">
@@ -374,7 +374,7 @@ export default function TaiChatPanel() {
                   /* AI Response with Bot Avatar and Styled Telemetry Card */
                   <div className="flex items-start gap-2.5">
                     {/* Bot Avatar Icon with Signature Gradient */}
-                    <div className="w-7 h-7 rounded-full bg-[linear-gradient(135deg,#005899_0%,#006eb0_50%,#0181c4_100%)] flex items-center justify-center p-1 shrink-0 mt-0.5 shadow-xs">
+                    <div className="w-7 h-7 rounded-full bg-[linear-gradient(135deg,#7c3aed_0%,#4f46e5_50%,#2563eb_100%)] flex items-center justify-center p-1 shrink-0 mt-0.5 shadow-xs">
                       <img
                         src="/tacbot-logo-white.svg"
                         alt="TAI"
@@ -451,7 +451,7 @@ export default function TaiChatPanel() {
             {/* Typing Indicator */}
             {isTyping && (
               <div className="flex items-start gap-2.5">
-                <div className="w-7 h-7 rounded-full bg-[linear-gradient(135deg,#005899_0%,#006eb0_50%,#0181c4_100%)] flex items-center justify-center p-1 shrink-0 mt-0.5 shadow-xs">
+                <div className="w-7 h-7 rounded-full bg-[linear-gradient(135deg,#7c3aed_0%,#4f46e5_50%,#2563eb_100%)] flex items-center justify-center p-1 shrink-0 mt-0.5 shadow-xs">
                   <img
                     src="/tacbot-logo-white.svg"
                     alt="TAI"
@@ -510,7 +510,7 @@ export default function TaiChatPanel() {
             disabled={!inputQuery.trim()}
             className={`w-7 h-7 rounded-full flex items-center justify-center text-white transition-all shrink-0 cursor-pointer shadow-xs ${
               inputQuery.trim()
-                ? "bg-[linear-gradient(135deg,#005899_0%,#006eb0_50%,#0181c4_100%)] hover:opacity-95 hover:scale-105"
+                ? "bg-[linear-gradient(135deg,#7c3aed_0%,#4f46e5_50%,#2563eb_100%)] hover:opacity-95 hover:scale-105"
                 : "bg-slate-300 dark:bg-slate-700 opacity-50 cursor-not-allowed"
             }`}
             title="Send query"

@@ -36,6 +36,17 @@
   --color-arista-canvas: #F2F4F6;
   --color-arista-tint: #ECF3FF;
   --color-arista-surface: #F9FBFF;
+
+  /* Poppins is the ONLY typeface allowed anywhere in the app. Tailwind's
+     font-sans/font-mono/font-serif utilities each read their own theme
+     token — leaving font-mono/font-serif at Tailwind's defaults means any
+     .font-mono usage (code blocks, hex values, ticket numbers, dates)
+     silently breaks out of the inherited body font into a real monospace
+     stack. Pointing every font token at Poppins closes that off for good,
+     including future .font-mono/.font-serif usage anywhere in the app. */
+  --font-sans: var(--font-poppins), 'Poppins', sans-serif;
+  --font-mono: var(--font-poppins), 'Poppins', sans-serif;
+  --font-serif: var(--font-poppins), 'Poppins', sans-serif;
 }
 
 :root {
@@ -71,6 +82,13 @@ body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+html.dark body,
+body.dark,
+.dark body {
+  background-color: #070D18;
+  color: #E2E8F0;
 }
 
 /* Strict Typography Rules: No Bold / Extra-Bold / Black */

@@ -169,9 +169,5 @@ function DashboardContent() {
 }
 
 export default function DashboardPage() {
-  return (
-    <DashboardProvider>
-      <DashboardContent />
-    </DashboardProvider>
-  );
+  return <DashboardContent />;
 }

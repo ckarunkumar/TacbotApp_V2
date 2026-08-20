@@ -41,20 +41,20 @@ export default function SearchAssistant({ onSelectAction }: SearchAssistantProps
         assist your operations today?
       </h1>
 
-      {/* AI Search Bar with Signature Blue Gradient Glow */}
+      {/* AI Search Bar with Signature Purple/Blue Gradient Glow */}
       <div className="w-full max-w-2xl relative mb-4 group">
-        {/* Signature Blue Gradient Aura */}
-        <div className="absolute -inset-1.5 bg-gradient-to-r from-[#005899]/30 via-blue-500/30 to-[#0181c4]/30 rounded-[8px] blur-md opacity-80 group-hover:opacity-100 transition-opacity duration-500 animate-pulse pointer-events-none" />
+        {/* Signature Purple/Blue Gradient Aura */}
+        <div className="absolute -inset-1.5 bg-gradient-to-r from-[#7c3aed]/30 via-[#4f46e5]/30 to-[#2563eb]/30 rounded-[8px] blur-md opacity-80 group-hover:opacity-100 transition-opacity duration-500 animate-pulse pointer-events-none" />
 
         <div
           className={`relative flex items-center rounded-[8px] pl-3.5 pr-1.5 py-1.5 transition-all shadow-md ${
             isDarkMode
-              ? "bg-[#0a0f24] border border-[#005899]/60 hover:border-[#38bdf8]"
-              : "bg-white/95 backdrop-blur-md border border-[#005899]/30 hover:border-[#005899]"
+              ? "bg-[#0a0f24] border border-[#7c3aed]/60 hover:border-[#a78bfa]"
+              : "bg-white/95 backdrop-blur-md border border-[#7c3aed]/30 hover:border-[#7c3aed]"
           }`}
         >
-          {/* Sparkles icon in signature blue */}
-          <div className="mr-2.5 text-[#005899] dark:text-[#38bdf8] flex items-center justify-center shrink-0">
+          {/* Sparkles icon in signature purple */}
+          <div className="mr-2.5 text-[#7c3aed] dark:text-[#a78bfa] flex items-center justify-center shrink-0">
             <Sparkles className="w-4 h-4" />
           </div>
 
@@ -69,15 +69,15 @@ export default function SearchAssistant({ onSelectAction }: SearchAssistantProps
 
           {/* Keyboard shortcut hint in dark mode */}
           {isDarkMode && (
-            <div className="mr-2 px-1.5 py-0.5 rounded-[8px] border border-[#005899]/40 bg-[#0d1b3a] text-[10px] font-mono text-blue-200 shrink-0">
+            <div className="mr-2 px-1.5 py-0.5 rounded-[8px] border border-[#7c3aed]/40 bg-[#170f2e] text-[10px] font-mono text-purple-200 shrink-0">
               ⌘K
             </div>
           )}
 
-          {/* AI Send Button with Signature Blue Gradient */}
+          {/* AI Send Button with Signature Purple/Blue Gradient */}
           <button
             type="button"
-            className="w-7 h-7 rounded-[8px] bg-[linear-gradient(135deg,#005899_0%,#006eb0_50%,#0181c4_100%)] hover:opacity-95 flex items-center justify-center text-white shadow-xs transition-all hover:scale-105 active:scale-95 cursor-pointer shrink-0"
+            className="w-7 h-7 rounded-[8px] bg-[linear-gradient(135deg,#7c3aed_0%,#4f46e5_50%,#2563eb_100%)] hover:opacity-95 flex items-center justify-center text-white shadow-xs transition-all hover:scale-105 active:scale-95 cursor-pointer shrink-0"
             title="Send query"
           >
             <Send2 size={14} color="#ffffff" variant="Bold" className="-ml-0.5 mt-0.5 transform rotate-12" />

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { Search, Trash2, ChevronDown, Check, ArrowUp, ArrowDown, ArrowUpDown } from "lucide-react";
 import { Import, FilterSearch, Setting4, Refresh } from "iconsax-react";
 import VendorIcon from "@/components/cases/VendorIcon";
@@ -41,6 +42,10 @@ export interface TableProps {
   onRowClick?: (row: CaseRecord) => void;
   className?: string;
   isOverviewMinimized?: boolean;
+  /** Fires on scroll of the table's own internal scroll region — lets a
+   * consumer react to table-level scroll (e.g. progressively collapsing a
+   * section above the table as its rows scroll by). */
+  onBodyScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
 }
 
 export const getStatusBadgeVariant = (status: CaseRecord["status"]): BadgeVariant => {
@@ -259,6 +264,206 @@ export const INITIAL_TABLE_CASES: CaseRecord[] = [
     duration: "20 mins",
     status: "Resolved",
   },
+  {
+    id: "case-row-21",
+    vendor: "Aruba",
+    externalTicket: "SR66392018475",
+    internalTicket: "TAC17897INT",
+    subject: "AOS-CX VSX keepalive link down",
+    dateTime: "2020-11-08 & 16:20",
+    duration: "18 mins",
+    status: "In Progress",
+  },
+  {
+    id: "case-row-22",
+    vendor: "AWS",
+    externalTicket: "SR77403928561",
+    internalTicket: "TAC17898INT",
+    subject: "S3 bucket replication lag alert",
+    dateTime: "2020-11-08 & 16:35",
+    duration: "16 mins",
+    status: "Pending",
+  },
+  {
+    id: "case-row-23",
+    vendor: "Fortinet",
+    externalTicket: "SR88514039672",
+    internalTicket: "TAC17899INT",
+    subject: "FortiAnalyzer log forwarding queue backlog",
+    dateTime: "2020-11-08 & 16:50",
+    duration: "14 mins",
+    status: "Escalated",
+  },
+  {
+    id: "case-row-24",
+    vendor: "F5",
+    externalTicket: "SR99625140783",
+    internalTicket: "TAC17900INT",
+    subject: "GTM DNS load balancing pool degraded",
+    dateTime: "2020-11-08 & 17:05",
+    duration: "12 mins",
+    status: "Resolved",
+  },
+  {
+    id: "case-row-25",
+    vendor: "Cisco",
+    externalTicket: "SR10736251894",
+    internalTicket: "TAC17901INT",
+    subject: "ISE posture assessment policy mismatch",
+    dateTime: "2020-11-08 & 17:20",
+    duration: "10 mins",
+    status: "In Progress",
+  },
+  {
+    id: "case-row-26",
+    vendor: "Arista",
+    externalTicket: "SR21847362905",
+    internalTicket: "TAC17902INT",
+    subject: "MLAG peer link flap on 7050X switch",
+    dateTime: "2020-11-08 & 17:35",
+    duration: "9 mins",
+    status: "Pending",
+  },
+  {
+    id: "case-row-27",
+    vendor: "Paloalto",
+    externalTicket: "SR32958473016",
+    internalTicket: "TAC17903INT",
+    subject: "Panorama managed device connection lost",
+    dateTime: "2020-11-08 & 17:50",
+    duration: "8 mins",
+    status: "Escalated",
+  },
+  {
+    id: "case-row-28",
+    vendor: "Juniper",
+    externalTicket: "SR43069584127",
+    internalTicket: "TAC17904INT",
+    subject: "SRX cluster failover latency spike",
+    dateTime: "2020-11-08 & 18:05",
+    duration: "7 mins",
+    status: "Resolved",
+  },
+  {
+    id: "case-row-29",
+    vendor: "Aruba",
+    externalTicket: "SR54170695238",
+    internalTicket: "TAC17905INT",
+    subject: "Central AP firmware rollback failure",
+    dateTime: "2020-11-08 & 18:20",
+    duration: "6 mins",
+    status: "In Progress",
+  },
+  {
+    id: "case-row-30",
+    vendor: "AWS",
+    externalTicket: "SR65281706349",
+    internalTicket: "TAC17906INT",
+    subject: "Lambda concurrency throttling alarm",
+    dateTime: "2020-11-08 & 18:35",
+    duration: "5 mins",
+    status: "Resolved",
+  },
+  {
+    id: "case-row-31",
+    vendor: "Fortinet",
+    externalTicket: "SR76392817450",
+    internalTicket: "TAC17907INT",
+    subject: "FortiSwitch stacking cable fault",
+    dateTime: "2020-11-08 & 18:50",
+    duration: "5 mins",
+    status: "Pending",
+  },
+  {
+    id: "case-row-32",
+    vendor: "F5",
+    externalTicket: "SR87403928561",
+    internalTicket: "TAC17908INT",
+    subject: "iRule execution timeout on ASM policy",
+    dateTime: "2020-11-08 & 19:05",
+    duration: "4 mins",
+    status: "Escalated",
+  },
+  {
+    id: "case-row-33",
+    vendor: "Cisco",
+    externalTicket: "SR98514039672",
+    internalTicket: "TAC17909INT",
+    subject: "Catalyst 9300 stack member reload",
+    dateTime: "2020-11-08 & 19:20",
+    duration: "4 mins",
+    status: "In Progress",
+  },
+  {
+    id: "case-row-34",
+    vendor: "Arista",
+    externalTicket: "SR09625140783",
+    internalTicket: "TAC17910INT",
+    subject: "EOS VXLAN VTEP unreachable alert",
+    dateTime: "2020-11-08 & 19:35",
+    duration: "3 mins",
+    status: "Resolved",
+  },
+  {
+    id: "case-row-35",
+    vendor: "Paloalto",
+    externalTicket: "SR10736251895",
+    internalTicket: "TAC17911INT",
+    subject: "URL filtering category database stale",
+    dateTime: "2020-11-08 & 19:50",
+    duration: "3 mins",
+    status: "Pending",
+  },
+  {
+    id: "case-row-36",
+    vendor: "Juniper",
+    externalTicket: "SR21847362906",
+    internalTicket: "TAC17912INT",
+    subject: "QFX fabric ARP table overflow warning",
+    dateTime: "2020-11-08 & 20:05",
+    duration: "2 mins",
+    status: "Escalated",
+  },
+  {
+    id: "case-row-37",
+    vendor: "Aruba",
+    externalTicket: "SR32958473017",
+    internalTicket: "TAC17913INT",
+    subject: "UXI sensor connectivity heartbeat lost",
+    dateTime: "2020-11-08 & 20:20",
+    duration: "2 mins",
+    status: "Resolved",
+  },
+  {
+    id: "case-row-38",
+    vendor: "AWS",
+    externalTicket: "SR43069584128",
+    internalTicket: "TAC17914INT",
+    subject: "CloudFront origin failover triggered",
+    dateTime: "2020-11-08 & 20:35",
+    duration: "1 min",
+    status: "In Progress",
+  },
+  {
+    id: "case-row-39",
+    vendor: "Fortinet",
+    externalTicket: "SR54170695239",
+    internalTicket: "TAC17915INT",
+    subject: "FortiGate SD-WAN SLA link degraded",
+    dateTime: "2020-11-08 & 20:50",
+    duration: "1 min",
+    status: "Pending",
+  },
+  {
+    id: "case-row-40",
+    vendor: "F5",
+    externalTicket: "SR65281706350",
+    internalTicket: "TAC17916INT",
+    subject: "AVR reporting database disk near full",
+    dateTime: "2020-11-08 & 21:05",
+    duration: "1 min",
+    status: "Resolved",
+  },
 ];
 
 type SortKey = keyof CaseRecord;
@@ -275,6 +480,7 @@ export default function Table({
   onRowClick,
   className = "",
   isOverviewMinimized = false,
+  onBodyScroll,
 }: TableProps) {
   const [rows, setRows] = useState<CaseRecord[]>(data);
   const [searchQuery, setSearchQuery] = useState("");
@@ -511,7 +717,10 @@ export default function Table({
       )}
 
       {/* ── Table Container (Vertically Scrollable with Sticky Header) ── */}
-      <div className="w-full flex-1 overflow-x-auto overflow-y-auto no-scrollbar min-h-0">
+      <div
+        onScroll={onBodyScroll}
+        className="w-full flex-1 overflow-x-auto overflow-y-auto no-scrollbar min-h-0"
+      >
         <table className={`w-full text-left border-collapse min-w-[850px] ${isBordered ? "border border-[#EAEEF3] dark:border-[#162444]" : ""}`}>
           {/* Table Header */}
           <thead className="sticky top-0 z-10 bg-[#eef3f8] dark:bg-[#0d1830] shadow-2xs">
@@ -593,13 +802,12 @@ export default function Table({
 
                   {/* External Ticket (Clickable Link) */}
                   <td className="py-2.5 px-3 whitespace-nowrap">
-                    <a
-                      href={`#${row.externalTicket}`}
-                      onClick={(e) => e.preventDefault()}
+                    <Link
+                      href={`/cases/${row.externalTicket}`}
                       className="text-[#2F6ADB] dark:text-[#5E94EE] hover:underline text-xs md:text-[13px] font-medium whitespace-nowrap"
                     >
                       {row.externalTicket}
-                    </a>
+                    </Link>
                   </td>
 
                   {/* Internal Ticket */}

@@ -142,7 +142,7 @@ export default function CasesDistributionCard({
   // ── COLLAPSED / MINIMIZED STATE ──
   if (isMinimized) {
     return (
-      <div className="bg-white dark:bg-[#091122] rounded-[8px] border border-[#EAEEF3] dark:border-[#162444] px-4 py-2.5 shadow-xs flex items-center justify-between w-full h-10 select-none transition-all">
+      <div className="bg-white dark:bg-[#091122] rounded-[8px] border border-[#EAEEF3] dark:border-[#162444] px-4 py-2.5 shadow-xs flex items-center justify-between w-full h-10 select-none transition-all animate-in fade-in duration-200">
         {/* Left Title */}
         <h3 className="text-xs font-semibold text-[#002E5D] dark:text-white tracking-tight">
           Cases Distribution
@@ -189,7 +189,7 @@ export default function CasesDistributionCard({
 
   // ── EXPANDED FULL STATE ──
   return (
-    <div className="bg-white dark:bg-[#091122] rounded-[8px] border border-[#EAEEF3] dark:border-[#162444] p-4 shadow-xs flex flex-col justify-between h-full transition-all">
+    <div className="bg-white dark:bg-[#091122] rounded-[8px] border border-[#EAEEF3] dark:border-[#162444] p-4 shadow-xs flex flex-col justify-between h-full transition-all animate-in fade-in duration-200">
       {/* Header */}
       <div className="flex items-center justify-between mb-2 select-none">
         <h3 className="text-xs font-semibold text-[#002E5D] dark:text-white tracking-tight">

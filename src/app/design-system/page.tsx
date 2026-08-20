@@ -198,10 +198,10 @@ function DesignSystemPageContent() {
       <div className="flex-1 w-full flex flex-row h-[calc(100vh-49px)] overflow-hidden">
         
         {/* ── Frozen Secondary Sidebar (Fixed in place; scrolls ONLY within itself if items grow) ── */}
-        <aside className="w-72 shrink-0 bg-white border-r border-[#EAEEF3] p-4 hidden md:flex flex-col gap-5 h-full overflow-y-auto z-20 select-none">
-          <div className="flex items-center gap-2 pb-2 border-b border-[#EAEEF3]">
-            <BookOpen className="w-4 h-4 text-[#002E5D]" />
-            <span className="text-xs font-bold text-[#002E5D] uppercase tracking-wider">
+        <aside className="w-72 shrink-0 bg-white dark:bg-[#081024] border-r border-[#EAEEF3] dark:border-[#162444] p-4 hidden md:flex flex-col gap-5 h-full overflow-y-auto z-20 select-none">
+          <div className="flex items-center gap-2 pb-2 border-b border-[#EAEEF3] dark:border-[#162444]">
+            <BookOpen className="w-4 h-4 text-[#002E5D] dark:text-sky-400" />
+            <span className="text-xs font-bold text-[#002E5D] dark:text-sky-300 uppercase tracking-wider">
               Component Specs Index
             </span>
           </div>
@@ -215,7 +215,7 @@ function DesignSystemPageContent() {
 
               return (
                 <div key={catGroup.category} className="flex flex-col gap-1.5">
-                  <span className="text-[10px] font-bold text-[#7790A9] uppercase tracking-wider px-2">
+                  <span className="text-[10px] font-bold text-[#7790A9] dark:text-slate-400 uppercase tracking-wider px-2">
                     {catGroup.category}
                   </span>
                   <div className="flex flex-col gap-0.5">
@@ -228,15 +228,15 @@ function DesignSystemPageContent() {
                           onClick={() => scrollToSection(sec.id)}
                           className={`w-full flex items-center justify-between px-3 py-2 rounded-[4px] text-xs transition-all cursor-pointer text-left ${
                             isActive
-                              ? "bg-[#ECF3FF] text-[#002E5D] font-semibold border-l-3 border-[#002E5D] shadow-2xs"
-                              : "text-[#576B81] hover:text-[#002E5D] hover:bg-[#F9FBFF]"
+                              ? "bg-[#ECF3FF] dark:bg-[#16294d] text-[#002E5D] dark:text-sky-300 font-semibold border-l-3 border-[#002E5D] dark:border-sky-400 shadow-2xs"
+                              : "text-[#576B81] dark:text-slate-400 hover:text-[#002E5D] dark:hover:text-white hover:bg-[#F9FBFF] dark:hover:bg-[#0e1b38]"
                           }`}
                         >
                           <div className="flex items-center gap-2.5 min-w-0 pr-1">
-                            <Icon className={`w-4 h-4 shrink-0 ${isActive ? "text-[#002E5D]" : "text-[#7790A9]"}`} />
+                            <Icon className={`w-4 h-4 shrink-0 ${isActive ? "text-[#002E5D] dark:text-sky-300" : "text-[#7790A9] dark:text-slate-400"}`} />
                             <span className="truncate leading-tight">{sec.label}</span>
                           </div>
-                          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-[4px] bg-[#F2F4F6] text-[#7790A9] shrink-0">
+                          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-[4px] bg-[#F2F4F6] dark:bg-slate-800 text-[#7790A9] dark:text-slate-400 shrink-0">
                             {sec.count}
                           </span>
                         </button>
@@ -248,14 +248,14 @@ function DesignSystemPageContent() {
             })}
           </nav>
 
-          <div className="mt-auto pt-4 border-t border-[#EAEEF3] flex flex-col gap-2">
-            <div className="p-3 rounded-[8px] bg-[#F9FBFF] border border-[#D4E4FE] text-[11px] text-[#576B81] flex flex-col gap-1.5">
-              <span className="font-semibold text-[#002E5D] flex items-center gap-1.5">
+          <div className="mt-auto pt-4 border-t border-[#EAEEF3] dark:border-[#162444] flex flex-col gap-2">
+            <div className="p-3 rounded-[8px] bg-[#F9FBFF] dark:bg-[#0d1830] border border-[#D4E4FE] dark:border-[#1e3056] text-[11px] text-[#576B81] dark:text-slate-300 flex flex-col gap-1.5">
+              <span className="font-semibold text-[#002E5D] dark:text-sky-300 flex items-center gap-1.5">
                 <AiIcon size={13} color="#002E5D" variant="Bold" />
                 <span>AI Gradient Policy</span>
               </span>
               <p className="leading-relaxed">
-                Buttons containing <code className="bg-white px-1 py-0.5 rounded border border-[#D4E4FE] font-mono text-[10px]">AiIcon</code> MUST use the signature AI gradient. Non-AI buttons must use solid fills.
+                Buttons containing <code className="bg-white dark:bg-[#081024] px-1 py-0.5 rounded border border-[#D4E4FE] dark:border-[#1e3056] font-mono text-[10px]">AiIcon</code> MUST use the signature AI gradient. Non-AI buttons must use solid fills.
               </p>
             </div>
           </div>
@@ -367,8 +367,8 @@ function DesignSystemPageContent() {
               </div>
             </div>
 
-            {/* Signature Blue Gradient Hero Banner */}
-            <div className="w-full rounded-[8px] p-5 bg-[linear-gradient(135deg,#005899_0%,#006eb0_50%,#0181c4_100%)] text-white flex flex-wrap items-center justify-between gap-4 shadow-md">
+            {/* Signature Purple/Blue Gradient Hero Banner */}
+            <div className="w-full rounded-[8px] p-5 bg-[linear-gradient(135deg,#7c3aed_0%,#4f46e5_50%,#2563eb_100%)] text-white flex flex-wrap items-center justify-between gap-4 shadow-md">
               <div>
                 <div className="flex items-center gap-2 mb-1">
                   <AiIcon size={16} color="#ffffff" variant="Bold" />
@@ -377,17 +377,17 @@ function DesignSystemPageContent() {
                   </span>
                 </div>
                 <h3 className="text-base md:text-lg font-mono font-semibold tracking-tight">
-                  linear-gradient(135deg, #005899 0%, #006eb0 50%, #0181c4 100%)
+                  linear-gradient(135deg, #7c3aed 0%, #4f46e5 50%, #2563eb 100%)
                 </h3>
                 <p className="text-xs opacity-90 mt-1 max-w-2xl leading-relaxed">
                   Applied <strong>EXCLUSIVELY</strong> to buttons containing an AI icon (<code className="bg-white/20 px-1 rounded font-mono text-[11px]">AiIcon</code>) or triggering AI workflows (TAI Chat, TAI Search, Create with TAI). All standard non-AI buttons use flat solid colors (`#002E5D` Navy with `#0A3492` hover).
                 </p>
               </div>
               <button
-                onClick={() => copyToClipboard("linear-gradient(135deg, #005899 0%, #006eb0 50%, #0181c4 100%)")}
+                onClick={() => copyToClipboard("linear-gradient(135deg, #7c3aed 0%, #4f46e5 50%, #2563eb 100%)")}
                 className="px-3 py-1.5 rounded-[4px] bg-white/20 hover:bg-white/30 text-white text-xs font-semibold backdrop-blur-sm transition-all flex items-center gap-1.5 cursor-pointer border border-white/30 shrink-0"
               >
-                {copiedToken === "linear-gradient(135deg, #005899 0%, #006eb0 50%, #0181c4 100%)" ? (
+                {copiedToken === "linear-gradient(135deg, #7c3aed 0%, #4f46e5 50%, #2563eb 100%)" ? (
                   <>
                     <Check className="w-3.5 h-3.5 text-emerald-300" />
                     <span>Copied!</span>
@@ -1305,9 +1305,5 @@ function DesignSystemPageContent() {
 }
 
 export default function DesignSystemPage() {
-  return (
-    <DashboardProvider>
-      <DesignSystemPageContent />
-    </DashboardProvider>
-  );
+  return <DesignSystemPageContent />;
 }

@@ -76,7 +76,7 @@ export default function CriticalPriorityCasesCard({
   // ── COLLAPSED / MINIMIZED STATE (Single-strip coral bar matching screenshot) ──
   if (isMinimized) {
     return (
-      <div className="bg-[#fee2e2]/70 dark:bg-[#450a0a]/50 border border-[#fecaca] dark:border-[#991b1b]/50 rounded-[8px] px-4 py-2.5 shadow-xs flex items-center justify-between w-full h-10 select-none transition-all">
+      <div className="bg-[#fee2e2]/70 dark:bg-[#450a0a]/50 border border-[#fecaca] dark:border-[#991b1b]/50 rounded-[8px] px-4 py-2.5 shadow-xs flex items-center justify-between w-full h-10 select-none transition-all animate-in fade-in duration-200">
         {/* Left Title */}
         <h3 className="text-xs font-semibold text-[#991b1b] dark:text-red-300 tracking-tight">
           Critical / High Priority Cases
@@ -102,7 +102,7 @@ export default function CriticalPriorityCasesCard({
 
   // ── EXPANDED FULL STATE ──
   return (
-    <div className="bg-white dark:bg-[#091122] rounded-[8px] border border-[#EAEEF3] dark:border-[#162444] shadow-xs flex flex-col justify-between h-full overflow-hidden transition-all">
+    <div className="bg-white dark:bg-[#091122] rounded-[8px] border border-[#EAEEF3] dark:border-[#162444] shadow-xs flex flex-col justify-between h-full overflow-hidden transition-all animate-in fade-in duration-200">
       {/* Header with coral/light-red tint */}
       <div className="bg-[#fee2e2]/70 dark:bg-[#450a0a]/50 border-b border-[#fecaca] dark:border-[#991b1b]/50 px-4 py-2 flex items-center justify-between select-none">
         <h3 className="text-xs font-semibold text-[#991b1b] dark:text-red-300 tracking-tight">

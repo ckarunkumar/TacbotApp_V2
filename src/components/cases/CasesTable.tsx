@@ -1,19 +1,24 @@
 "use client";
 
 import React, { useMemo } from "react";
+import { useRouter } from "next/navigation";
 import Table, { CaseRecord, INITIAL_TABLE_CASES } from "@/components/ui/Table";
 
 export interface CasesTableProps {
   mainCategoryFilter?: string;
   subCategoryFilter?: string;
   isOverviewMinimized?: boolean;
+  onBodyScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
 }
 
 export default function CasesTable({
   mainCategoryFilter,
   subCategoryFilter,
   isOverviewMinimized = false,
+  onBodyScroll,
 }: CasesTableProps) {
+  const router = useRouter();
+
   // Filter cases based on active parent category & sub-category (e.g., Vendor -> Cisco)
   const filteredData = useMemo(() => {
     if (!subCategoryFilter || subCategoryFilter === "All") {
@@ -41,6 +46,8 @@ export default function CasesTable({
         showToolbar={true}
         showPagination={true}
         isOverviewMinimized={isOverviewMinimized}
+        onRowClick={(row) => router.push(`/cases/${row.externalTicket}`)}
+        onBodyScroll={onBodyScroll}
         className="flex-1 min-h-0"
       />
     </div>

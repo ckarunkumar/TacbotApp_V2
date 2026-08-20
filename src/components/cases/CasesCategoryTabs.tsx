@@ -241,7 +241,7 @@ export default function CasesCategoryTabs({
   const level2CountFormatted = String(moreChildItems.length).padStart(2, "0");
 
   return (
-    <div className="w-full flex flex-col mb-0 select-none">
+    <div className="w-full flex flex-col mb-0 select-none sticky top-0 z-30 bg-[#F2F4F6] dark:bg-[#070D18]">
       {/* ── Level 1: Primary Navigation (Parent Categories) ── */}
       <div className="w-full px-0 pt-0 pb-0 flex items-center justify-between gap-1.5 relative z-30">
         <div

@@ -24,9 +24,24 @@ function CasesPageBody() {
     if (subParam) setActiveSubCategory(subParam);
   }, [searchParams]);
 
-  // Shared minimize state: clicking minimize on either card collapses/expands both together
+  // Shared minimize state: clicking minimize on either card collapses/expands both together —
+  // also auto-toggled by the table's own internal scroll position below, so scrolling the table
+  // rows progressively collapses the distribution/priority cards to give the table more room
+  // (with a CSS transition on the cards so it reads as a smooth collapse, not a snap), and
+  // scrolling back to the top restores them. The tabs above stay put either way — they live
+  // outside the table's own scroll region, so they never need "sticky" to remain visible.
   const [isOverviewMinimized, setIsOverviewMinimized] = useState<boolean>(false);
   const toggleOverviewMinimized = () => setIsOverviewMinimized((prev) => !prev);
+
+  const SCROLL_COLLAPSE_THRESHOLD = 24;
+  const handleTableBodyScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const scrollTop = e.currentTarget.scrollTop;
+    setIsOverviewMinimized((prev) => {
+      if (scrollTop > SCROLL_COLLAPSE_THRESHOLD && !prev) return true;
+      if (scrollTop <= SCROLL_COLLAPSE_THRESHOLD && prev) return false;
+      return prev;
+    });
+  };
 
   return (
     <PageLayout
@@ -75,12 +90,14 @@ function CasesPageBody() {
         </div>
       </div>
 
-      {/* ── Bottom Section: Cases List Table ── */}
+      {/* ── Bottom Section: Cases List Table (its own internal scroll region again;
+          scrolling it drives the metrics row's progressive collapse above) ── */}
       <div className="w-full flex-1 flex flex-col min-h-0">
         <CasesTable
           mainCategoryFilter={activeMainCategory}
           subCategoryFilter={activeSubCategory}
           isOverviewMinimized={isOverviewMinimized}
+          onBodyScroll={handleTableBodyScroll}
         />
       </div>
     </PageLayout>
@@ -89,10 +106,8 @@ function CasesPageBody() {
 
 export default function CasesPage() {
   return (
-    <DashboardProvider>
-      <Suspense fallback={<div className="p-4 text-xs text-slate-500">Loading cases...</div>}>
-        <CasesPageBody />
-      </Suspense>
-    </DashboardProvider>
+    <Suspense fallback={<div className="p-4 text-xs text-slate-500">Loading cases...</div>}>
+      <CasesPageBody />
+    </Suspense>
   );
 }
