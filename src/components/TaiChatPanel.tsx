@@ -15,6 +15,7 @@ import {
   Danger,
   Activity,
 } from "iconsax-react";
+import { useRouter } from "next/navigation";
 import { useDashboard } from "@/context/DashboardContext";
 import AiIcon from "@/components/icons/AiIcon";
 
@@ -38,14 +39,61 @@ interface ChatMessage {
 }
 
 export default function TaiChatPanel() {
-  const { isDarkMode, isTaiChatOpen, setIsTaiChatOpen } = useDashboard();
+  const router = useRouter();
+  const {
+    isDarkMode,
+    isTaiChatOpen,
+    setIsTaiChatOpen,
+  } = useDashboard();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputQuery, setInputQuery] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [activeContext, setActiveContext] = useState("Summarize Cisco Ticket");
   const [isContextDropdownOpen, setIsContextDropdownOpen] = useState(false);
   const [isExpandedWidth, setIsExpandedWidth] = useState(false);
+  const [isMaximizing, setIsMaximizing] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const handleMaximizeToPage = () => {
+    setIsMaximizing(true);
+    const currentPath = typeof window !== "undefined" ? window.location.pathname : "/cases";
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("taiReturnUrl", currentPath);
+      sessionStorage.setItem("tai_messages_session", JSON.stringify(messages));
+    }
+    setTimeout(() => {
+      setIsTaiChatOpen(false);
+      setIsMaximizing(false);
+      router.push(`/ai?returnUrl=${encodeURIComponent(currentPath)}&expanded=true`);
+    }, 150);
+  };
+
+  useEffect(() => {
+    const syncFromStorage = () => {
+      if (typeof window !== "undefined") {
+        const saved = sessionStorage.getItem("tai_messages_session");
+        if (saved) {
+          try {
+            setMessages(JSON.parse(saved));
+          } catch (e) {}
+        }
+      }
+    };
+    syncFromStorage();
+    window.addEventListener("tai_messages_updated", syncFromStorage);
+    return () => window.removeEventListener("tai_messages_updated", syncFromStorage);
+  }, []);
+
+  const updateAndSaveMessages = (updater: (prev: ChatMessage[]) => ChatMessage[]) => {
+    setMessages((prev) => {
+      const next = updater(prev);
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("tai_messages_session", JSON.stringify(next));
+        window.dispatchEvent(new Event("tai_messages_updated"));
+      }
+      return next;
+    });
+  };
 
   const suggestedActions = [
     "Cisco case summary",
@@ -83,11 +131,10 @@ export default function TaiChatPanel() {
       timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
     };
 
-    setMessages((prev) => [...prev, userMsg]);
+    updateAndSaveMessages((prev) => [...prev, userMsg]);
     if (!textToSend) setInputQuery("");
     setIsTyping(true);
 
-    // Simulate realistic intelligent TAC operational response matching the reference image
     setTimeout(() => {
       let response: ChatMessage;
       const lower = query.toLowerCase();
@@ -102,85 +149,11 @@ export default function TaiChatPanel() {
             headerTitle: "Vendor Volume Breakdown:",
             bullets: [
               {
-                title: "Cisco: 820 cases (38.2%)",
-                desc: "Dominating connectivity & BGP issues.",
-              },
-              {
-                title: "Juniper: 510 cases (23.8%)",
-                desc: "Optical transceivers & route flap alerts.",
-              },
-              {
-                title: "Arista: 320 cases (14.9%)",
-                desc: "CloudVision WiFi SSO authentications.",
+                title: "Cisco Systems",
+                desc: "142 active SRs, 12 P1 escalations.",
               },
             ],
-            footerText: "All automated diagnostic traces are synchronized with the Caseroom workspace.",
-            actionButtons: [
-              { label: "Open Caseroom", icon: "caseroom" },
-              { label: "Filter Cisco Cases", icon: "filter", onClickPrompt: "Show active Cisco P1 tickets" },
-            ],
-          },
-        };
-      } else if (lower.includes("sla") || lower.includes("breach")) {
-        response = {
-          id: `tai-${Date.now()}`,
-          sender: "tai",
-          text: "",
-          timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-          metadata: {
-            headerTitle: "Contractual SLA Risk Assessment:",
-            bullets: [
-              {
-                title: "SR 624474 Arista Cloudvision (WiFi SSO)",
-                desc: "Nearing breach in 45 minutes. Assigned to APAC TAC Tier 2.",
-              },
-              {
-                title: "Cisco Prime Infrastructure 3.10 High CPU",
-                desc: "Breached 2 hours ago. Workaround applied; vendor TAC escalation active.",
-              },
-              {
-                title: "F5 BIG-IP Handshake Timeout",
-                desc: "45 min buffer remaining. Traffic rerouted via standby load balancer.",
-              },
-            ],
-            footerText: "Real-time SLA health index is 98.2% across global production links.",
-            actionButtons: [
-              { label: "View SLA Watchlist", icon: "sla" },
-              { label: "Auto-Escalate Near Breaches", icon: "escalate", onClickPrompt: "Escalate near-breach tickets to on-shift lead" },
-            ],
-          },
-        };
-      } else if (lower.includes("vendor") || lower.includes("top vendors")) {
-        response = {
-          id: `tai-${Date.now()}`,
-          sender: "tai",
-          text: "",
-          timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-          metadata: {
-            headerTitle: "Top Vendor Distribution & Performance:",
-            bullets: [
-              {
-                title: "Cisco Systems (820 cases)",
-                desc: "Mean resolution time: 4.8 hours. MTTR within SLA targets.",
-              },
-              {
-                title: "Juniper Networks (510 cases)",
-                desc: "Mean resolution time: 3.2 hours. Fast optic RMA turnaround.",
-              },
-              {
-                title: "Arista Networks (320 cases)",
-                desc: "Mean resolution time: 2.4 hours. Highest autonomous resolution rate (78%).",
-              },
-              {
-                title: "Fortinet / F5 (292 combined cases)",
-                desc: "Firmware CVE verification in progress on perimeter firewalls.",
-              },
-            ],
-            footerText: "Vendor SLA compliance is currently leading in APAC and EMEA regions.",
-            actionButtons: [
-              { label: "Open Caseroom", icon: "caseroom" },
-              { label: "Filter All Vendors", icon: "filter" },
-            ],
+            footerText: "Real-time TAC sync active.",
           },
         };
       } else {
@@ -190,32 +163,20 @@ export default function TaiChatPanel() {
           text: "",
           timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
           metadata: {
-            headerTitle: `Telemetry Diagnostics for "${query}":`,
+            headerTitle: `AI Telemetry Analysis for "${query}":`,
             bullets: [
               {
-                title: "Core Spine/Leaf Uptime",
-                desc: "100% operational across all 14 active datacenter clusters.",
-              },
-              {
-                title: "Autonomous Level-1 Remediation",
-                desc: "42 Level-1 incidents resolved automatically in past 24 hours.",
-              },
-              {
-                title: "Engineer Capacity Load",
-                desc: "Staffing utilization balanced at 81.4% capacity.",
+                title: "Infrastructure Uptime",
+                desc: "100% operational across all clusters.",
               },
             ],
-            footerText: "System ready to run diagnostic script or draft an escalation handover report.",
-            actionButtons: [
-              { label: "Run Network Diagnostics", icon: "caseroom" },
-              { label: "Generate Handover", icon: "filter", onClickPrompt: "Generate TAC shift handover summary" },
-            ],
+            footerText: "System ready.",
           },
         };
       }
 
       setIsTyping(false);
-      setMessages((prev) => [...prev, response]);
+      updateAndSaveMessages((prev) => [...prev, response]);
     }, 550);
   };
 
@@ -239,6 +200,10 @@ export default function TaiChatPanel() {
     }
   };
 
+  const handleCloseChat = () => {
+    setIsTaiChatOpen(false);
+  };
+
   return (
     <>
       {/* Spacer div in flex flow to reserve width when TAI Chat is open */}
@@ -248,24 +213,24 @@ export default function TaiChatPanel() {
         }`}
       />
 
-      {/* Expanded TAI Chat Panel (Fixed to right screen viewport, zero outer scrolling) */}
+      {/* Expanded TAI Chat Panel */}
       <aside
         aria-label="TAI Chat Assistant"
         aria-hidden={!isTaiChatOpen}
-        className={`h-screen fixed top-0 right-0 flex flex-col shrink-0 z-30 overflow-hidden overscroll-none select-none will-change-[width] transition-[width] duration-300 ease-[cubic-bezier(0.2,0,0,1)] ${
+        className={`h-screen fixed top-0 right-0 flex flex-col shrink-0 overflow-hidden overscroll-none select-none transition-all duration-300 ease-[cubic-bezier(0.2,0,0,1)] ${
           isTaiChatOpen
             ? isExpandedWidth
-              ? "w-[480px] border-l border-[#EAEEF3] dark:border-[#162444]"
-              : "w-[390px] border-l border-[#EAEEF3] dark:border-[#162444]"
-            : "w-0 border-l-0 pointer-events-none"
+              ? "w-[480px] z-30 border-l border-[#EAEEF3] dark:border-[#162444]"
+              : "w-[390px] z-30 border-l border-[#EAEEF3] dark:border-[#162444]"
+            : "w-0 z-30 border-l-0 pointer-events-none"
         } ${
           isDarkMode
             ? "bg-[#060b19] text-slate-100"
             : "bg-white text-slate-800"
-        }`}
+        } ${isMaximizing ? "opacity-0 transition-opacity duration-150" : ""}`}
       >
       <div
-        className={`h-full flex flex-col will-change-transform transform-gpu transition-all duration-300 ease-[cubic-bezier(0.2,0,0,1)] ${
+        className={`h-full flex flex-col transition-all duration-300 ease-[cubic-bezier(0.2,0,0,1)] ${
           isExpandedWidth ? "w-[480px] min-w-[480px]" : "w-[390px] min-w-[390px]"
         } ${
           isTaiChatOpen
@@ -273,17 +238,19 @@ export default function TaiChatPanel() {
             : "translate-x-4 opacity-0 pointer-events-none"
         }`}
       >
-        {/* ── Top Header ── */}
-        <div className="flex items-center justify-between px-4 py-2.5 border-b border-[#EAEEF3] dark:border-[#14223d] shrink-0 bg-[#F9FBFF]/70 dark:bg-[#081024]/80 backdrop-blur-xs min-h-[49px]">
+        {/* ── Top Header (Exact 49px height matching PageHeader navbar) ── */}
+        <div className="h-[49px] px-3 border-b border-[#EAEEF3] dark:border-[#14223d] shrink-0 bg-white dark:bg-[#081024] flex items-center justify-between box-border">
         {/* Title & Dropdown */}
         <div className="flex items-center gap-2 min-w-0">
           <div className="w-6 h-6 rounded-full bg-[#002E5D] flex items-center justify-center text-white shrink-0 shadow-2xs">
             <AiIcon size={14} color="#ffffff" variant="Bold" />
           </div>
           <div className="flex flex-col min-w-0 relative">
-            <span className="text-xs font-semibold text-slate-900 dark:text-white leading-tight">
-              Tai Chat
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold text-slate-900 dark:text-white leading-tight">
+                Tai Chat
+              </span>
+            </div>
             <button
               onClick={() => setIsContextDropdownOpen((prev) => !prev)}
               className="flex items-center gap-1 text-[11px] text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors cursor-pointer text-left truncate"
@@ -326,13 +293,17 @@ export default function TaiChatPanel() {
           >
             <Add size={16} color="currentColor" variant="Linear" />
           </button>
+
+          {/* Maximize to full AI Page view with return URL */}
           <button
-            onClick={() => setIsExpandedWidth((prev) => !prev)}
+            type="button"
+            onClick={handleMaximizeToPage}
             className="w-7 h-7 rounded-[4px] hover:bg-slate-200/60 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 flex items-center justify-center transition-colors cursor-pointer"
-            title={isExpandedWidth ? "Collapse Width" : "Expand Width"}
+            title="Maximize to Full AI Page"
           >
-            <Maximize4 size={14} color="currentColor" variant="Linear" className={isExpandedWidth ? "transform rotate-180" : ""} />
+            <Maximize4 size={14} color="currentColor" variant="Linear" />
           </button>
+
           <button
             onClick={handleResetChat}
             className="w-7 h-7 rounded-[4px] hover:bg-slate-200/60 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 flex items-center justify-center transition-colors cursor-pointer"
@@ -341,7 +312,7 @@ export default function TaiChatPanel() {
             <Refresh size={14} color="currentColor" variant="Linear" />
           </button>
           <button
-            onClick={() => setIsTaiChatOpen(false)}
+            onClick={handleCloseChat}
             className="w-7 h-7 rounded-[4px] hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-500 flex items-center justify-center transition-colors cursor-pointer ml-1"
             title="Close TAI Chat"
           >
@@ -367,15 +338,16 @@ export default function TaiChatPanel() {
 
             {/* Suggested Actions Header & Pills */}
             <div className="flex flex-col gap-2.5">
-              <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                Suggested actions
+              <span className="text-xs font-bold text-[#7790A9] dark:text-slate-400 uppercase tracking-wider">
+                SUGGESTED ACTIONS
               </span>
               <div className="flex flex-wrap gap-2">
                 {suggestedActions.map((action) => (
                   <button
                     key={action}
+                    type="button"
                     onClick={() => handleSendMessage(action)}
-                    className="px-3 py-1.5 rounded-full text-xs font-normal transition-all cursor-pointer border shadow-2xs hover:scale-[1.02] active:scale-[0.98] text-left bg-white dark:bg-[#0d172e] border-[#EAEEF3] dark:border-[#1a2d52] text-[#002E5D] dark:text-[#38bdf8] hover:border-[#002E5D] dark:hover:border-[#38bdf8] hover:shadow-xs"
+                    className="px-3.5 py-2 rounded-[6px] text-xs font-medium transition-all cursor-pointer border border-[#EAEEF3] dark:border-[#1e3056] bg-white dark:bg-[#0d172e] text-[#002E5D] dark:text-[#38bdf8] hover:border-[#002E5D] dark:hover:border-[#38bdf8] hover:bg-[#ECF3FF] shadow-2xs text-left"
                   >
                     {action}
                   </button>

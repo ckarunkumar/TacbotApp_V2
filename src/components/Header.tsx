@@ -1,32 +1,41 @@
 "use client";
 
-import Link from "next/link";
-import { Palette } from "lucide-react";
 import { Moon, Sun1 } from "iconsax-react";
 import { useDashboard } from "@/context/DashboardContext";
 import AiIcon from "@/components/icons/AiIcon";
 
 export default function Header() {
-  const { isDarkMode, toggleDarkMode, isTaiChatOpen, toggleTaiChat } = useDashboard();
+  const {
+    isDarkMode,
+    toggleDarkMode,
+    isTaiChatOpen,
+    toggleTaiChat,
+    isSidebarCollapsed,
+    toggleSidebarCollapse,
+  } = useDashboard();
 
   return (
-    <header className="w-full flex items-center justify-end px-4 py-2">
+    <header className="w-full flex items-center justify-between px-4 py-2 select-none">
+      {/* Left Section: Relocated Logo Button (Appears ONLY when Sidebar is Collapsed) */}
+      <div className="flex items-center gap-2">
+        {isSidebarCollapsed && (
+          <button
+            type="button"
+            onClick={toggleSidebarCollapse}
+            className="p-1.5 rounded-[4px] bg-[#031d3d] hover:bg-[#002E5D] text-white transition-all flex items-center justify-center cursor-pointer shadow-2xs shrink-0 active:scale-95"
+            title="Expand Navigation Sidebar"
+          >
+            <img
+              src="/tacbot-logo-white.svg"
+              alt="Tacbot Logo"
+              className="w-4 h-5 md:w-5 md:h-5 object-contain"
+            />
+          </button>
+        )}
+      </div>
+
       {/* Right Actions */}
       <div className="flex items-center gap-2">
-        {/* Design System Link Button */}
-        <Link
-          href="/design-system"
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-[4px] text-xs font-semibold shadow-2xs transition-all cursor-pointer ${
-            isDarkMode
-              ? "bg-[#001F42] border border-[#005899] text-blue-200 hover:bg-[#002E5D] hover:text-white"
-              : "bg-white border border-[#EAEEF3] text-[#002E5D] hover:bg-[#ECF3FF]"
-          }`}
-          title="View Design System Documentation & Components"
-        >
-          <Palette className="w-3.5 h-3.5" />
-          <span>Design System</span>
-        </Link>
-
         {/* TAI Chat Button */}
         <button
           onClick={toggleTaiChat}

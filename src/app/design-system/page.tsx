@@ -28,7 +28,9 @@ import {
   MessageSquare,
   Sidebar as SidebarIcon,
   HelpCircle,
+  Eye,
   Shield,
+  TableProperties,
 } from "lucide-react";
 import {
   Setting2,
@@ -45,6 +47,7 @@ import {
   Flag,
   People,
   Timer1,
+  Chart,
   Notification,
 } from "iconsax-react";
 import AiIcon from "@/components/icons/AiIcon";
@@ -52,11 +55,30 @@ import Button, { ButtonSize, ButtonVariant } from "@/components/ui/Button";
 import Input, { InputSize, InputState } from "@/components/ui/Input";
 import Badge from "@/components/Badge";
 import Tooltip from "@/components/Tooltip";
+import Sidebar from "@/components/Sidebar";
+import PageHeader from "@/components/PageHeader";
+import PageLayout from "@/components/PageLayout";
+import Select, { SelectOption } from "@/components/ui/Select";
+import Table, { TableVariant, TableDensity } from "@/components/ui/Table";
+import { DashboardProvider } from "@/context/DashboardContext";
 
-export default function DesignSystemPage() {
+// Wrapped in DashboardProvider so Sidebar and PageHeader share the same
+// isSidebarCollapsed state (and dark mode / TAI chat state) — without a
+// shared provider each falls back to its own independent local state and
+// the collapse/expand toggle never reaches the header's relocated logo.
+function DesignSystemPageContent() {
   const [activeSection, setActiveSection] = useState<string>("overview");
   const [copiedToken, setCopiedToken] = useState<string | null>(null);
+  const [selectedSeverity, setSelectedSeverity] = useState<string>("high");
+
+  const severityOptions: SelectOption[] = [
+    { value: "high", label: "High Severity", sublabel: "P1 SLA Breach", colorDot: "#dc2626" },
+    { value: "medium", label: "Medium Severity", sublabel: "P2 Escalation Warning", colorDot: "#d97706" },
+    { value: "low", label: "Low Severity", sublabel: "P3 Standard Target", colorDot: "#16a34a" },
+  ];
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [tableVariant, setTableVariant] = useState<TableVariant>("default");
+  const [tableDensity, setTableDensity] = useState<TableDensity>("comfortable");
 
   // Interactive Playground State
   const [pgVariant, setPgVariant] = useState<ButtonVariant>("ai");
@@ -137,6 +159,7 @@ export default function DesignSystemPage() {
         { id: "buttons", label: "Buttons & Actions", icon: Box, count: "Button.tsx" },
         { id: "inputs", label: "Form Fields & Selects", icon: FileText, count: "Input.tsx" },
         { id: "badges", label: "Status Chips & Badges", icon: CheckCircle2, count: "Badge.tsx" },
+        { id: "tables", label: "Data Table Component", icon: TableProperties, count: "Table.tsx" },
         { id: "tooltips", label: "Tooltips & Notices", icon: HelpCircle, count: "Tooltip.tsx" },
         { id: "cards", label: "Cards & Widgets", icon: Code2, count: "Card Pattern" },
       ],
@@ -165,75 +188,17 @@ export default function DesignSystemPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F2F4F6] text-[#2C3746] font-sans antialiased flex flex-col">
-      {/* ── Top Header Navigation Bar ── */}
-      <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-[#EAEEF3] px-4 md:px-6 py-2.5 flex items-center justify-between shadow-xs">
-        <div className="flex items-center gap-3">
-          <Link
-            href="/"
-            className="p-1.5 rounded-[4px] bg-[#ECF3FF] text-[#002E5D] hover:bg-[#D4E4FE] transition-all flex items-center justify-center cursor-pointer border border-[#D4E4FE]"
-            title="Return to App Dashboard"
-          >
-            <ArrowLeft className="w-4 h-4" />
-          </Link>
-          <div className="flex items-center gap-2">
-            <img src="/tacbot-logo-white.svg" alt="Tacbot Logo" className="w-5 h-6 object-contain bg-[#002E5D] p-1 rounded-[4px]" />
-            <span className="font-semibold text-sm text-[#002E5D] tracking-tight">
-              TAI Operations
-            </span>
-            <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-[4px] bg-[#ECF3FF] text-[#002E5D] border border-[#D4E4FE]">
-              Design System v2.1
-            </span>
-          </div>
-        </div>
-
-        {/* Center Search Filter */}
-        <div className="hidden md:flex items-center relative w-80">
-          <Search className="w-3.5 h-3.5 text-[#7790A9] absolute left-2.5" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search specs, component rules, tokens..."
-            className="w-full text-xs bg-[#F2F4F6] border border-[#EAEEF3] rounded-[4px] pl-8 pr-3 py-1.5 text-[#2C3746] placeholder-[#7790A9] focus:outline-none focus:border-[#002E5D] focus:bg-white transition-all font-normal"
-          />
-        </div>
-
-        {/* Right CTA Actions */}
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => copyToClipboard("https://tacbot.arista.com/design-system")}
-            className="px-2.5 py-1.5 rounded-[4px] bg-[#F2F4F6] hover:bg-[#EAEEF3] text-[#7790A9] hover:text-[#2C3746] text-xs font-medium transition-all flex items-center gap-1.5 cursor-pointer border border-[#EAEEF3]"
-            title="Share Design System Link"
-          >
-            {copiedToken === "https://tacbot.arista.com/design-system" ? (
-              <>
-                <Check className="w-3.5 h-3.5 text-emerald-600" />
-                <span className="text-emerald-600 font-semibold">Copied Link!</span>
-              </>
-            ) : (
-              <>
-                <Share2 className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Share Spec</span>
-              </>
-            )}
-          </button>
-
-          <Link
-            href="/"
-            className="px-3.5 py-1.5 bg-[linear-gradient(135deg,#005899_0%,#006eb0_50%,#0181c4_100%)] text-white text-xs font-semibold rounded-[4px] shadow-xs hover:opacity-95 transition-all flex items-center gap-1.5 cursor-pointer"
-          >
-            <AiIcon size={14} color="#ffffff" variant="Bold" />
-            <span>Launch Dashboard</span>
-          </Link>
-        </div>
-      </header>
-
-      {/* ── Main Layout Body (Sidebar Flush Left + Content Area) ── */}
-      <div className="flex-1 w-full flex min-h-[calc(100vh-49px)]">
+    <PageLayout
+      activeNavId="design-system"
+      breadcrumbTitle="Design System"
+      primaryActionLabel="Share Spec"
+      onPrimaryAction={() => copyToClipboard("https://tacbot.arista.com/design-system")}
+      contentClassName="p-0 flex flex-row min-w-0 flex-1 h-[calc(100vh-49px)] overflow-hidden"
+    >
+      <div className="flex-1 w-full flex flex-row h-[calc(100vh-49px)] overflow-hidden">
         
-        {/* ── Sticky Navigation Sidebar (Anchored Flush to Extreme Left Viewport Edge) ── */}
-        <aside className="w-72 shrink-0 bg-white border-r border-[#EAEEF3] p-4 hidden md:flex flex-col gap-5 sticky top-[49px] left-0 h-[calc(100vh-49px)] overflow-y-auto">
+        {/* ── Frozen Secondary Sidebar (Fixed in place; scrolls ONLY within itself if items grow) ── */}
+        <aside className="w-72 shrink-0 bg-white border-r border-[#EAEEF3] p-4 hidden md:flex flex-col gap-5 h-full overflow-y-auto z-20 select-none">
           <div className="flex items-center gap-2 pb-2 border-b border-[#EAEEF3]">
             <BookOpen className="w-4 h-4 text-[#002E5D]" />
             <span className="text-xs font-bold text-[#002E5D] uppercase tracking-wider">
@@ -296,11 +261,11 @@ export default function DesignSystemPage() {
           </div>
         </aside>
 
-        {/* ── Main Content Area ── */}
-        <main className="flex-1 p-4 md:p-8 flex flex-col gap-8 max-w-5xl">
+        {/* ── Main Content Scroll Container (Fully scrollable without top clipping) ── */}
+        <div className="flex-1 min-w-0 h-full overflow-y-auto p-3 md:p-4 flex flex-col gap-3">
           
           {/* Hero Banner */}
-          <div className="w-full bg-white rounded-[8px] border border-[#EAEEF3] p-6 shadow-xs flex flex-col gap-3 relative overflow-hidden">
+          <div className="w-full bg-white rounded-[8px] border border-[#EAEEF3] p-4 shadow-xs flex flex-col gap-2 relative overflow-hidden">
             <div className="absolute -right-10 -bottom-10 opacity-5 pointer-events-none text-[#002E5D]">
               <AiIcon size={240} color="currentColor" variant="Bold" />
             </div>
@@ -311,15 +276,15 @@ export default function DesignSystemPage() {
               </span>
             </div>
 
-            <h1 className="text-2xl md:text-3xl font-semibold tracking-tight text-[#002E5D]">
+            <h1 className="text-xl md:text-2xl font-semibold tracking-tight text-[#002E5D]">
               TAI Tacbot Design System Component Rules
             </h1>
 
-            <p className="text-xs md:text-sm text-[#576B81] leading-relaxed max-w-3xl">
+            <p className="text-xs text-[#576B81] leading-relaxed max-w-3xl">
               Strict, non-negotiable guidelines, geometry specs, color constraints, and DO / DON'T enforcement rules for every component in the TAC Operations platform.
             </p>
 
-            <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-[#7790A9] pt-2 border-t border-[#EAEEF3]">
+            <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-[#7790A9] pt-2 border-t border-[#EAEEF3]">
               <span className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-500" />
                 Status: Strict Enforcement
@@ -334,9 +299,9 @@ export default function DesignSystemPage() {
           </div>
 
           {/* ── SECTION 1: OVERVIEW & SPATIAL RULES ── */}
-          <section id="overview" className="w-full bg-white rounded-[8px] border border-[#EAEEF3] p-6 shadow-xs flex flex-col gap-4">
-            <div className="flex items-center justify-between border-b border-[#EAEEF3] pb-3">
-              <div className="flex items-center gap-2.5">
+          <section id="overview" className="w-full bg-white rounded-[8px] border border-[#EAEEF3] p-4 shadow-xs flex flex-col gap-2">
+            <div className="flex items-center justify-between border-b border-[#EAEEF3] pb-2">
+              <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-[4px] bg-[#ECF3FF] text-[#002E5D] border border-[#D4E4FE] flex items-center justify-center">
                   <Layers className="w-4 h-4" />
                 </div>
@@ -351,8 +316,8 @@ export default function DesignSystemPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-              <div className="p-4 rounded-[8px] bg-[#F9FBFF] border border-[#D4E4FE] flex flex-col gap-2">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
+              <div className="p-3 rounded-[8px] bg-[#F9FBFF] border border-[#D4E4FE] flex flex-col gap-1.5">
                 <span className="font-semibold text-[#002E5D] text-sm flex items-center justify-between">
                   Strict 8px Margins & Gaps
                   <code className="text-[10px] bg-white px-1.5 py-0.5 rounded-[4px] border border-[#D4E4FE] font-mono">gap-2</code>
@@ -362,7 +327,7 @@ export default function DesignSystemPage() {
                 </p>
               </div>
 
-              <div className="p-4 rounded-[8px] bg-[#F9FBFF] border border-[#D4E4FE] flex flex-col gap-2">
+              <div className="p-3 rounded-[8px] bg-[#F9FBFF] border border-[#D4E4FE] flex flex-col gap-1.5">
                 <span className="font-semibold text-[#002E5D] text-sm flex items-center justify-between">
                   Strict 8px / 16px Paddings
                   <code className="text-[10px] bg-white px-1.5 py-0.5 rounded-[4px] border border-[#D4E4FE] font-mono">p-2 / p-4</code>
@@ -372,7 +337,7 @@ export default function DesignSystemPage() {
                 </p>
               </div>
 
-              <div className="p-4 rounded-[8px] bg-[#F9FBFF] border border-[#D4E4FE] flex flex-col gap-2">
+              <div className="p-3 rounded-[8px] bg-[#F9FBFF] border border-[#D4E4FE] flex flex-col gap-1.5">
                 <span className="font-semibold text-[#002E5D] text-sm flex items-center justify-between">
                   Corner Radius Dual Standard
                   <code className="text-[10px] bg-white px-1.5 py-0.5 rounded-[4px] border border-[#D4E4FE] font-mono">8px / 4px</code>
@@ -385,8 +350,8 @@ export default function DesignSystemPage() {
           </section>
 
           {/* ── SECTION 2: COLOR SYSTEM & GRADIENT RULE ── */}
-          <section id="colors" className="w-full bg-white rounded-[8px] border border-[#EAEEF3] p-6 shadow-xs flex flex-col gap-4">
-            <div className="flex items-center justify-between border-b border-[#EAEEF3] pb-3">
+          <section id="colors" className="w-full bg-white rounded-[8px] border border-[#EAEEF3] p-4 shadow-xs flex flex-col gap-2">
+            <div className="flex items-center justify-between border-b border-[#EAEEF3] pb-2">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-[4px] bg-[#ECF3FF] text-[#002E5D] border border-[#D4E4FE] flex items-center justify-center">
                   <Palette className="w-4 h-4" />
@@ -484,8 +449,8 @@ export default function DesignSystemPage() {
           </section>
 
           {/* ── SECTION 3: TYPOGRAPHY & HIERARCHY ── */}
-          <section id="typography" className="w-full bg-white rounded-[8px] border border-[#EAEEF3] p-6 shadow-xs flex flex-col gap-4">
-            <div className="flex items-center gap-2.5 border-b border-[#EAEEF3] pb-3">
+          <section id="typography" className="w-full bg-white rounded-[8px] border border-[#EAEEF3] p-4 shadow-xs flex flex-col gap-2">
+            <div className="flex items-center gap-2 border-b border-[#EAEEF3] pb-2">
               <div className="w-8 h-8 rounded-[4px] bg-[#ECF3FF] text-[#002E5D] border border-[#D4E4FE] flex items-center justify-center">
                 <Type className="w-4 h-4" />
               </div>
@@ -499,31 +464,31 @@ export default function DesignSystemPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="p-4 rounded-[4px] bg-[#F9FBFF] border border-[#EAEEF3] flex flex-col gap-1">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <div className="p-3 rounded-[4px] bg-[#F9FBFF] border border-[#EAEEF3] flex flex-col gap-1">
                 <span className="text-xs font-semibold text-[#7790A9]">Font Family</span>
-                <span className="text-lg font-semibold text-[#002E5D]">Poppins</span>
+                <span className="text-base font-semibold text-[#002E5D]">Poppins</span>
                 <p className="text-[11px] text-[#576B81]">Primary clean sans-serif typeface across all web app interfaces.</p>
               </div>
 
-              <div className="p-4 rounded-[4px] bg-[#F9FBFF] border border-[#EAEEF3] flex flex-col gap-1">
+              <div className="p-3 rounded-[4px] bg-[#F9FBFF] border border-[#EAEEF3] flex flex-col gap-1">
                 <span className="text-xs font-semibold text-[#7790A9]">Allowed Weights</span>
-                <span className="text-lg font-semibold text-[#002E5D]">400, 500, 600</span>
+                <span className="text-base font-semibold text-[#002E5D]">400, 500, 600</span>
                 <p className="text-[11px] text-[#576B81]">Regular (400), Medium (500), and Semibold (600) weights only.</p>
               </div>
 
-              <div className="p-4 rounded-[4px] bg-[#fef2f2] border border-[#fecaca] flex flex-col gap-1">
+              <div className="p-3 rounded-[4px] bg-[#fef2f2] border border-[#fecaca] flex flex-col gap-1">
                 <span className="text-xs font-semibold text-[#dc2626]">Prohibited Weights</span>
-                <span className="text-lg font-semibold text-[#dc2626]">Bold, Extra Bold, Black</span>
+                <span className="text-base font-semibold text-[#dc2626]">Bold, Extra Bold, Black</span>
                 <p className="text-[11px] text-[#dc2626]">NEVER use font weight 700, 800, or 900 in production copy.</p>
               </div>
             </div>
           </section>
 
           {/* ── SECTION 4: BUTTON RULES & MATRIX ── */}
-          <section id="buttons" className="w-full bg-white rounded-[8px] border border-[#EAEEF3] p-6 shadow-xs flex flex-col gap-6">
-            <div className="flex items-center justify-between border-b border-[#EAEEF3] pb-3 flex-wrap gap-2">
-              <div className="flex items-center gap-2.5">
+          <section id="buttons" className="w-full bg-white rounded-[8px] border border-[#EAEEF3] p-4 shadow-xs flex flex-col gap-2">
+            <div className="flex items-center justify-between border-b border-[#EAEEF3] pb-2 flex-wrap gap-2">
+              <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-[4px] bg-[#ECF3FF] text-[#002E5D] border border-[#D4E4FE] flex items-center justify-center">
                   <Box className="w-4 h-4" />
                 </div>
@@ -542,8 +507,8 @@ export default function DesignSystemPage() {
             </div>
 
             {/* Component Rules Card */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-              <div className="p-4 rounded-[4px] bg-[#f0fdf4] border border-[#bbf7d0] flex flex-col gap-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+              <div className="p-3 rounded-[4px] bg-[#f0fdf4] border border-[#bbf7d0] flex flex-col gap-1.5">
                 <div className="flex items-center gap-2 text-emerald-800 font-semibold uppercase tracking-wider">
                   <CheckSquare className="w-4 h-4 text-emerald-600" />
                   <span>DO Rules for Buttons</span>
@@ -556,7 +521,7 @@ export default function DesignSystemPage() {
                 </ul>
               </div>
 
-              <div className="p-4 rounded-[4px] bg-[#fef2f2] border border-[#fecaca] flex flex-col gap-2">
+              <div className="p-3 rounded-[4px] bg-[#fef2f2] border border-[#fecaca] flex flex-col gap-1.5">
                 <div className="flex items-center gap-2 text-red-800 font-semibold uppercase tracking-wider">
                   <XSquare className="w-4 h-4 text-red-600" />
                   <span>DON'T Rules for Buttons</span>
@@ -656,9 +621,9 @@ export default function DesignSystemPage() {
           </section>
 
           {/* ── SECTION 5: INTERACTIVE PLAYGROUND ── */}
-          <section id="playground" className="w-full bg-white rounded-[8px] border border-[#EAEEF3] p-6 shadow-xs flex flex-col gap-4">
-            <div className="flex items-center justify-between border-b border-[#EAEEF3] pb-3">
-              <div className="flex items-center gap-2.5">
+          <section id="playground" className="w-full bg-white rounded-[8px] border border-[#EAEEF3] p-4 shadow-xs flex flex-col gap-2">
+            <div className="flex items-center justify-between border-b border-[#EAEEF3] pb-2">
+              <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-[4px] bg-[#ECF3FF] text-[#002E5D] border border-[#D4E4FE] flex items-center justify-center">
                   <Sliders className="w-4 h-4" />
                 </div>
@@ -673,9 +638,9 @@ export default function DesignSystemPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {/* Controls Form */}
-              <div className="p-4 rounded-[8px] bg-[#F9FBFF] border border-[#EAEEF3] flex flex-col gap-3">
+              <div className="p-3 rounded-[8px] bg-[#F9FBFF] border border-[#EAEEF3] flex flex-col gap-2">
                 <h3 className="text-xs font-semibold text-[#002E5D] uppercase tracking-wider">
                   Configurator
                 </h3>
@@ -747,8 +712,8 @@ export default function DesignSystemPage() {
               </div>
 
               {/* Live Result & Generated Code */}
-              <div className="flex flex-col gap-4">
-                <div className="p-6 rounded-[8px] bg-white border border-[#EAEEF3] shadow-xs flex flex-col items-center justify-center gap-3 min-h-[140px]">
+              <div className="flex flex-col gap-2">
+                <div className="p-4 rounded-[8px] bg-white border border-[#EAEEF3] shadow-xs flex flex-col items-center justify-center gap-2 min-h-[120px]">
                   <span className="text-[10px] font-semibold uppercase text-[#7790A9] tracking-wider">
                     Live Component Render
                   </span>
@@ -762,18 +727,18 @@ export default function DesignSystemPage() {
                   </Button>
                 </div>
 
-                <div className="bg-[#0f172a] text-slate-100 p-4 rounded-[4px] font-mono text-xs relative flex flex-col justify-between">
+                <div className="bg-[#0f172a] text-slate-100 p-3 rounded-[4px] font-mono text-xs relative flex flex-col justify-between">
                   <button
                     onClick={() =>
                       copyToClipboard(
                         `<Button variant="${pgVariant}" size="${pgSize}"${pgShowLeftIcon ? ' leftIcon={AiIcon}' : ''}${pgShowRightIcon ? ' rightIcon={ArrowRight}' : ''}>${pgLabel}</Button>`
                       )
                     }
-                    className="absolute top-3 right-3 px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] rounded cursor-pointer border border-slate-700"
+                    className="absolute top-2.5 right-2.5 px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] rounded cursor-pointer border border-slate-700"
                   >
                     Copy TSX Code
                   </button>
-                  <pre className="overflow-x-auto pt-4">{`<Button
+                  <pre className="overflow-x-auto pt-3">{`<Button
   variant="${pgVariant}"
   size="${pgSize}"${pgShowLeftIcon ? '\n  leftIcon={AiIcon}' : ''}${pgShowRightIcon ? '\n  rightIcon={ArrowRight}' : ''}
 >
@@ -785,8 +750,8 @@ export default function DesignSystemPage() {
           </section>
 
           {/* ── SECTION 6: FORM CONTROLS & INPUTS ── */}
-          <section id="inputs" className="w-full bg-white rounded-[8px] border border-[#EAEEF3] p-6 shadow-xs flex flex-col gap-4">
-            <div className="flex items-center justify-between border-b border-[#EAEEF3] pb-3">
+          <section id="inputs" className="w-full bg-white rounded-[8px] border border-[#EAEEF3] p-4 shadow-xs flex flex-col gap-2">
+            <div className="flex items-center justify-between border-b border-[#EAEEF3] pb-2">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-[4px] bg-[#ECF3FF] text-[#002E5D] border border-[#D4E4FE] flex items-center justify-center">
                   <FileText className="w-4 h-4" />
@@ -832,27 +797,117 @@ export default function DesignSystemPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="flex flex-col gap-1 text-xs">
-                <span className="font-semibold text-[#7790A9]">Standard Input</span>
-                <Input placeholder="Enter ticket description..." />
-              </div>
+            {/* Input Showcase Matrix per Size */}
+            {(["sm", "md", "lg"] as InputSize[]).map((sizeKey) => {
+              const sizeLabels = {
+                sm: "Small Input (sm - 28px height, 11px text)",
+                md: "Medium Input (md - 32px standard height, 12px text)",
+                lg: "Large Input (lg - 40px height, 14px text)",
+              };
 
-              <div className="flex flex-col gap-1 text-xs">
-                <span className="font-semibold text-[#7790A9]">Left Icon Input (Search)</span>
-                <Input leftIcon={Search} placeholder="Search vendor SLA..." />
-              </div>
+              return (
+                <div key={`input-matrix-${sizeKey}`} className="flex flex-col gap-4 p-4 rounded-[8px] bg-[#F9FBFF] border border-[#EAEEF3]">
+                  <div className="flex items-center justify-between border-b border-[#EAEEF3] pb-2">
+                    <h3 className="text-xs font-semibold text-[#002E5D] uppercase tracking-wider">
+                      {sizeLabels[sizeKey]}
+                    </h3>
+                    <code className="text-[10px] font-mono text-[#7790A9]">inputSize="{sizeKey}"</code>
+                  </div>
 
-              <div className="flex flex-col gap-1 text-xs">
-                <span className="font-semibold text-[#7790A9]">Disabled State</span>
-                <Input disabled placeholder="Disabled system field..." />
+                  {/* 5 States Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
+                    {/* Default */}
+                    <div className="flex flex-col gap-1 text-xs">
+                      <span className="font-semibold text-[#7790A9] text-[11px]">1. Default State</span>
+                      <Input inputSize={sizeKey} state="default" placeholder="Enter case title..." />
+                    </div>
+
+                    {/* Focus */}
+                    <div className="flex flex-col gap-1 text-xs">
+                      <span className="font-semibold text-[#002E5D] text-[11px]">2. Focus State</span>
+                      <Input inputSize={sizeKey} state="focus" placeholder="Active typing..." />
+                    </div>
+
+                    {/* Success */}
+                    <div className="flex flex-col gap-1 text-xs">
+                      <span className="font-semibold text-emerald-600 text-[11px]">3. Success State</span>
+                      <Input inputSize={sizeKey} state="success" placeholder="Verified SLA OK" />
+                    </div>
+
+                    {/* Error */}
+                    <div className="flex flex-col gap-1 text-xs">
+                      <span className="font-semibold text-red-600 text-[11px]">4. Error State</span>
+                      <Input inputSize={sizeKey} state="error" placeholder="Invalid Case ID" errorText="Required field" />
+                    </div>
+
+                    {/* Disabled */}
+                    <div className="flex flex-col gap-1 text-xs">
+                      <span className="font-semibold text-slate-400 text-[11px]">5. Disabled State</span>
+                      <Input inputSize={sizeKey} state="disabled" placeholder="Locked field" />
+                    </div>
+                  </div>
+
+                  {/* 4 Layout Variants Row */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-2 border-t border-[#EAEEF3]">
+                    {/* Label + Required */}
+                    <div className="flex flex-col gap-1 text-xs">
+                      <span className="font-semibold text-[#7790A9] text-[11px]">Label + Required *</span>
+                      <Input inputSize={sizeKey} label="Vendor Name" required placeholder="Select vendor..." />
+                    </div>
+
+                    {/* Left Icon (Search) */}
+                    <div className="flex flex-col gap-1 text-xs">
+                      <span className="font-semibold text-[#7790A9] text-[11px]">Left Icon (Search Bar)</span>
+                      <Input inputSize={sizeKey} leftIcon={Search} placeholder="Search SLA logs..." />
+                    </div>
+
+                    {/* Right Icon (Password Secret) */}
+                    <div className="flex flex-col gap-1 text-xs">
+                      <span className="font-semibold text-[#7790A9] text-[11px]">Right Action Icon</span>
+                      <Input inputSize={sizeKey} rightIcon={Eye} placeholder="API Key secret..." />
+                    </div>
+
+                    {/* Both Icons */}
+                    <div className="flex flex-col gap-1 text-xs">
+                      <span className="font-semibold text-[#7790A9] text-[11px]">Both Icons (Search + Clear)</span>
+                      <Input inputSize={sizeKey} leftIcon={Search} rightIcon={XSquare} placeholder="Filter tickets..." />
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+
+            {/* Select & Textarea Controls Showcase */}
+            <div className="flex flex-col gap-3 p-4 rounded-[8px] bg-[#F9FBFF] border border-[#EAEEF3]">
+              <h3 className="text-xs font-semibold text-[#002E5D] uppercase tracking-wider">
+                Select Dropdowns & Textarea Controls (`rounded-[4px]`)
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Custom Designer Select Dropdown Component */}
+                <Select
+                  label="Severity Level Select"
+                  options={severityOptions}
+                  value={selectedSeverity}
+                  onChange={setSelectedSeverity}
+                  size="md"
+                />
+
+                {/* Textarea */}
+                <div className="flex flex-col gap-1 text-xs">
+                  <label className="font-semibold text-[#2C3746]">Remediation Workflow Description</label>
+                  <textarea
+                    rows={2}
+                    placeholder="Describe automated script trigger behavior..."
+                    className="w-full text-xs border border-[#EAEEF3] rounded-[4px] p-2 bg-white text-[#2C3746] focus:outline-none focus:border-[#002E5D] focus:ring-2 focus:ring-[#002E5D]/20 font-normal resize-none"
+                  />
+                </div>
               </div>
             </div>
           </section>
 
           {/* ── SECTION 7: STATUS CHIPS & BADGES ── */}
-          <section id="badges" className="w-full bg-white rounded-[8px] border border-[#EAEEF3] p-6 shadow-xs flex flex-col gap-4">
-            <div className="flex items-center gap-2.5 border-b border-[#EAEEF3] pb-3">
+          <section id="badges" className="w-full bg-white rounded-[8px] border border-[#EAEEF3] p-4 shadow-xs flex flex-col gap-2">
+            <div className="flex items-center gap-2 border-b border-[#EAEEF3] pb-2">
               <div className="w-8 h-8 rounded-[4px] bg-[#ECF3FF] text-[#002E5D] border border-[#D4E4FE] flex items-center justify-center">
                 <CheckCircle2 className="w-4 h-4" />
               </div>
@@ -866,30 +921,214 @@ export default function DesignSystemPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
-              {statusBadges.map((badge) => (
-                <div
-                  key={badge.label}
-                  className="p-3.5 rounded-[8px] flex flex-col justify-between gap-2 border transition-all"
-                  style={{ backgroundColor: badge.bg, borderColor: badge.border }}
-                >
+            {/* 4 Primary Case Listing Table Status Badges Showcase */}
+            <div className="flex flex-col gap-2">
+              <h3 className="text-xs font-semibold text-[#002E5D] uppercase tracking-wider">
+                Case Listing Table Status Badges (4 Core Operational States)
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2">
+                {/* 1. In Progress */}
+                <div className="p-3 rounded-[8px] bg-[#F9FBFF] border border-[#EAEEF3] flex flex-col gap-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: badge.text }}>
-                      {badge.label}
-                    </span>
-                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: badge.text }} />
+                    <span className="text-xs font-semibold text-[#002E5D]">1. In Progress</span>
+                    <Badge variant="info">In Progress</Badge>
                   </div>
-                  <p className="text-[11px] font-normal opacity-90 leading-relaxed" style={{ color: badge.text }}>
-                    {badge.description}
+                  <p className="text-[11px] text-[#576B81] leading-relaxed">
+                    Active operational ticket currently being triaged by frontline TAC engineers.
                   </p>
+                  <code className="text-[10px] font-mono bg-white p-1.5 rounded border border-[#EAEEF3] text-[#002E5D]">
+                    &lt;Badge variant="info"&gt;In Progress&lt;/Badge&gt;
+                  </code>
                 </div>
-              ))}
+
+                {/* 2. Resolved */}
+                <div className="p-3 rounded-[8px] bg-[#f0fdf4] border border-[#bbf7d0] flex flex-col gap-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-semibold text-emerald-800">2. Resolved</span>
+                    <Badge variant="success">Resolved</Badge>
+                  </div>
+                  <p className="text-[11px] text-emerald-950 leading-relaxed">
+                    Remediation completed, SLA target met, root cause verified.
+                  </p>
+                  <code className="text-[10px] font-mono bg-white p-1.5 rounded border border-[#bbf7d0] text-emerald-800">
+                    &lt;Badge variant="success"&gt;Resolved&lt;/Badge&gt;
+                  </code>
+                </div>
+
+                {/* 3. Pending Vendor */}
+                <div className="p-3 rounded-[8px] bg-[#fffbeb] border border-[#fde68a] flex flex-col gap-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-semibold text-amber-800">3. Pending Vendor</span>
+                    <Badge variant="warning">Pending Vendor</Badge>
+                  </div>
+                  <p className="text-[11px] text-amber-950 leading-relaxed">
+                    Awaiting external vendor RMA, log analysis, or upstream bug fix.
+                  </p>
+                  <code className="text-[10px] font-mono bg-white p-1.5 rounded border border-[#fde68a] text-amber-800">
+                    &lt;Badge variant="warning"&gt;Pending Vendor&lt;/Badge&gt;
+                  </code>
+                </div>
+
+                {/* 4. SLA Breached */}
+                <div className="p-3 rounded-[8px] bg-[#fef2f2] border border-[#fecaca] flex flex-col gap-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-semibold text-red-800">4. SLA Breached</span>
+                    <Badge variant="danger">SLA Breached</Badge>
+                  </div>
+                  <p className="text-[11px] text-red-950 leading-relaxed">
+                    Overdue response SLA, high severity P1 incident requiring immediate escalation.
+                  </p>
+                  <code className="text-[10px] font-mono bg-white p-1.5 rounded border border-[#fecaca] text-red-800">
+                    &lt;Badge variant="danger"&gt;SLA Breached&lt;/Badge&gt;
+                  </code>
+                </div>
+              </div>
+            </div>
+
+            {/* Table Listing Live Row Preview */}
+            <div className="flex flex-col gap-2 p-3 rounded-[8px] bg-[#F9FBFF] border border-[#EAEEF3]">
+              <h3 className="text-xs font-semibold text-[#002E5D] uppercase tracking-wider">
+                Case Listing Table Row Context Preview
+              </h3>
+              <div className="bg-white rounded-[4px] border border-[#EAEEF3] overflow-hidden">
+                <table className="w-full text-left text-xs">
+                  <thead className="bg-[#F2F4F6] text-[#7790A9] text-[10px] uppercase tracking-wider border-b border-[#EAEEF3]">
+                    <tr>
+                      <th className="py-2 px-3 font-semibold">Vendor</th>
+                      <th className="py-2 px-3 font-semibold">Ticket ID</th>
+                      <th className="py-2 px-3 font-semibold">Subject</th>
+                      <th className="py-2 px-3 font-semibold text-right">Status Badge</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[#EAEEF3] text-[#2C3746]">
+                    <tr>
+                      <td className="py-2 px-3 font-medium">Arista</td>
+                      <td className="py-2 px-3 font-mono text-[#005899]">SR34577263574</td>
+                      <td className="py-2 px-3">Firewall rebooted</td>
+                      <td className="py-2 px-3 text-right">
+                        <Badge variant="info">In Progress</Badge>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="py-2 px-3 font-medium">Cisco</td>
+                      <td className="py-2 px-3 font-mono text-[#005899]">SR034577263574</td>
+                      <td className="py-2 px-3">SPAN config issues on TopAgg Appliance</td>
+                      <td className="py-2 px-3 text-right">
+                        <Badge variant="success">Resolved</Badge>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="py-2 px-3 font-medium">Juniper</td>
+                      <td className="py-2 px-3 font-mono text-[#005899]">SR554577263574</td>
+                      <td className="py-2 px-3">BGP session flapping on edge router</td>
+                      <td className="py-2 px-3 text-right">
+                        <Badge variant="warning">Pending Vendor</Badge>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="py-2 px-3 font-medium">Fortinet</td>
+                      <td className="py-2 px-3 font-mono text-[#005899]">SR994577263574</td>
+                      <td className="py-2 px-3">P1 High Severity SLA Overdue Incident</td>
+                      <td className="py-2 px-3 text-right">
+                        <Badge variant="danger">SLA Breached</Badge>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </section>
 
-          {/* ── SECTION 8: TOOLTIPS ── */}
-          <section id="tooltips" className="w-full bg-white rounded-[8px] border border-[#EAEEF3] p-6 shadow-xs flex flex-col gap-4">
-            <div className="flex items-center gap-2.5 border-b border-[#EAEEF3] pb-3">
+          {/* ── SECTION 8: ENTERPRISE DATA TABLE COMPONENT (`Table.tsx`) ── */}
+          <section id="tables" className="w-full bg-white rounded-[8px] border border-[#EAEEF3] p-4 shadow-xs flex flex-col gap-2">
+            <div className="flex items-center justify-between border-b border-[#EAEEF3] pb-2">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-[4px] bg-[#ECF3FF] text-[#002E5D] border border-[#D4E4FE] flex items-center justify-center">
+                  <TableProperties className="w-4 h-4" />
+                </div>
+                <div>
+                  <h2 className="text-base font-semibold text-[#002E5D]">
+                    8. Enterprise Data Table Component Standard (`Table.tsx`)
+                  </h2>
+                  <p className="text-xs text-[#7790A9] font-normal">
+                    Standardized Enterprise Table component with all 4 status badges, floating row hover actions, column sorting, select-all checkboxes, search filtering, and pagination.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Interactive Variant & Density Controls */}
+            <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 bg-[#F9FBFF] rounded-[8px] border border-[#EAEEF3]">
+              <div className="flex flex-wrap items-center gap-1.5 text-xs">
+                <span className="font-semibold text-[#002E5D]">Table Variant:</span>
+                {(["default", "striped", "bordered", "compact", "skeleton", "empty"] as TableVariant[]).map((v) => (
+                  <button
+                    key={v}
+                    type="button"
+                    onClick={() => setTableVariant(v)}
+                    className={`px-2 py-0.5 rounded-[4px] text-xs font-semibold capitalize transition-all cursor-pointer ${
+                      tableVariant === v
+                        ? "bg-[#002E5D] text-white shadow-2xs"
+                        : "bg-white border border-[#EAEEF3] text-[#576B81] hover:bg-[#ECF3FF] hover:text-[#002E5D]"
+                    }`}
+                  >
+                    {v}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-1.5 text-xs">
+                <span className="font-semibold text-[#002E5D]">Density:</span>
+                {(["comfortable", "compact"] as TableDensity[]).map((d) => (
+                  <button
+                    key={d}
+                    type="button"
+                    onClick={() => setTableDensity(d)}
+                    className={`px-2 py-0.5 rounded-[4px] text-xs font-semibold capitalize transition-all cursor-pointer ${
+                      tableDensity === d
+                        ? "bg-[#002E5D] text-white shadow-2xs"
+                        : "bg-white border border-[#EAEEF3] text-[#576B81] hover:bg-[#ECF3FF] hover:text-[#002E5D]"
+                    }`}
+                  >
+                    {d}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Live Interactive Table Instance */}
+            <div className="w-full">
+              <Table
+                title="Cases List (Specification Table Instance)"
+                variant={tableVariant}
+                density={tableDensity}
+                showToolbar={true}
+                showPagination={true}
+              />
+            </div>
+
+            {/* Usage Code Snippet */}
+            <div className="bg-[#0f172a] text-slate-100 p-3 rounded-[4px] font-mono text-xs relative overflow-x-auto">
+              <button
+                onClick={() =>
+                  copyToClipboard(
+                    `<Table\n  title="Cases List"\n  variant="${tableVariant}"\n  density="${tableDensity}"\n  showToolbar={true}\n  showPagination={true}\n/>`
+                  )
+                }
+                className="absolute top-2.5 right-2.5 text-[#7790A9] hover:text-white flex items-center gap-1 text-[11px] bg-slate-800 px-2 py-1 rounded border border-slate-700 cursor-pointer"
+              >
+                <Copy className="w-3 h-3" />
+                <span>{copiedToken === `<Table\n  title="Cases List"\n  variant="${tableVariant}"\n  density="${tableDensity}"\n  showToolbar={true}\n  showPagination={true}\n/>` ? "Copied!" : "Copy Code"}</span>
+              </button>
+              <pre className="text-blue-300">
+                {`<Table\n  title="Cases List"\n  variant="${tableVariant}"\n  density="${tableDensity}"\n  showToolbar={true}\n  showPagination={true}\n/>`}
+              </pre>
+            </div>
+          </section>
+
+          {/* ── SECTION 9: TOOLTIPS ── */}
+          <section id="tooltips" className="w-full bg-white rounded-[8px] border border-[#EAEEF3] p-4 shadow-xs flex flex-col gap-2">
+            <div className="flex items-center gap-2 border-b border-[#EAEEF3] pb-2">
               <div className="w-8 h-8 rounded-[4px] bg-[#ECF3FF] text-[#002E5D] border border-[#D4E4FE] flex items-center justify-center">
                 <HelpCircle className="w-4 h-4" />
               </div>
@@ -903,7 +1142,7 @@ export default function DesignSystemPage() {
               </div>
             </div>
 
-            <div className="p-6 rounded-[8px] bg-[#F9FBFF] border border-[#EAEEF3] flex flex-wrap items-center justify-around gap-4">
+            <div className="p-4 rounded-[8px] bg-[#F9FBFF] border border-[#EAEEF3] flex flex-wrap items-center justify-around gap-2">
               <Tooltip content="SLA breach count indicates cases within 30 minutes of breach" position="top">
                 <button className="px-3 py-1.5 bg-white border border-[#EAEEF3] rounded-[4px] text-xs font-medium text-[#002E5D] shadow-2xs hover:bg-[#ECF3FF]">
                   Hover Tooltip Top
@@ -919,9 +1158,9 @@ export default function DesignSystemPage() {
           </section>
 
           {/* ── SECTION 9: CARDS & WIDGETS ── */}
-          <section id="cards" className="w-full bg-white rounded-[8px] border border-[#EAEEF3] p-6 shadow-xs flex flex-col gap-4">
-            <div className="flex items-center justify-between border-b border-[#EAEEF3] pb-3">
-              <div className="flex items-center gap-2.5">
+          <section id="cards" className="w-full bg-white rounded-[8px] border border-[#EAEEF3] p-4 shadow-xs flex flex-col gap-2">
+            <div className="flex items-center justify-between border-b border-[#EAEEF3] pb-2">
+              <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-[4px] bg-[#ECF3FF] text-[#002E5D] border border-[#D4E4FE] flex items-center justify-center">
                   <Code2 className="w-4 h-4" />
                 </div>
@@ -936,14 +1175,14 @@ export default function DesignSystemPage() {
               </div>
             </div>
 
-            <div className="bg-[#0f172a] text-slate-100 p-4 rounded-[4px] font-mono text-xs relative overflow-x-auto">
+            <div className="bg-[#0f172a] text-slate-100 p-3 rounded-[4px] font-mono text-xs relative overflow-x-auto">
               <button
                 onClick={() =>
                   copyToClipboard(
                     `<div className="bg-white rounded-[8px] border border-[#EAEEF3] p-4 shadow-xs flex flex-col justify-between h-full hover:bg-[#F9FBFF] transition-colors">\n  {/* Card Header (8px margin bottom) */}\n  <div className="flex items-center justify-between mb-2">\n    <h3 className="text-xs font-semibold text-[#2C3746] tracking-tight">Widget Title</h3>\n  </div>\n  {/* Card Body (8px gap) */}\n  <div className="flex-1 flex flex-col gap-2">\n    {/* Content or Visualizations */}\n  </div>\n</div>`
                   )
                 }
-                className="absolute top-3 right-3 px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] rounded cursor-pointer border border-slate-700"
+                className="absolute top-2.5 right-2.5 px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] rounded cursor-pointer border border-slate-700"
               >
                 Copy Code Pattern
               </button>
@@ -965,8 +1204,8 @@ export default function DesignSystemPage() {
           </section>
 
           {/* ── SECTION 10: MODALS VS DRAWERS ── */}
-          <section id="drawers" className="w-full bg-white rounded-[8px] border border-[#EAEEF3] p-6 shadow-xs flex flex-col gap-4">
-            <div className="flex items-center gap-2.5 border-b border-[#EAEEF3] pb-3">
+          <section id="drawers" className="w-full bg-white rounded-[8px] border border-[#EAEEF3] p-4 shadow-xs flex flex-col gap-2">
+            <div className="flex items-center gap-2 border-b border-[#EAEEF3] pb-2">
               <div className="w-8 h-8 rounded-[4px] bg-[#ECF3FF] text-[#002E5D] border border-[#D4E4FE] flex items-center justify-center">
                 <Layout className="w-4 h-4" />
               </div>
@@ -980,8 +1219,8 @@ export default function DesignSystemPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 rounded-[8px] bg-[#f0fdf4] border border-[#bbf7d0] flex flex-col gap-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              <div className="p-3 rounded-[8px] bg-[#f0fdf4] border border-[#bbf7d0] flex flex-col gap-1.5">
                 <div className="flex items-center gap-2 text-emerald-800 font-semibold text-xs uppercase tracking-wider">
                   <CheckSquare className="w-4 h-4 text-emerald-600" />
                   <span>DO: Sliding Windows (Right Drawers)</span>
@@ -991,7 +1230,7 @@ export default function DesignSystemPage() {
                 </p>
               </div>
 
-              <div className="p-4 rounded-[8px] bg-[#fef2f2] border border-[#fecaca] flex flex-col gap-2">
+              <div className="p-3 rounded-[8px] bg-[#fef2f2] border border-[#fecaca] flex flex-col gap-1.5">
                 <div className="flex items-center gap-2 text-red-800 font-semibold text-xs uppercase tracking-wider">
                   <XSquare className="w-4 h-4 text-red-600" />
                   <span>DON'T: Multi-Field Centered Modals</span>
@@ -1004,8 +1243,8 @@ export default function DesignSystemPage() {
           </section>
 
           {/* ── SECTION 11: SIDEBAR & SCROLL ISOLATION ── */}
-          <section id="sidebar" className="w-full bg-white rounded-[8px] border border-[#EAEEF3] p-6 shadow-xs flex flex-col gap-4">
-            <div className="flex items-center gap-2.5 border-b border-[#EAEEF3] pb-3">
+          <section id="sidebar" className="w-full bg-white rounded-[8px] border border-[#EAEEF3] p-4 shadow-xs flex flex-col gap-2">
+            <div className="flex items-center gap-2 border-b border-[#EAEEF3] pb-2">
               <div className="w-8 h-8 rounded-[4px] bg-[#ECF3FF] text-[#002E5D] border border-[#D4E4FE] flex items-center justify-center">
                 <SidebarIcon className="w-4 h-4" />
               </div>
@@ -1019,7 +1258,7 @@ export default function DesignSystemPage() {
               </div>
             </div>
 
-            <div className="p-4 rounded-[8px] bg-[#F9FBFF] border border-[#D4E4FE] flex flex-col gap-2 text-xs text-[#576B81] leading-relaxed">
+            <div className="p-3 rounded-[8px] bg-[#F9FBFF] border border-[#D4E4FE] flex flex-col gap-1.5 text-xs text-[#576B81] leading-relaxed">
               <span className="font-semibold text-[#002E5D]">Fixed Screen Viewport Standard</span>
               <p>
                 Both the Navigation Sidebar (`Sidebar.tsx`) and the TAI Chat Panel (`TaiChatPanel.tsx`) MUST be locked to the screen viewport (`fixed top-0 left-0 h-screen overflow-hidden`).
@@ -1030,8 +1269,45 @@ export default function DesignSystemPage() {
             </div>
           </section>
 
-        </main>
+          {/* ── SECTION 12: DUAL-SIDEBAR LAYOUT PATTERN STANDARD ── */}
+          <section id="sidebar-pattern" className="w-full bg-white rounded-[8px] border border-[#EAEEF3] p-4 shadow-xs flex flex-col gap-2">
+            <div className="flex items-center justify-between border-b border-[#EAEEF3] pb-2">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-[4px] bg-[#ECF3FF] text-[#002E5D] border border-[#D4E4FE] flex items-center justify-center">
+                  <SidebarIcon className="w-4 h-4" />
+                </div>
+                <div>
+                  <h2 className="text-base font-semibold text-[#002E5D]">
+                    12. Enterprise Dual-Sidebar Layout Architecture
+                  </h2>
+                  <p className="text-xs text-[#7790A9] font-normal">
+                    Primary Navigation Icon Rail (`Sidebar.tsx`) + Secondary Contextual Index Sidebar (`w-72 bg-white`).
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-3 rounded-[8px] bg-[#F9FBFF] border border-[#D4E4FE] flex flex-col gap-1.5 text-xs text-[#576B81] leading-relaxed">
+              <span className="font-semibold text-[#002E5D]">Dual-Sidebar Layout Rules:</span>
+              <ul className="list-disc pl-5 flex flex-col gap-1 text-[#2C3746]">
+                <li><strong>Primary Sidebar (Icon Rail)</strong>: Anchored at extreme left (`fixed top-0 left-0 w-14 md:w-16 h-screen bg-[#031d3d]`). Handles global app routing.</li>
+                <li><strong>Secondary Sidebar (Contextual Navigation)</strong>: Anchored flush against the primary rail (`w-72 bg-white border-r border-[#EAEEF3]`). Handles page-level section indexing &amp; category filtering.</li>
+                <li><strong>Flush Alignment</strong>: Zero margin/padding gap between Primary Rail and Secondary Sidebar.</li>
+                <li><strong>Scroll Behavior</strong>: Secondary Sidebar enforces <code className="bg-white px-1.5 py-0.5 rounded border border-[#D4E4FE] font-mono text-[10px]">max-h-[calc(100vh-49px)] overflow-y-auto</code> to take natural height and only scroll when content exceeds viewport height.</li>
+              </ul>
+            </div>
+          </section>
+
+        </div>
       </div>
-    </div>
+    </PageLayout>
+  );
+}
+
+export default function DesignSystemPage() {
+  return (
+    <DashboardProvider>
+      <DesignSystemPageContent />
+    </DashboardProvider>
   );
 }

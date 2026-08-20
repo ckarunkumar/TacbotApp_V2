@@ -402,6 +402,9 @@ interface DashboardContextType {
   isTaiChatOpen: boolean;
   setIsTaiChatOpen: (open: boolean) => void;
   toggleTaiChat: () => void;
+  isTaiChatFullScreen: boolean;
+  setIsTaiChatFullScreen: (fullScreen: boolean) => void;
+  toggleTaiChatFullScreen: () => void;
   isSidebarCollapsed: boolean;
   setIsSidebarCollapsed: (collapsed: boolean) => void;
   toggleSidebarCollapse: () => void;
@@ -412,9 +415,27 @@ const DashboardContext = createContext<DashboardContextType | undefined>(undefin
 export function DashboardProvider({ children }: { children: React.ReactNode }) {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const [isTaiChatOpen, setIsTaiChatOpen] = useState<boolean>(false);
+  const [isTaiChatFullScreen, setIsTaiChatFullScreen] = useState<boolean>(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const autoOpen = sessionStorage.getItem("taiChatAutoOpen");
+      if (autoOpen === "true") {
+        setIsTaiChatOpen(true);
+        sessionStorage.removeItem("taiChatAutoOpen");
+      }
+    }
+  }, []);
+
   const toggleTaiChat = () => setIsTaiChatOpen((prev) => !prev);
+  const toggleTaiChatFullScreen = () => {
+    setIsTaiChatFullScreen((prev) => {
+      const next = !prev;
+      if (next) setIsTaiChatOpen(true);
+      return next;
+    });
+  };
   const toggleSidebarCollapse = () => setIsSidebarCollapsed((prev) => !prev);
   const [dashboards, setDashboards] = useState<DashboardInstance[]>([
     {
@@ -972,6 +993,9 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
         isTaiChatOpen,
         setIsTaiChatOpen,
         toggleTaiChat,
+        isTaiChatFullScreen,
+        setIsTaiChatFullScreen,
+        toggleTaiChatFullScreen,
         isSidebarCollapsed,
         setIsSidebarCollapsed,
         toggleSidebarCollapse,

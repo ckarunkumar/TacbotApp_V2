@@ -5,6 +5,28 @@ import { useDashboard } from "@/context/DashboardContext";
 import { SlidersHorizontal } from "lucide-react";
 import SlidingDrawer from "@/components/SlidingDrawer";
 import { WidgetType } from "@/types/dashboard";
+import Select from "@/components/ui/Select";
+
+const CATEGORY_SELECT_OPTIONS = [
+  { value: "AI & Automations", label: "AI & Automations" },
+  { value: "SLA & Performance", label: "SLA & Performance" },
+  { value: "Connectivity & NOC", label: "Connectivity & NOC" },
+  { value: "Alerts & Cases", label: "Alerts & Cases" },
+  { value: "Analytics & Volume", label: "Analytics & Volume" },
+];
+
+const WIDGET_TYPE_OPTIONS = [
+  { value: "custom-kpi", label: "KPI Metric Card" },
+  { value: "case-summary", label: "Bar Chart" },
+  { value: "sla-summary", label: "Donut Chart" },
+  { value: "total-cases", label: "Spline Line Plot" },
+  { value: "treemap", label: "Treemap Matrix" },
+  { value: "sla-health", label: "SLA Health Gauge" },
+  { value: "avg-resolution", label: "Avg. Resolution Tracker" },
+  { value: "alerts", label: "Alerts & Incidents Stream" },
+  { value: "vendor-response", label: "Vendor Response Times" },
+  { value: "critical-escalations", label: "Critical Escalations" },
+];
 
 const VENDOR_OPTIONS = ["All Vendors", "Cisco", "Juniper", "Arista", "Fortinet"];
 const GROUP_BY_OPTIONS = ["Vendor", "Severity", "Status", "Region", "Day"];
@@ -111,39 +133,22 @@ export default function EditWidgetModal() {
             <label className="text-xs font-semibold text-slate-800 dark:text-slate-200">
               Category
             </label>
-            <select
+            <Select
               value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className="text-xs border border-[#EAEEF3] dark:border-[#162444] rounded-[8px] px-2 py-2 focus:outline-none focus:border-[#002E5D] bg-white dark:bg-[#091122] text-slate-800 dark:text-slate-100 font-normal"
-            >
-              <option value="AI & Automations">AI & Automations</option>
-              <option value="SLA & Performance">SLA & Performance</option>
-              <option value="Connectivity & NOC">Connectivity & NOC</option>
-              <option value="Alerts & Cases">Alerts & Cases</option>
-              <option value="Analytics & Volume">Analytics & Volume</option>
-            </select>
+              onChange={(val) => setCategory(val)}
+              options={CATEGORY_SELECT_OPTIONS}
+            />
           </div>
 
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-semibold text-slate-800 dark:text-slate-200">
               Widget Type
             </label>
-            <select
+            <Select
               value={type}
-              onChange={(e) => setType(e.target.value as WidgetType)}
-              className="text-xs border border-[#EAEEF3] dark:border-[#162444] rounded-[8px] px-2 py-2 focus:outline-none focus:border-[#002E5D] bg-white dark:bg-[#091122] text-slate-800 dark:text-slate-100 font-normal"
-            >
-              <option value="custom-kpi">KPI Metric Card</option>
-              <option value="case-summary">Bar Chart</option>
-              <option value="sla-summary">Donut Chart</option>
-              <option value="total-cases">Spline Line Plot</option>
-              <option value="treemap">Treemap Matrix</option>
-              <option value="sla-health">SLA Health Gauge</option>
-              <option value="avg-resolution">Avg. Resolution Tracker</option>
-              <option value="alerts">Alerts & Incidents Stream</option>
-              <option value="vendor-response">Vendor Response Times</option>
-              <option value="critical-escalations">Critical Escalations</option>
-            </select>
+              onChange={(val) => setType(val as WidgetType)}
+              options={WIDGET_TYPE_OPTIONS}
+            />
           </div>
         </div>
 
