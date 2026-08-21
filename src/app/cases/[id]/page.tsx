@@ -32,6 +32,9 @@ import {
   Copy,
   ExternalLink,
   ShieldAlert,
+  Wrench,
+  TrendingUp,
+  Zap,
 } from "lucide-react";
 import { Danger } from "iconsax-react";
 import PageLayout from "@/components/PageLayout";
@@ -1597,30 +1600,32 @@ function CaseDetailPageBody() {
         {/* ── TAB 2: SLA Insights View ── */}
         {activeTab === "SLA Insights" && (
           <div className="flex-1 min-w-0 overlay-scroll p-4 flex flex-col gap-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              <div className="bg-white dark:bg-[#0B132B] p-4 rounded-[8px] border border-[#EAEEF3] dark:border-[#162444] flex flex-col justify-between">
-                <span className="text-xs font-medium text-[#7790A9] dark:text-slate-400">Time to Initial Response</span>
-                <div className="text-2xl font-bold text-[#002E5D] dark:text-sky-300 my-1">18 mins</div>
-                <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
-                  <CheckCircle2 className="w-3 h-3" />
-                  <span>Within 2h SLA target</span>
-                </div>
-              </div>
+            <h2 className="text-sm font-bold text-[#1A222D] dark:text-white">SLA Summary for the Case</h2>
 
-              <div className="bg-white dark:bg-[#0B132B] p-4 rounded-[8px] border border-[#EAEEF3] dark:border-[#162444] flex flex-col justify-between">
-                <span className="text-xs font-medium text-[#7790A9] dark:text-slate-400">Current Resolution Timer</span>
-                <div className="text-2xl font-bold text-[#DC2626] dark:text-red-400 my-1">4h 22m</div>
-                <div className="text-[11px] text-[#DC2626] dark:text-red-400 font-semibold flex items-center gap-1">
-                  <AlertTriangle className="w-3 h-3" />
-                  <span>Breached 4h Tier-2 threshold</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {[
+                { label: "Case Resolution Duration", icon: Clock },
+                { label: "Hardware RMA Duration", icon: Wrench },
+                { label: "Outage Duration", icon: TrendingUp },
+                { label: "Performance Impact Duration", icon: Zap },
+                { label: "Vendor Response Time Duration", icon: MessageSquare },
+                { label: "Escalation Time Duration", icon: AlertTriangle },
+              ].map(({ label, icon: Icon }) => (
+                <div
+                  key={label}
+                  className="bg-white dark:bg-[#0B132B] p-4 rounded-[8px] border border-[#EAEEF3] dark:border-[#162444] flex flex-col gap-2.5"
+                >
+                  <div className="flex items-center gap-2 text-[#576B81] dark:text-slate-300">
+                    <Icon className="w-4 h-4" />
+                    <span className="text-xs font-semibold">{label}</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-[11px] text-[#B45309] dark:text-amber-400">
+                    <AlertTriangle className="w-3 h-3" />
+                    <span>SLA not determined for Vendor</span>
+                  </div>
+                  <div className="h-1.5 w-full rounded-full bg-[#E5E7EB] dark:bg-[#1e2d4a]" />
                 </div>
-              </div>
-
-              <div className="bg-white dark:bg-[#0B132B] p-4 rounded-[8px] border border-[#EAEEF3] dark:border-[#162444] flex flex-col justify-between">
-                <span className="text-xs font-medium text-[#7790A9] dark:text-slate-400">Vendor Target MTTR</span>
-                <div className="text-2xl font-bold text-[#002E5D] dark:text-sky-300 my-1">8h 00m</div>
-                <div className="text-[11px] text-[#576B81] dark:text-slate-400">Arista Gold TAC Contract</div>
-              </div>
+              ))}
             </div>
 
             {/* SLA Milestone Tracker */}

@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import {
   Category,
   ClipboardText,
+  Danger,
   Setting2,
   ProfileCircle,
 } from "iconsax-react";
@@ -30,6 +31,7 @@ export const NAV_ITEMS: NavItem[] = [
   { icon: AiIcon, label: "AI Insights", id: "ai", href: "/ai" },
   { icon: Category, label: "Widgets", id: "widgets", href: "/" },
   { icon: ClipboardText, label: "Cases", id: "cases", href: "/cases" },
+  { icon: Danger, label: "Alerts", id: "alerts", href: "/alerts" },
 ];
 
 export default function Sidebar({
@@ -95,6 +97,10 @@ export default function Sidebar({
     propActiveId ||
     (pathname === "/ai"
       ? "ai"
+      : pathname === "/alerts"
+      ? "alerts"
+      : pathname === "/cases" || pathname?.startsWith("/cases/")
+      ? "cases"
       : pathname === "/design-system"
       ? "design-system"
       : internalActiveId);

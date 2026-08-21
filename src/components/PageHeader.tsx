@@ -9,6 +9,8 @@ import DateRangePicker, { DateRange } from "@/components/ui/DateRangePicker";
 
 const BREADCRUMB_ROUTE_MAP: Record<string, string> = {
   Home: "/",
+  Dashboard: "/",
+  Alerts: "/alerts",
   Cases: "/cases",
   "AI Insights": "/ai",
   Widgets: "/",
